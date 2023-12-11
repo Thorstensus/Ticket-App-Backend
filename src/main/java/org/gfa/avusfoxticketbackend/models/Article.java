@@ -1,9 +1,14 @@
 package org.gfa.avusfoxticketbackend.models;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
-
+@Entity
+@Table(name = "articles")
 public class Article {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
