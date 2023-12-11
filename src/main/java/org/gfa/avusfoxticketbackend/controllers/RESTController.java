@@ -22,18 +22,18 @@ public class RESTController {
     // endpoints
     @PostMapping("/api/users")
     public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-        if(requestUserDTO.getPassword() == null && (requestUserDTO.getName() != null && requestUserDTO.getEmail() != null)) {
+        if (requestUserDTO == null) {
+            return ResponseEntity.status(400).body(new ErrorResponse("Name, email and password are required."));
+        } else if(requestUserDTO.getPassword() == null && (requestUserDTO.getName() != null && requestUserDTO.getEmail() != null)) {
             return ResponseEntity.status(400).body(new ErrorResponse("Password is required."));
         } else if(requestUserDTO.getName() == null && (requestUserDTO.getEmail() != null && requestUserDTO.getPassword() != null)) {
             return ResponseEntity.status(400).body(new ErrorResponse("Name is required."));
         } else if(requestUserDTO.getEmail() == null && (requestUserDTO.getName() != null && requestUserDTO.getPassword() != null)) {
-            return ResponseEntity.status(400).body("Email is required.");
-        } else if (requestUserDTO == null) {
-            return ResponseEntity.status(400).body("Name, email and password are required.");
+            return ResponseEntity.status(400).body(new ErrorResponse("Email is required."));
         } else if(userService.existsByEmail(requestUserDTO.getEmail())) {
-            return ResponseEntity.status(400).body("Email is already taken.");
-        } else if(requestUserDTO.getEmail().length() < 8) {
-            return ResponseEntity.status(400).body("Password must be at least 8 characters.");
+            return ResponseEntity.status(400).body(new ErrorResponse("Email is already taken."));
+        } else if(requestUserDTO.getPassword().length() < 8) {
+            return ResponseEntity.status(400).body(new ErrorResponse("Password must be at least 8 characters."));
         } else {
             return ResponseEntity.status(200).body(userService.userToResponseUserDTOConverter(userService.newUserCreatedAndReturned(requestUserDTO)));
         }

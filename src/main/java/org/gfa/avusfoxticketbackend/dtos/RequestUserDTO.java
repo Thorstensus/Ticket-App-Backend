@@ -1,6 +1,6 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-public class RequestUserDTO {
+public class RequestUserDTO extends RequestDTO{
     // fields
     private String name;
     private String email;

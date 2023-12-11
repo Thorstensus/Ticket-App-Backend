@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.dtos;
 
 import org.gfa.avusfoxticketbackend.models.User;
 
-public class ResponseUserDTO {
+public class ResponseUserDTO extends ResponseDTO{
     // fields
     private Long id;
     private String email;
