@@ -1,9 +1,7 @@
 package org.gfa.avusfoxticketbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 
 @Entity
 public class User {
@@ -14,19 +12,29 @@ public class User {
     private String name;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     // default constructor
     public User() {
     }
     // constructors with parameters
-    public User(Long id, String name, String email, String password) {
-        this.id = id;
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // getters & setters
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,6 +68,12 @@ public class User {
     }
 
     // public methods
+    public void requestDTOtoUserConvert(RequestUserDTO dto) {
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.role = Role.USER;
+    }
 
     // private methods
 
