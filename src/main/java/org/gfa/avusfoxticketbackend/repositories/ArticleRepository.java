@@ -1,7 +1,7 @@
 package org.gfa.avusfoxticketbackend.repositories;
 
-import org.springframework.stereotype.Repository;
+import org.gfa.avusfoxticketbackend.models.Article;
 
-@Repository
-public class ArticleRepository extends JpaRepository {
+
+public class ArticleRepository extends JpaRepository<Article, Long> {
 }
