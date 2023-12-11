@@ -18,7 +18,7 @@ public class ApiExceptionHandler {
         // 1. Create payload containing exception details
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
-        ApiException apiException = new ApiException(
+        ErrorResponse errorResponse = new ErrorResponse(
                 badRequest,
                 e.getEndpoint(),
                 e.getMessage(),
@@ -26,6 +26,6 @@ public class ApiExceptionHandler {
                 );
 
         // 2. Return response entity
-        return new ResponseEntity<>(apiException, badRequest);
+        return new ResponseEntity<>(errorResponse, badRequest);
     }
 }
