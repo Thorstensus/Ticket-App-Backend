@@ -16,10 +16,10 @@ public class Article {
 
     public Article(){}
 
-    public Article(String title, String content, LocalDate publishDate) {
+    public Article(String title, String content) {
         this.title = title;
         this.content = content;
-        this.publishDate = publishDate;
+        publishDate = LocalDate.now();
     }
 
     public Long getId() {
