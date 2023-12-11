@@ -1,7 +1,9 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import org.gfa.avusfoxticketbackend.dtos.ArticleListResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.ArticleResponseDTO;
+
+import java.util.List;
 
 public interface ArticleService {
-    ArticleListResponseDTO getAllArticles();
+    List<ArticleResponseDTO> getAllArticleDTOs();
 }
