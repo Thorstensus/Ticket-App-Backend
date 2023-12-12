@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class MainRestController {
+public class MainRESTController {
 
     private final ProductService productService;
     private final NewsService newsService;
@@ -25,7 +25,7 @@ public class MainRestController {
 
 
     @Autowired
-    public MainRestController(ProductService productService, NewsService newsService, UserService userService) {
+    public MainRESTController(ProductService productService, NewsService newsService, UserService userService) {
         this.productService = productService;
         this.newsService = newsService;
         this.userService = userService;
@@ -44,9 +44,7 @@ public class MainRestController {
         List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
         if (!search.isEmpty() && !searchedNews.isEmpty()) {
             return new ArticlesResponse(searchedNews);
-        } else {
-            throw new ApiRequestException("/api/news", "No news matching the searched text found.");
-        }
+        } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
 
 
