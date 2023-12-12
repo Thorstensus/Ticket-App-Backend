@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import org.gfa.avusfoxticketbackend.dtos.ProductDto;
 
 @Entity
 @Table(name = "products")
@@ -72,16 +71,5 @@ public class Product {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public ProductDto toProductDto() {
-        return new ProductDto(
-                this.id,
-                this.name,
-                this.price,
-                this.duration,
-                this.description,
-                this.type
-        );
     }
 }
