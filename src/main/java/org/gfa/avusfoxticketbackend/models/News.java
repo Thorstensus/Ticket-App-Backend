@@ -1,20 +1,25 @@
-package org.gfa.avusfoxticketbackend.dtos;
+package org.gfa.avusfoxticketbackend.models;
+
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-public class ArticleResponseDTO {
+@Entity
+@Table(name = "news")
+public class News {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
     private LocalDate publishDate;
 
-    public ArticleResponseDTO(){}
+    public News(){}
 
-    public ArticleResponseDTO(Long id, String title, String content, LocalDate publishDate) {
-        this.id = id;
+    public News(String title, String content) {
         this.title = title;
         this.content = content;
-        this.publishDate = publishDate;
+        publishDate = LocalDate.now();
     }
 
     public Long getId() {
@@ -48,4 +53,5 @@ public class ArticleResponseDTO {
     public void setPublishDate(LocalDate publishDate) {
         this.publishDate = publishDate;
     }
+
 }

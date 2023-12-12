@@ -1,7 +1,7 @@
 package org.gfa.avusfoxticketbackend;
 
-import org.gfa.avusfoxticketbackend.models.Article;
-import org.gfa.avusfoxticketbackend.repositories.ArticleRepository;
+import org.gfa.avusfoxticketbackend.models.News;
+import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AvusFoxticketBackendApplication implements CommandLineRunner {
-  private final ArticleRepository articleRepository;
+  private final NewsRepository newsRepository;
   @Autowired
-  public AvusFoxticketBackendApplication(ArticleRepository articleRepository) {
-    this.articleRepository = articleRepository;
+  public AvusFoxticketBackendApplication(NewsRepository newsRepository) {
+    this.newsRepository = newsRepository;
   }
 
   public static void main(String[] args) {
@@ -21,9 +21,9 @@ public class AvusFoxticketBackendApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Article article1 = new Article("Hello world", "Our first article!");
-    Article article2 = new Article("Hello world 2", "Our second article!");
-    articleRepository.save(article1);
-    articleRepository.save(article2);
+    News news1 = new News("Hello world", "Our first article!");
+    News news2 = new News("Hello world 2", "Our second article!");
+    newsRepository.save(news1);
+    newsRepository.save(news2);
   }
 }
