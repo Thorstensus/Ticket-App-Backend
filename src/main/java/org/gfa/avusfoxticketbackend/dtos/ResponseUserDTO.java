@@ -10,11 +10,13 @@ public class ResponseUserDTO extends ResponseDTO{
 
     // constructors
     public ResponseUserDTO() {
+        this.isAdmin = false;
     }
 
     public ResponseUserDTO(Long id, String email) {
         this.id = id;
         this.email = email;
+        this.isAdmin = false;
     }
 
     // getters and setters
@@ -43,15 +45,6 @@ public class ResponseUserDTO extends ResponseDTO{
     }
 
     // public methods
-    public ResponseUserDTO responseUserDTOConverter(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        if (user.getRole().equals("ADMIN")) {
-            this.isAdmin = true;
-        } else {
-            this.isAdmin = false;
-        }
-        return this;
-    }
+
     // private methods
 }

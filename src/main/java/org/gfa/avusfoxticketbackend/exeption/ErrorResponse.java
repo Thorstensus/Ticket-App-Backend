@@ -11,8 +11,6 @@ public class ErrorResponse {
     private final String message;
     private final String time;
 
-
-
     public ErrorResponse(HttpStatus httpStatus, String endpoint, String message, ZonedDateTime timestamp) {
         this.httpStatus = httpStatus;
         this.endpoint = endpoint;

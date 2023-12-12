@@ -13,28 +13,20 @@ public class User {
     private String name;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     // default constructor
     public User() {
     }
+
     // constructors with parameters
-    public User(String name, String email, String password, Role role) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
     // getters & setters
-    public Role getRole() {
-        return role;
-    }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public Long getId() {
         return id;
@@ -69,13 +61,7 @@ public class User {
     }
 
     // public methods
-    public void requestDTOtoUserConvert(RequestUserDTO dto) {
-        this.name = dto.getName();
-        this.email = dto.getEmail();
-        this.password = dto.getPassword();
-        this.role = Role.USER;
-    }
 
-    // private methods
+
 
 }

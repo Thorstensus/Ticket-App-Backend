@@ -13,9 +13,6 @@ import java.time.LocalDate;
 @SpringBootApplication
 public class AvusFoxticketBackendApplication{
 
-  @Autowired
-  private NewsService newsService;
-
   public static void main(String[] args) {
     SpringApplication.run(AvusFoxticketBackendApplication.class, args);
   }
