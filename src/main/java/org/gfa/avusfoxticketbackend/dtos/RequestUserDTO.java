@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
+
 public class RequestUserDTO extends RequestDTO {
 
   private String name;

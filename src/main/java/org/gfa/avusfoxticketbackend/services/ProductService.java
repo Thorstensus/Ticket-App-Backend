@@ -1,11 +1,11 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDto;
-import org.gfa.avusfoxticketbackend.dtos.ProductDto;
+import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
+import org.gfa.avusfoxticketbackend.dtos.ProductDTO;
 import org.gfa.avusfoxticketbackend.models.Product;
 
 public interface ProductService {
-  ApiProductsDto getApiProductsDto();
+  ApiProductsDTO getApiProductsDto();
 
-  ProductDto toProductDto(Product product);
+  ProductDTO toProductDto(Product product);
 }
