@@ -1,7 +1,7 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDto;
+import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
@@ -30,7 +30,7 @@ public class MainController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<ApiProductsDto> getProducts() {
+    public ResponseEntity<ApiProductsDTO> getProducts() {
         return ResponseEntity.status(200).body(productService.getApiProductsDto());
     }
 
