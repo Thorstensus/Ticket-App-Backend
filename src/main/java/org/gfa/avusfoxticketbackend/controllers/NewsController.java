@@ -12,15 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class NewsRestController {
+public class NewsController {
     private final NewsService newsService;
     @Autowired
-    public NewsRestController(NewsService newsService) {
+    public NewsController(NewsService newsService) {
         this.newsService = newsService;
     }
 
     @GetMapping("/news")
     public ResponseEntity<List<NewsResponseDTO>> getNews(){
-        return ResponseEntity.ok().body(newsService.getAllNewsDTOs());
+        return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
     }
 }
