@@ -1,12 +1,17 @@
 package org.gfa.avusfoxticketbackend.auth;
 
-public class AuthenticationResponse {
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
+
+public class AuthenticationResponse extends ResponseDTO {
+
+    private String status;
     private String token;
 
     public AuthenticationResponse() {
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponse(String status, String token) {
+        this.status=status;
         this.token = token;
     }
 
@@ -16,5 +21,13 @@ public class AuthenticationResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

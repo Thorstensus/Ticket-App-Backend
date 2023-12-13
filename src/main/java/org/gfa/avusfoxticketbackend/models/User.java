@@ -21,8 +21,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private Boolean isVerified;
+
     public User() {
         this.role = Role.USER;
+        this.isVerified = false;
     }
 
     public User(String name, String email, String password) {
@@ -30,6 +33,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = Role.USER;
+        this.isVerified=false;
     }
 
     public Long getId() {
@@ -56,6 +60,22 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(Boolean verified) {
+        isVerified = verified;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -64,6 +84,10 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -88,11 +112,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return true;
     }
 
 }
