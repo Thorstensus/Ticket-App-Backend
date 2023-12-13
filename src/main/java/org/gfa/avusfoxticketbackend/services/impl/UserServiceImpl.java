@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.regex.Pattern;
+import org.gfa.avusfoxticketbackend.dtos.PatchResponseUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
@@ -70,5 +71,39 @@ public class UserServiceImpl implements UserService {
   @Override
   public ResponseUserDTO responseUserDTOConverter(User user) {
     return new ResponseUserDTO(user.getId(), user.getEmail());
+  }
+
+  @Override
+  public PatchResponseUserDTO patchResponseUserDTOConverter(User user) {
+    return new PatchResponseUserDTO(user.getId(), user.getName(), user.getEmail());
+  }
+
+  @Override
+  public PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id) {
+    if (id == null) {
+      throw new ApiRequestException("/api/users/{id}", "{id} is required.");
+    } else if (requestUserDTO == null) {
+      throw new ApiRequestException("/api/users/{id}", "body is required.");
+    } else if (requestUserDTO.getPassword() != null && requestUserDTO.getPassword().length() < 8) {
+      throw new ApiRequestException("/api/users/{id}", "Password must be at least 8 characters.");
+    } else if (requestUserDTO.getEmail() != null
+        && !(isValidEmailRequest(requestUserDTO.getEmail()))) {
+      throw new ApiRequestException("/api/users/{id}", "Valid email is required.");
+    } else if (requestUserDTO.getName() != null && requestUserDTO.getName().isEmpty()) {
+      throw new ApiRequestException("/api/users/{id}", "Name is required.");
+    }
+    User user =
+        userRepository
+            .findById(id)
+            .orElseThrow(
+                () ->
+                    new ApiRequestException(
+                        "/api/users/{id}", "User with provided id doesn't exist"));
+    user.setName(requestUserDTO.getName() != null ? requestUserDTO.getName() : user.getName());
+    user.setEmail(requestUserDTO.getEmail() != null ? requestUserDTO.getEmail() : user.getEmail());
+    user.setPassword(
+        requestUserDTO.getPassword() != null ? requestUserDTO.getPassword() : user.getPassword());
+    userRepository.save(user);
+    return patchResponseUserDTOConverter(user);
   }
 }
