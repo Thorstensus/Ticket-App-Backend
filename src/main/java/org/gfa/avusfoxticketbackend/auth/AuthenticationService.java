@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.auth;
 
 import org.gfa.avusfoxticketbackend.config.JwtService;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class AuthenticationService {
         this.authManager = authManager;
     }
 
-    public AuthenticationResponse authenticate(RequestUserDTO request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request){
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
