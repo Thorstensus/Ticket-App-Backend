@@ -43,8 +43,9 @@ public class UserServiceImpl implements UserService {
       throw new ApiRequestException("/api/users", "Name is required.");
     } else if (requestUserDTO.getPassword() == null || requestUserDTO.getPassword().isEmpty()) {
       throw new ApiRequestException("/api/users", "Password is required.");
-    } else if (requestUserDTO.getEmail() == null || requestUserDTO.getEmail().isEmpty()) {
-      throw new ApiRequestException("/api/users", "Email is required.");
+    } else if (requestUserDTO.getEmail() == null
+        || !(isValidEmailRequest(requestUserDTO.getEmail()))) {
+      throw new ApiRequestException("/api/users", "Valid email is required.");
     } else if (existsByEmail(requestUserDTO.getEmail())) {
       throw new ApiRequestException("/api/users", "Email is already taken.");
     } else if (requestUserDTO.getPassword().length() < 8) {
