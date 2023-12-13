@@ -13,33 +13,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+  @Autowired
+  public ProductServiceImpl(ProductRepository productRepository) {
+    this.productRepository = productRepository;
+  }
 
-    @Override
-    public ProductDTO toProductDto(Product product) {
-        return new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getDuration(),
-                product.getDescription(),
-                product.getType()
-        );
-    }
+  @Override
+  public ProductDTO toProductDto(Product product) {
+    return new ProductDTO(
+        product.getId(),
+        product.getName(),
+        product.getPrice(),
+        product.getDuration(),
+        product.getDescription(),
+        product.getType());
+  }
 
-    @Override
-    public ApiProductsDTO getApiProductsDto() {
-        return new ApiProductsDTO(
-                new ArrayList<>(productRepository
-                        .findAll()
-                        .stream()
-                        .map(this::toProductDto)
-                        .collect(Collectors.toList()))
-        );
-    }
+  @Override
+  public ApiProductsDTO getApiProductsDto() {
+    return new ApiProductsDTO(
+        new ArrayList<>(
+            productRepository.findAll().stream()
+                .map(this::toProductDto)
+                .collect(Collectors.toList())));
+  }
 }
