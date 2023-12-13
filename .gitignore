@@ -1,5 +1,5 @@
 # Environment variables
-.env
+../avus-foxticket-backend-test/.env
 
 # Compiled class file
 *.class
