@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.exeption;
 
+import java.time.ZonedDateTime;
 import org.gfa.avusfoxticketbackend.timeFormatter.TimeFormatter;
 import org.springframework.http.HttpStatus;
-
-import java.time.ZonedDateTime;
 
 public class ErrorResponse {
     private final HttpStatus httpStatus;

@@ -1,9 +1,9 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDto;
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDto;
 import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
@@ -12,8 +12,6 @@ import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

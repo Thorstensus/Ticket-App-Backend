@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import org.gfa.avusfoxticketbackend.models.News;
-
 import java.util.List;
+import org.gfa.avusfoxticketbackend.models.News;
 
 public interface NewsService {
     List<News> findAllNewsByTitleOrDescriptionContaining(String word);
