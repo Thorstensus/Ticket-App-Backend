@@ -22,12 +22,14 @@ public class User implements UserDetails {
     private Role role;
 
     public User() {
+        this.role = Role.USER;
     }
 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = Role.USER;
     }
 
     public Long getId() {

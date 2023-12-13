@@ -5,7 +5,7 @@ import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;

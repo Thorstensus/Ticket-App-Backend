@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
-import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.UserService;
