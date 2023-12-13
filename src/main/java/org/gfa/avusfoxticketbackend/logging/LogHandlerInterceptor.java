@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-
 @Component
 public class LogHandlerInterceptor implements HandlerInterceptor {
 
