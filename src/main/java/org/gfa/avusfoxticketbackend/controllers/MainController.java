@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class MainRESTController {
+public class MainController {
 
     private final ProductService productService;
     private final NewsService newsService;
@@ -25,7 +25,7 @@ public class MainRESTController {
 
 
     @Autowired
-    public MainRESTController(ProductService productService, NewsService newsService, UserService userService) {
+    public MainController(ProductService productService, NewsService newsService, UserService userService) {
         this.productService = productService;
         this.newsService = newsService;
         this.userService = userService;
@@ -33,17 +33,17 @@ public class MainRESTController {
 
     @GetMapping("/products")
     public ResponseEntity<ApiProductsDto> getProducts() {
-        return ResponseEntity.ok(productService.getApiProductsDto());
+        return ResponseEntity.status(200).body(productService.getApiProductsDto());
     }
 
 
     // endpoints
 
     @GetMapping("/news")
-    public ResponseDto searchNews(@RequestParam(required = true) String search) {
+    public ResponseEntity searchNews(@RequestParam(required = true) String search) {
         List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
         if (!search.isEmpty() && !searchedNews.isEmpty()) {
-            return new ArticlesResponse(searchedNews);
+            return ResponseEntity.status(200).body(new ArticlesResponse(searchedNews));
         } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
 

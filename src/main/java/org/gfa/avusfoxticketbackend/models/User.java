@@ -6,7 +6,7 @@ import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 @Entity
 @Table(name = "users")
 public class User {
-    // fields
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,19 +14,14 @@ public class User {
     private String email;
     private String password;
 
-    // default constructor
     public User() {
     }
 
-    // constructors with parameters
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-
-    // getters & setters
-
 
     public Long getId() {
         return id;
@@ -59,9 +54,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    // public methods
-
-
 
 }

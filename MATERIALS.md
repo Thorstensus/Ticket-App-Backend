@@ -66,7 +66,7 @@ DB_PASSWORD=P4$$w0Rd
 application.properties
 
 ```bash
-spring.config.import=optional:file:.env[.properties]
+spring.config.import=optional:file:.env.sample[.properties]
 spring.datasource.url=${DB_URL}
 spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}

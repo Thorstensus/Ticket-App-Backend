@@ -3,12 +3,12 @@ package org.gfa.avusfoxticketbackend.dtos;
 import org.gfa.avusfoxticketbackend.models.User;
 
 public class ResponseUserDTO extends ResponseDTO{
-    // fields
+
     private Long id;
     private String email;
     private Boolean isAdmin;
 
-    // constructors
+
     public ResponseUserDTO() {
         this.isAdmin = false;
     }
@@ -19,7 +19,6 @@ public class ResponseUserDTO extends ResponseDTO{
         this.isAdmin = false;
     }
 
-    // getters and setters
     public Long getId() {
         return id;
     }
@@ -44,7 +43,4 @@ public class ResponseUserDTO extends ResponseDTO{
         isAdmin = admin;
     }
 
-    // public methods
-
-    // private methods
 }

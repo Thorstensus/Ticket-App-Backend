@@ -1,23 +1,20 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
 public class RequestUserDTO extends RequestDTO{
-    // fields
+
     private String name;
     private String email;
     private String password;
 
-    // empty constructor
     public RequestUserDTO() {
     }
 
-    // constructor with parameters
     public RequestUserDTO(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    // getters & setters
     public String getName() {
         return name;
     }
@@ -41,7 +38,5 @@ public class RequestUserDTO extends RequestDTO{
     public void setPassword(String password) {
         this.password = password;
     }
-    // public methods
 
-    // private methods
 }
