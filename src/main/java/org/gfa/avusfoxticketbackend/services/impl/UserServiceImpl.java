@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
@@ -23,6 +24,15 @@ public class UserServiceImpl implements UserService {
   @Override
   public boolean existsByEmail(String email) {
     return userRepository.existsByEmail(email);
+  }
+
+  @Override
+  public boolean isValidEmailRequest(String requestEmail) {
+    return Pattern.compile(
+            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+        .matcher(requestEmail)
+        .matches();
   }
 
   @Override
