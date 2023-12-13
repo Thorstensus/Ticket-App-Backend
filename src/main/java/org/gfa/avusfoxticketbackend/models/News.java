@@ -12,15 +12,15 @@ public class News {
     private Long id;
     private String title;
     private String content;
-    private LocalDate publish_date;
+    private LocalDate publishDate;
 
     public News() {
     }
 
-    public News(String title, String content, LocalDate publish_date) {
+    public News(String title, String content) {
         this.title = title;
         this.content = content;
-        publishDate = LocalDate.now();
+        this.publishDate = LocalDate.now();
     }
 
     public Long getId() {

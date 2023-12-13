@@ -3,6 +3,7 @@ package org.gfa.avusfoxticketbackend.controllers;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDto;
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
+import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
@@ -21,7 +22,6 @@ public class MainController {
     private final NewsService newsService;
     private final UserService userService;
 
-
     @Autowired
     public MainController(ProductService productService, NewsService newsService, UserService userService) {
         this.productService = productService;
@@ -34,10 +34,7 @@ public class MainController {
         return ResponseEntity.status(200).body(productService.getApiProductsDto());
     }
 
-
-    // endpoints
-
-    @GetMapping("/news")
+    @GetMapping("/news/")
     public ResponseEntity searchNews(@RequestParam(required = true) String search) {
         List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
         if (!search.isEmpty() && !searchedNews.isEmpty()) {
@@ -45,9 +42,14 @@ public class MainController {
         } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
 
+    @GetMapping("/news")
+    public ResponseEntity<List<NewsResponseDTO>> getNews(){
+        return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
+    }
 
     @PostMapping("/users")
     public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
         return ResponseEntity.status(200).body(userService.userToResponseUserDTOConverter(userService.newUserCreatedAndReturned(requestUserDTO)));
     }
+
 }

@@ -1,10 +1,11 @@
-package org.gfa.avusfoxticketbackend.services;
+package org.gfa.avusfoxticketbackend.services.impl;
 
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

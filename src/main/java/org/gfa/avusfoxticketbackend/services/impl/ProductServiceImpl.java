@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.services;
+package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -6,6 +6,7 @@ import org.gfa.avusfoxticketbackend.dtos.ApiProductsDto;
 import org.gfa.avusfoxticketbackend.dtos.ProductDto;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
