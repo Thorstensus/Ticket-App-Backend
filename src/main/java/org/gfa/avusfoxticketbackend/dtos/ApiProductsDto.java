@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDto;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDto;
 
 public class ApiProductsDto extends ResponseDto {
 

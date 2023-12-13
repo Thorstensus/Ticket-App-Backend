@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 
 @Entity
 @Table(name = "users")

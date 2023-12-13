@@ -1,46 +1,42 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.models.User;
+public class ResponseUserDTO extends ResponseDTO {
 
-public class ResponseUserDTO extends ResponseDTO{
+  private Long id;
+  private String email;
+  private Boolean isAdmin;
 
-    private Long id;
-    private String email;
-    private Boolean isAdmin;
+  public ResponseUserDTO() {
+    this.isAdmin = false;
+  }
 
+  public ResponseUserDTO(Long id, String email) {
+    this.id = id;
+    this.email = email;
+    this.isAdmin = false;
+  }
 
-    public ResponseUserDTO() {
-        this.isAdmin = false;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public ResponseUserDTO(Long id, String email) {
-        this.id = id;
-        this.email = email;
-        this.isAdmin = false;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public Boolean getAdmin() {
+    return isAdmin;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Boolean getAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
-
+  public void setAdmin(Boolean admin) {
+    isAdmin = admin;
+  }
 }

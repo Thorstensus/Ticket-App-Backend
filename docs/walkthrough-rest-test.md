@@ -1,61 +1,62 @@
 - [Rest Testing](#rest-testing)
-  - [Automated Tests](#automated-tests)
-    - [Unit Testing](#unit-testing)
-    - [Integration Testing](#integration-testing)
-    - [Other types](#other-types)
-    - [Mocking](#mocking)
+    - [Automated Tests](#automated-tests)
+        - [Unit Testing](#unit-testing)
+        - [Integration Testing](#integration-testing)
+        - [Other types](#other-types)
+        - [Mocking](#mocking)
 - [Demo](#demo)
-  - [Controllers](#controllers)
-  - [DTOs](#dtos)
-  - [Models](#models)
-  - [Repositories](#repositories)
-    - [Services](#services)
-    - [User Service](#user-service)
-    - [Food Service](#food-service)
-  - [Postman](#postman)
-    - [index](#index)
-    - [store](#store)
+    - [Controllers](#controllers)
+    - [DTOs](#dtos)
+    - [Models](#models)
+    - [Repositories](#repositories)
+        - [Services](#services)
+        - [User Service](#user-service)
+        - [Food Service](#food-service)
+    - [Postman](#postman)
+        - [index](#index)
+        - [store](#store)
 - [Tests](#tests)
-  - [Unit Tests](#unit-tests)
-    - [AAA](#aaa)
-      - [Arrange](#arrange)
-      - [Act & Assert](#act--assert)
-  - [Integration Tests](#integration-tests)
-    - [Controller Endpoints](#controller-endpoints)
-    - [Errors](#errors)
-  - [Test Database](#test-database)
-    - [In-Memory](#in-memory)
-  - [Slicing (WebMvcTest)](#slicing-webmvctest)
-  - [Database Refresh](#database-refresh)
+    - [Unit Tests](#unit-tests)
+        - [AAA](#aaa)
+            - [Arrange](#arrange)
+            - [Act & Assert](#act--assert)
+    - [Integration Tests](#integration-tests)
+        - [Controller Endpoints](#controller-endpoints)
+        - [Errors](#errors)
+    - [Test Database](#test-database)
+        - [In-Memory](#in-memory)
+    - [Slicing (WebMvcTest)](#slicing-webmvctest)
+    - [Database Refresh](#database-refresh)
 
 # Rest Testing
 
 The purpose of writing automated tests is not only to verify the functionality of the current code, but also to be able
-to easily and quickly verify that future changes (refactoring) and/or new features do not break the code that's already 
+to easily and quickly verify that future changes (refactoring) and/or new features do not break the code that's already
 been written.
 
 ## Automated Tests
 
-Automated testing is a maintenance and code development which can execute and simulate predefined application behavior, 
-compare results with the expected output and create reports of successful and unsuccessful tests. Once created, 
-automated tests can be easily and quickly repeated at any moment, saving time and reducing software development costs, 
-improving accuracy (even the best tester sometimes makes minor errors) and allowing developers to perform tests which 
+Automated testing is a maintenance and code development which can execute and simulate predefined application behavior,
+compare results with the expected output and create reports of successful and unsuccessful tests. Once created,
+automated tests can be easily and quickly repeated at any moment, saving time and reducing software development costs,
+improving accuracy (even the best tester sometimes makes minor errors) and allowing developers to perform tests which
 cannot be performed manually (e.g. simulation of hundreds / thousands of requests / users, etc.)
 
 ### Unit Testing
 
-Unit testing is a type of testing in which individual parts of the code (called "units") are tested whether they work 
-according to the exact specification / requirements / design. The primary purpose of unit testing is to test each 
+Unit testing is a type of testing in which individual parts of the code (called "units") are tested whether they work
+according to the exact specification / requirements / design. The primary purpose of unit testing is to test each
 function (unit) separately = isolated from its dependencies.
 
 ### Integration Testing
 
-On the other hand, Integration testing is a type of testing in which a group of units is tested, especially whether the 
+On the other hand, Integration testing is a type of testing in which a group of units is tested, especially whether the
 whole module / system works exactly according to the specified functional requirements.
 
 ### Other types
 
 Other types of tests include:
+
 - End-to-end (E2E)
 - Stress
 - Security
@@ -66,7 +67,7 @@ Other types of tests include:
 
 ### Mocking
 
-Mocking is a process used in testing when the unit being tested has external dependencies. The purpose of mocking is to 
+Mocking is a process used in testing when the unit being tested has external dependencies. The purpose of mocking is to
 isolate and focus on the code being tested and not on the behavior or state of external dependencies.
 
 # Demo
@@ -74,6 +75,7 @@ isolate and focus on the code being tested and not on the behavior or state of e
 *NOTE*: This entire section can be skipped
 
 Let's create a new application called Testing with the following dependencies:
+
 - Developer Tools > Spring Boot DevTools
 - Web > Spring Web
 - SQL > Spring Data JPA
@@ -153,7 +155,7 @@ public class FoodController {
 }
 ```
 
-To implement the `store` method we'll need a way to process a request which sends the Food (JSON) data an convert it 
+To implement the `store` method we'll need a way to process a request which sends the Food (JSON) data an convert it
 into the Food model. The framework can do this automatically via the `@RequestBody` annotation, i.e
 
 ```java
@@ -200,7 +202,7 @@ public class FoodDto {
 ```
 
 One advantage of using the DTOs in this way is the ability to define the error handling behavior explicitly in our code.
-For example, we may not care if the "calories" has an invalid value and simply set it to 0. Similarly, if the "addedAt" 
+For example, we may not care if the "calories" has an invalid value and simply set it to 0. Similarly, if the "addedAt"
 value is not a valid data string, we could just give it the "now" value.
 
 Using the Dto allows us to write a clean and short `store` method
@@ -229,7 +231,7 @@ public class FoodController {
 
 ## Models
 
-Next we'll add the User 
+Next we'll add the User
 
 ```java
 package com.greenfox.testing.models;
@@ -381,15 +383,16 @@ public class DatabaseUserService implements UserService {
 }
 ```
 
-Basically, what the User service does is it returns the first user in the database to be used throughout the 
+Basically, what the User service does is it returns the first user in the database to be used throughout the
 application. If there are no users in the DB a new user is created (and then returned).
 
 ### Food Service
 
-Next, let's implement the Food Service. The `findAll` method is easy - we just use the repository `findAll` method. 
+Next, let's implement the Food Service. The `findAll` method is easy - we just use the repository `findAll` method.
 
-For the `add` method we'll add some error checking / data validation. The best place for this is the service. The controller 
-should not really be responsible for these checks; Controllers' sole responsibility is to process requests and return 
+For the `add` method we'll add some error checking / data validation. The best place for this is the service. The
+controller
+should not really be responsible for these checks; Controllers' sole responsibility is to process requests and return
 responses.
 
 ```java
@@ -460,9 +463,9 @@ Let's have a look at writing tests for this application ...
 
 ## Unit Tests
 
-First, we'll add some unit tests for the models. 
+First, we'll add some unit tests for the models.
 
-To generate the test class for the User model open the model class, and right click on the word "User" in 
+To generate the test class for the User model open the model class, and right click on the word "User" in
 "public class User" (or use the "generate" keyboard shortcut, i.e. ALT + INSERT on Windows).
 
 <img src="assets/mr-rest-test-insert-test.png" style="border: 2px solid grey">
@@ -548,6 +551,7 @@ class DatabaseFoodServiceTest {
 ```
 
 Each test should have the so-called structre:
+
 - Arrange   : code required to setup the specific test
 - Act       : code to call the method(s) under test
 - Assert    : check that the expectations are met
@@ -575,14 +579,19 @@ class DatabaseFoodServiceTest {
 ```
 
 Unfortunately, the compiler does not like this code because the DatabaseFoodService requires two constructor parameters:
+
 - FoodRepository
 - UserService
 
-*Question*: How can we fix that? 
+*Question*: How can we fix that?
 *Answer*:
 
-One option is to create an instance of FoodRepository and UserService and pass those into the constructor. But that wouldn't be a unit test anymore; it would be an *integration* test because we'd be testing how those three classes (FoodService, UserService and FoodRepository) work in unison. If we want to test solely the `add` method we need to create the dependencies in a way which ensures they work 100% correctly (if the `add` method tests fails, we want to be sure they are not failing because of an issue in a FoodService dependency). 
- 
+One option is to create an instance of FoodRepository and UserService and pass those into the constructor. But that
+wouldn't be a unit test anymore; it would be an *integration* test because we'd be testing how those three classes (
+FoodService, UserService and FoodRepository) work in unison. If we want to test solely the `add` method we need to
+create the dependencies in a way which ensures they work 100% correctly (if the `add` method tests fails, we want to be
+sure they are not failing because of an issue in a FoodService dependency).
+
 Thanks to the dependency injection we can use fake dependencies (Mock objects) and inject these to the FoodService.
 
 ```java
@@ -611,9 +620,9 @@ class FakeUserService implements UserService {
 }
 ```
 
-In this case creating the FakeUserService class is quite simple; we need to implement only one method. 
+In this case creating the FakeUserService class is quite simple; we need to implement only one method.
 
-FoodRepository, on the other hand, would require implenting more than two dozen methods. Instead of writing hundreds of 
+FoodRepository, on the other hand, would require implenting more than two dozen methods. Instead of writing hundreds of
 lines of code we can use a library such as Mockito, which automatically creates these fake dependencies for us:
 
 ```java
@@ -690,7 +699,7 @@ class DatabaseFoodServiceTest {
 }
 ```
 
-We can run this test ... and it pass. Here, we should do one small refector - namely, we should move the tests for 
+We can run this test ... and it pass. Here, we should do one small refector - namely, we should move the tests for
 invalid parameters into their own method
 
 ```java
@@ -718,8 +727,8 @@ class DatabaseFoodServiceTest {
 }
 ```
 
-Here we don't really need to create any Mocks as the code of the `add` method shouldn't need to use them at all. The 
-illegal argument checks are executed before any of the dependencies are used. 
+Here we don't really need to create any Mocks as the code of the `add` method shouldn't need to use them at all. The
+illegal argument checks are executed before any of the dependencies are used.
 
 We can test the IllegalStateException like so:
 
@@ -746,14 +755,14 @@ class DatabaseFoodServiceTest {
 }
 ```
 
-This is another advantage of Mocking. Specifally, it allows us to test edge cases which occur either randomly or are 
-very rare. In this particular example, the `getOrCreateUser` method should never return null; in other words, the 
-IllegalStateException should never happen. Nevertheless, we can still test that the code can handle it regardless of 
+This is another advantage of Mocking. Specifally, it allows us to test edge cases which occur either randomly or are
+very rare. In this particular example, the `getOrCreateUser` method should never return null; in other words, the
+IllegalStateException should never happen. Nevertheless, we can still test that the code can handle it regardless of
 how likely/possible it is.
 
 ## Integration Tests
 
-Now, let's have a look at how we can test Controllers, i.e. how JUnit works with Spring's MVC/Web tools. 
+Now, let's have a look at how we can test Controllers, i.e. how JUnit works with Spring's MVC/Web tools.
 
 ### Controller Endpoints
 
@@ -774,10 +783,10 @@ class FoodControllerTest {
 }
 ```
 
-The `@SpringBootTest` annotation loads the `ApplicationContext` - the central inerface within a Spring application which 
+The `@SpringBootTest` annotation loads the `ApplicationContext` - the central inerface within a Spring application which
 is used for providing configuration information. It impleemtns the BeanFactory interface (for example).
 
-The `@AutoConfigureMockMvc` enables (create) a web layer for testing (an HTTP client, for example). 
+The `@AutoConfigureMockMvc` enables (create) a web layer for testing (an HTTP client, for example).
 
 ```java
 @SpringBootTest
@@ -832,6 +841,7 @@ class FoodControllerTest {
 ```
 
 A few things to explain here:
+
 - the post request requires body content (data) in json format, we provide it using the `.content()` method
 - the media type must be set to JSON in the headers using the `.contentType()` method
 - we require the response to have the 200 status
@@ -871,7 +881,7 @@ spring.jpa.hibernate.ddl-auto=update
 Now let's run the `add` test ... it works just fine ... right ...
 
 *Question*: What happens when we run it again?
-*Answer*: The test will fail, specifically at the line checking the id 
+*Answer*: The test will fail, specifically at the line checking the id
 
 ```text
 JSON path "$[0].id"
@@ -880,18 +890,18 @@ Expected: is <1>
 ```
 
 *Question*: Can anyone explain why the second test failed?
-*Answer*: The second test failed because there was already an entity in the database, so the next value of id couldn't 
+*Answer*: The second test failed because there was already an entity in the database, so the next value of id couldn't
 be one!
 
 ### In-Memory
 
-Now we've arrived at a very important topic - run tests with storage. Never use a production database for testing! 
+Now we've arrived at a very important topic - run tests with storage. Never use a production database for testing!
 
 Let's have a quick look how to setup a test database:
 
-All we have to do is to create a `resources` folder under `src\test` and add a copy of `application.properties` there. 
+All we have to do is to create a `resources` folder under `src\test` and add a copy of `application.properties` there.
 
-Whatever settings we add to this file will now affect (only) our tests. For example, we can use the H2 Database for 
+Whatever settings we add to this file will now affect (only) our tests. For example, we can use the H2 Database for
 testing.
 
 ```text
@@ -906,7 +916,7 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.logging.level.org.hibernate.SQL=debug
 ```
 
-p.s. *There is nothing, of course, stopping us from creating a different MySQL database for the tests and using MySQL 
+p.s. *There is nothing, of course, stopping us from creating a different MySQL database for the tests and using MySQL
 rather than H2.*
 
 Now re-running the same test (post_index) gives as all-green as desired!
@@ -966,7 +976,7 @@ public class FoodController {
 }
 ```
 
-This method does not use any dependencies, i.e. it does not use `FoodService` or `UserService`. Therefore, it makes no 
+This method does not use any dependencies, i.e. it does not use `FoodService` or `UserService`. Therefore, it makes no
 sense to initialize the entire ApplicationContext (which is was @SpringBootTest does).
 
 Let's create another test class FoodControllerWebTest and use `@WebMvcTest` instead of `@SpringBootTest`
@@ -992,8 +1002,11 @@ class FoodControllerWebTest {
 ```
 
 Because `@WebMvcTest` does not create the ApplicationContext we have to define:
-- 1) which class we're testing (this is added as the parameter to the annotation)
-- 2) all dependencies as beans, using the `@MockBean` annotation, so that they can be registered (in a mock IoC)
+
+-
+    1) which class we're testing (this is added as the parameter to the annotation)
+-
+    2) all dependencies as beans, using the `@MockBean` annotation, so that they can be registered (in a mock IoC)
 
 If the `FoodController.dummy` method has a dependency, we could use Mockito as before
 
@@ -1043,12 +1056,17 @@ class FoodControllerWebTest {
 
 ## Database Refresh
 
-Let's run the entire test suite and ... oh ... it's red ... we get an error from the "post_index" test. However, running just that single test gives all-green. 
+Let's run the entire test suite and ... oh ... it's red ... we get an error from the "post_index" test. However, running
+just that single test gives all-green.
 
 *Question*: Can anyone guess what the issue is?
-*Answer*: The issue is that the H2 database is refreshed, by default, only when the entire test suite is started. Not for each individual test!  The "post_index" test does not starts with a fresh database. Instead, there are already two entries from the "get_index_with_food" test. Therefore, the id check `.andExpect(jsonPath("$[0].id", is(1)))` fails, because the id of this food is 3, not 1!
+*Answer*: The issue is that the H2 database is refreshed, by default, only when the entire test suite is started. Not
+for each individual test!  The "post_index" test does not starts with a fresh database. Instead, there are already two
+entries from the "get_index_with_food" test. Therefore, the id check `.andExpect(jsonPath("$[0].id", is(1)))` fails,
+because the id of this food is 3, not 1!
 
-We could solve this issue by deleting/refresh the database using the `@BeforeEach`, for example. Nevertheless, an easier and faster solution is to just use the annotation provided for this exact purpose:
+We could solve this issue by deleting/refresh the database using the `@BeforeEach`, for example. Nevertheless, an easier
+and faster solution is to just use the annotation provided for this exact purpose:
 
 ```java
 @SpringBootTest

@@ -5,71 +5,71 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private Double price;
-    private Integer duration;
-    private String description;
-    private String type;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public Product() {
-    }
+  private String name;
+  private Double price;
+  private Integer duration;
+  private String description;
+  private String type;
 
-    public Product(String name, Double price, Integer duration, String description, String type) {
-        this.name = name;
-        this.price = price;
-        this.duration = duration;
-        this.description = description;
-        this.type = type;
-    }
+  public Product() {}
 
-    public Long getId() {
-        return id;
-    }
+  public Product(String name, Double price, Integer duration, String description, String type) {
+    this.name = name;
+    this.price = price;
+    this.duration = duration;
+    this.description = description;
+    this.type = type;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Double getPrice() {
-        return price;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+  public Double getPrice() {
+    return price;
+  }
 
-    public Integer getDuration() {
-        return duration;
-    }
+  public void setPrice(Double price) {
+    this.price = price;
+  }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
+  public Integer getDuration() {
+    return duration;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setDuration(Integer duration) {
+    this.duration = duration;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 }
