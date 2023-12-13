@@ -9,5 +9,4 @@ public class AvusFoxticketBackendApplication {
   public static void main(String[] args) {
     SpringApplication.run(AvusFoxticketBackendApplication.class, args);
   }
-
 }

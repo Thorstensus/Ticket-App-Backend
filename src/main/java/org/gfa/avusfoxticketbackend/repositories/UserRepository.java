@@ -1,8 +1,10 @@
 package org.gfa.avusfoxticketbackend.repositories;
 
-import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {}
+public interface UserRepository extends JpaRepository<User, Long> {
+  boolean existsByEmail(String email);
+}
