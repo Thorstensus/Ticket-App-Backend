@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
-
 import org.gfa.avusfoxticketbackend.dtos.PatchResponseUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
@@ -21,9 +20,11 @@ public class UserServiceImpl implements UserService {
 
   private final ExceptionService exceptionService;
 
-
   @Autowired
-  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ExceptionService exceptionService) {
+  public UserServiceImpl(
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionService exceptionService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
@@ -31,13 +32,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseUserDTO newUserCreatedAndReturned(RequestUserDTO requestUserDTO) {
-      exceptionService.checkForUserErrors(requestUserDTO);
-      User user = requestDTOtoUserConvert(requestUserDTO);
-      user.setPassword(hashPassword(user.getPassword()));
-      userRepository.save(user);
-      return userToResponseUserDTOConverter(user);
-    }
-
+    exceptionService.checkForUserErrors(requestUserDTO);
+    User user = requestDTOtoUserConvert(requestUserDTO);
+    user.setPassword(hashPassword(user.getPassword()));
+    userRepository.save(user);
+    return userToResponseUserDTOConverter(user);
+  }
 
   @Override
   public ResponseUserDTO userToResponseUserDTOConverter(User user) {
@@ -75,13 +75,14 @@ public class UserServiceImpl implements UserService {
     user.setName(requestUserDTO.getName() != null ? requestUserDTO.getName() : user.getName());
     user.setEmail(requestUserDTO.getEmail() != null ? requestUserDTO.getEmail() : user.getEmail());
     user.setPassword(
-        requestUserDTO.getPassword() != null ? hashPassword(requestUserDTO.getPassword()) : user.getPassword());
+        requestUserDTO.getPassword() != null
+            ? hashPassword(requestUserDTO.getPassword())
+            : user.getPassword());
     userRepository.save(user);
     return patchResponseUserDTOConverter(user);
   }
 
-  public String hashPassword(String password){
+  public String hashPassword(String password) {
     return passwordEncoder.encode(password);
-
   }
 }

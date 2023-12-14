@@ -42,36 +42,21 @@ public class MainController {
     }
   }
 
-    @GetMapping("/products")
-    public ResponseEntity<ApiProductsDTO> getProducts() {
-        return ResponseEntity.status(200).body(productService.getApiProductsDto());
-    }
+  @GetMapping("/news")
+  public ResponseEntity<List<NewsResponseDTO>> getNews() {
+    return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
+  }
 
-    @GetMapping("/news/")
-    public ResponseEntity searchNews(@RequestParam(required = true) String search) {
-        List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
-        if (!search.isEmpty() && !searchedNews.isEmpty()) {
-            return ResponseEntity.status(200).body(new ArticlesResponse(searchedNews));
-        } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
-    }
-
-    @GetMapping("/news")
-    public ResponseEntity<List<NewsResponseDTO>> getNews(){
-        return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
-    }
-
-
-    @PatchMapping({"/users/{id}", "/users/"})
-    public ResponseEntity<PatchResponseUserDTO> patchUser(@RequestBody(required = false) RequestUserDTO requestUserDTO,
-                                                          @PathVariable(required = false) Long id) {
-        return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
-    }
+  @PatchMapping({"/users/{id}", "/users/"})
+  public ResponseEntity<PatchResponseUserDTO> patchUser(
+      @RequestBody(required = false) RequestUserDTO requestUserDTO,
+      @PathVariable(required = false) Long id) {
+    return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
+  }
 
   @PostMapping("/users")
-  public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-    return ResponseEntity.status(200)
-        .body(
-            userService.userToResponseUserDTOConverter(
-                userService.newUserCreatedAndReturned(requestUserDTO)));
+  public ResponseEntity<ResponseUserDTO> registration(
+      @RequestBody(required = false) RequestUserDTO requestUserDTO) {
+    return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
   }
 }

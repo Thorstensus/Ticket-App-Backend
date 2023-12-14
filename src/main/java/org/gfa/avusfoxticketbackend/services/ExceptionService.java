@@ -5,35 +5,35 @@ import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 public interface ExceptionService {
-    void checkForUserErrors(RequestDTO requestDto);
+  void checkForUserErrors(RequestDTO requestDto);
 
-    void handlePatchErrors(RequestUserDTO requestUserDTO);
+  void handlePatchErrors(RequestUserDTO requestUserDTO);
 
-    void handleRegisterErrors(RequestUserDTO requestDto);
+  void handleRegisterErrors(RequestUserDTO requestDto);
 
-    void handleLoginErrors(AuthenticationRequest request);
+  void handleLoginErrors(AuthenticationRequest request);
 
-    boolean isValidEmailRequest(String requestEmail);
+  boolean isValidEmailRequest(String requestEmail);
 
-    boolean existsByEmail(String email);
+  boolean existsByEmail(String email);
 
-    void throwMissingBodyRequired();
+  void throwMissingBodyRequired();
 
-    void throwNameEmailPassRequired();
+  void throwNameEmailPassRequired();
 
-    void throwNameRequired();
+  void throwNameRequired();
 
-    void throwPassRequired();
+  void throwPassRequired();
 
-    void throwPasswordTooShort();
+  void throwPasswordTooShort();
 
-    void throwInvalidMail();
+  void throwInvalidMail();
 
-    void throwMailTaken();
+  void throwMailTaken();
 
-    void throwEmailRequired();
+  void throwEmailRequired();
 
-    void throwEmailOrPasswordIncorrect();
+  void throwEmailOrPasswordIncorrect();
 
-    void throwAllFieldsRequired();
+  void throwAllFieldsRequired();
 }
