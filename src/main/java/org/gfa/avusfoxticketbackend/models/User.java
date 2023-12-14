@@ -37,29 +37,29 @@ public class User implements UserDetails {
         this.isVerified=false;
     }
 
-    public Long getId() {
-        return id;
-    }
+  public User() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public User(String name, String email, String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
     public Role getRole() {
         return role;
@@ -87,9 +87,9 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
     @Override
     public String getUsername() {
