@@ -11,16 +11,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class LogHandlerInterceptor implements HandlerInterceptor {
 
+  public static Object object;
   Logger logger = LoggerFactory.getLogger(LogHandlerInterceptor.class);
 
-  @Override
+  /*  @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     logger.info(
         "Type:{} Endpoint:{} Parameters:{} Status:{}",
         request.getMethod(),
         request.getRequestURI(),
-        request.getQueryString(),
+        object,
         response.getStatus());
     return true;
   }
@@ -36,9 +37,9 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
         "Type:{} Endpoint:{} Parameters:{} Status:{}",
         request.getMethod(),
         request.getRequestURI(),
-        request.getQueryString(),
+            object,
         response.getStatus());
-  }
+  }*/
 
   @Override
   public void afterCompletion(
@@ -49,14 +50,14 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
           "Type:{} Endpoint:{} Parameters:{} Status:{}",
           request.getMethod(),
           request.getRequestURI(),
-          request.getQueryString(),
+          object,
           response.getStatus());
     } else {
       logger.info(
           "Type:{} Endpoint:{} Parameters:{} Status:{}",
           request.getMethod(),
           request.getRequestURI(),
-          request.getQueryString(),
+          object,
           response.getStatus());
     }
   }

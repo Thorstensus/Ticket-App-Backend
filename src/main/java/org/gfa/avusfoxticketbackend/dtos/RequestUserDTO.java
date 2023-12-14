@@ -39,4 +39,19 @@ public class RequestUserDTO extends RequestDTO {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  @Override
+  public String toString() {
+    return "RequestUserDTO{"
+        + "name='"
+        + name
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
+  }
 }

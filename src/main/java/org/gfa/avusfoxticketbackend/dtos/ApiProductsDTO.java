@@ -23,4 +23,9 @@ public class ApiProductsDTO extends ResponseDTO {
   public void setProducts(List<ProductDTO> products) {
     this.products = products;
   }
+
+  @Override
+  public String toString() {
+    return "ApiProductsDTO{" + "products=" + products + '}';
+  }
 }
