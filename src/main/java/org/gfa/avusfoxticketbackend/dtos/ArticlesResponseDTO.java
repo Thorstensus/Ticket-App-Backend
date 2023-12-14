@@ -5,14 +5,14 @@ import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 
-public class ArticlesResponse extends ResponseDTO {
+public class ArticlesResponseDTO extends ResponseDTO {
     private List<News> articles;
 
-    public ArticlesResponse() {
+    public ArticlesResponseDTO() {
         this.articles=new ArrayList<>();
     }
 
-    public ArticlesResponse(List<News> articles) {
+    public ArticlesResponseDTO(List<News> articles) {
         this.articles = articles;
     }
 

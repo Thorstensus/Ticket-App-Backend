@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
+import org.gfa.avusfoxticketbackend.dtos.ArticlesResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -38,7 +38,7 @@ public class MainController {
     public ResponseEntity searchNews(@RequestParam(required = true) String search) {
         List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
         if (!search.isEmpty() && !searchedNews.isEmpty()) {
-            return ResponseEntity.status(200).body(new ArticlesResponse(searchedNews));
+            return ResponseEntity.status(200).body(new ArticlesResponseDTO(searchedNews));
         } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
 

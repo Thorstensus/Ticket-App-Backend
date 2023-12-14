@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.auth;
+package org.gfa.avusfoxticketbackend.dtos.authdtos;
 
 public class AuthenticationRequest {
     private String email;

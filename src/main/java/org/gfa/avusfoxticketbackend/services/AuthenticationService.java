@@ -1,5 +1,7 @@
-package org.gfa.avusfoxticketbackend.auth;
+package org.gfa.avusfoxticketbackend.services;
 
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;

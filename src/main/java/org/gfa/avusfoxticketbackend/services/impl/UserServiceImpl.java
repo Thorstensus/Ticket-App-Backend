@@ -58,6 +58,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseUserDTO responseUserDTOConverter(User user) {
-    return new ResponseUserDTO(user.getId(), user.getEmail());
+    return new ResponseUserDTO(user.getId(), user.getEmail(), user.getRole());
   }
 }
