@@ -45,8 +45,8 @@ public class MainController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-        return ResponseEntity.status(200).body(userService.userToResponseUserDTOConverter(userService.newUserCreatedAndReturned(requestUserDTO)));
+    public ResponseEntity<ResponseUserDTO> registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
+        return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
     }
 
     @PatchMapping({"/users/{id}", "/users/"})

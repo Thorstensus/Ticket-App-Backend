@@ -6,12 +6,8 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 
 public interface UserService {
-  // methods
-  boolean existsByEmail(String email);
 
-  boolean isValidEmailRequest(String requestEmail);
-
-  User newUserCreatedAndReturned(RequestUserDTO requestUserDTO);
+  ResponseUserDTO newUserCreatedAndReturned(RequestUserDTO requestUserDTO);
 
   ResponseUserDTO userToResponseUserDTOConverter(User user);
 

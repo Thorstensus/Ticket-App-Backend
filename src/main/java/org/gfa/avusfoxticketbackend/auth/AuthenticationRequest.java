@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.auth;
 
-public class AuthenticationRequest {
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
+
+public class AuthenticationRequest extends RequestDTO {
     private String email;
     private String password;
 
