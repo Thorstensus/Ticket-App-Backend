@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.auth;
+package org.gfa.avusfoxticketbackend.dtos.authdtos;
 
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 

@@ -44,10 +44,6 @@ public class MainController {
         return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<ResponseUserDTO> registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-        return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
-    }
 
     @PatchMapping({"/users/{id}", "/users/"})
     public ResponseEntity<PatchResponseUserDTO> patchUser(@RequestBody(required = false) RequestUserDTO requestUserDTO,
