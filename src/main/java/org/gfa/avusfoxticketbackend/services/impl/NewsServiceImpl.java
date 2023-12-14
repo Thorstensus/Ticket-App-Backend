@@ -3,7 +3,6 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
