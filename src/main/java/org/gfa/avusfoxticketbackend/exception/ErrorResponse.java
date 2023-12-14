@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.exeption;
+package org.gfa.avusfoxticketbackend.exception;
 
 import java.time.ZonedDateTime;
 import org.gfa.avusfoxticketbackend.timeFormatter.TimeFormatter;

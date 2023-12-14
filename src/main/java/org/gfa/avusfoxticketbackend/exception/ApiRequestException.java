@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.exeption;
+package org.gfa.avusfoxticketbackend.exception;
 
 // This is a custom exception for the failed requests that can occur in registration or searching
 // for news
