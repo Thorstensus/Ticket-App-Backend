@@ -40,7 +40,9 @@ public class MainController {
     List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
     if (!search.isEmpty() && !searchedNews.isEmpty()) {
       return ResponseEntity.status(200).body(new ArticlesResponse(searchedNews));
-    } else throw new ApiRequestException("/api/news", "No news matching the searched text found.");
+    } else {
+      throw new ApiRequestException("/api/news", "No news matching the searched text found.");
+    }
   }
 
   @GetMapping("/news")
