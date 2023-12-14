@@ -6,40 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 @Component
 public class LogHandlerInterceptor implements HandlerInterceptor {
 
   public static Object object;
   Logger logger = LoggerFactory.getLogger(LogHandlerInterceptor.class);
-
-  /*  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-      throws Exception {
-    logger.info(
-        "Type:{} Endpoint:{} Parameters:{} Status:{}",
-        request.getMethod(),
-        request.getRequestURI(),
-        object,
-        response.getStatus());
-    return true;
-  }
-
-  @Override
-  public void postHandle(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      Object handler,
-      ModelAndView modelAndView)
-      throws Exception {
-    logger.info(
-        "Type:{} Endpoint:{} Parameters:{} Status:{}",
-        request.getMethod(),
-        request.getRequestURI(),
-            object,
-        response.getStatus());
-  }*/
 
   @Override
   public void afterCompletion(
