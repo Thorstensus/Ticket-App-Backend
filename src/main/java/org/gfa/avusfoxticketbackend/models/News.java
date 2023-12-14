@@ -7,48 +7,47 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "news")
 public class News {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private String content;
-    private LocalDate publishDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public News() {
-    }
+  private String title;
+  private String content;
+  private LocalDate publishDate;
 
-    public News(String title, String content) {
-        this.title = title;
-        this.content = content;
-        this.publishDate = LocalDate.now();
-    }
+  public News() {}
 
-    public Long getId() {
-        return id;
-    }
+  public News(String title, String content) {
+    this.title = title;
+    this.content = content;
+    this.publishDate = LocalDate.now();
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public LocalDate getPublishDate() {
-        return publishDate;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public void setPublishDate(LocalDate publishDate) {
-        this.publishDate = publishDate;
-    }
+  public LocalDate getPublishDate() {
+    return publishDate;
+  }
 
+  public void setPublishDate(LocalDate publishDate) {
+    this.publishDate = publishDate;
+  }
 }

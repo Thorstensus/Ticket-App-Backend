@@ -14,18 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AuthenticationController {
 
-    private final AuthenticationService authService;
-    private final UserService userService;
+  private final AuthenticationService authService;
+  private final UserService userService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationService authService, UserService userService) {
-        this.authService = authService;
-        this.userService = userService;
-    }
+  @Autowired
+  public AuthenticationController(AuthenticationService authService, UserService userService) {
+    this.authService = authService;
+    this.userService = userService;
+  }
 
-    @PostMapping("/users")
-    public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-        return ResponseEntity.status(200).body(userService.userToResponseUserDTOConverter(userService.newUserCreatedAndReturned(requestUserDTO)));
-    }
-
+  @PostMapping("/users")
+  public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
+    return ResponseEntity.status(200)
+        .body(
+            userService.userToResponseUserDTOConverter(
+                userService.newUserCreatedAndReturned(requestUserDTO)));
+  }
 }

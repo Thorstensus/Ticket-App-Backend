@@ -11,96 +11,97 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String email;
-    private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
-    public User() {
-        this.role = Role.USER;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = Role.USER;
-    }
+  private String name;
+  private String email;
+  private String password;
 
-    public Long getId() {
-        return id;
-    }
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public User() {
+    this.role = Role.USER;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public User(String name, String email, String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.role = Role.USER;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Role getRole() {
-        return role;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+  public Role getRole() {
+    return role;
+  }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority(role.name()));
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  @Override
+  public String getPassword() {
+    return password;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return false;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }
