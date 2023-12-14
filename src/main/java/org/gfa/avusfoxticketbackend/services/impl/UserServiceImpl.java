@@ -7,6 +7,7 @@ import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,9 +15,13 @@ public class UserServiceImpl implements UserService {
   // fields & dependency injection with constructor
   private final UserRepository userRepository;
 
+  private final PasswordEncoder passwordEncoder;
+
+
   @Autowired
-  public UserServiceImpl(UserRepository userRepository) {
+  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   // methods
@@ -41,6 +46,7 @@ public class UserServiceImpl implements UserService {
       throw new ApiRequestException("/api/users", "Password must be at least 8 characters.");
     } else {
       User user = requestDTOtoUserConvert(requestUserDTO);
+      user.setPassword(hashPassword(user.getPassword()));
       userRepository.save(user);
       return user;
     }
@@ -59,5 +65,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public ResponseUserDTO responseUserDTOConverter(User user) {
     return new ResponseUserDTO(user.getId(), user.getEmail());
+  }
+
+  public String hashPassword(String password){
+    return passwordEncoder.encode(password);
   }
 }
