@@ -47,9 +47,4 @@ public class MainController {
         return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
     }
 
-    @PostMapping("/users")
-    public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-        return ResponseEntity.status(200).body(userService.userToResponseUserDTOConverter(userService.newUserCreatedAndReturned(requestUserDTO)));
-    }
-
 }
