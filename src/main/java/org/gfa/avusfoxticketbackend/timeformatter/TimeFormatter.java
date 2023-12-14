@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.timeformater;
+package org.gfa.avusfoxticketbackend.timeformatter;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
