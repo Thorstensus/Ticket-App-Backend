@@ -53,5 +53,4 @@ public class MainController {
       @PathVariable(required = false) Long id) {
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
-  
 }
