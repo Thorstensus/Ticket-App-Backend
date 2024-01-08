@@ -1,11 +1,8 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
-import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
+import org.gfa.avusfoxticketbackend.dtos.*;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -50,11 +47,10 @@ public class MainController {
     return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
   }
 
-  @PostMapping("/users")
-  public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-    return ResponseEntity.status(200)
-        .body(
-            userService.userToResponseUserDTOConverter(
-                userService.newUserCreatedAndReturned(requestUserDTO)));
+  @PatchMapping({"/users/{id}", "/users/"})
+  public ResponseEntity<PatchResponseUserDTO> patchUser(
+      @RequestBody(required = false) RequestUserDTO requestUserDTO,
+      @PathVariable(required = false) Long id) {
+    return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
 }
