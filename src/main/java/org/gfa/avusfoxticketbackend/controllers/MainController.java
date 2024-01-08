@@ -53,10 +53,5 @@ public class MainController {
       @PathVariable(required = false) Long id) {
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
-
-  @PostMapping("/users")
-  public ResponseEntity<ResponseUserDTO> registration(
-      @RequestBody(required = false) RequestUserDTO requestUserDTO) {
-    return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
-  }
+  
 }
