@@ -1,9 +1,7 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ArticlesResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
@@ -47,5 +45,12 @@ public class MainController {
   @GetMapping("/news")
   public ResponseEntity<List<NewsResponseDTO>> getNews() {
     return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
+  }
+
+  @PatchMapping({"/users/{id}", "/users/"})
+  public ResponseEntity<PatchResponseUserDTO> patchUser(
+      @RequestBody(required = false) RequestUserDTO requestUserDTO,
+      @PathVariable(required = false) Long id) {
+    return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
 }

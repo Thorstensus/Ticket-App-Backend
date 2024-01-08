@@ -1,12 +1,12 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,8 +23,11 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
+  private Boolean isVerified;
+
   public User() {
     this.role = Role.USER;
+    this.isVerified = false;
   }
 
   public User(String name, String email, String password) {
@@ -32,6 +35,19 @@ public class User implements UserDetails {
     this.email = email;
     this.password = password;
     this.role = Role.USER;
+    this.isVerified = false;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Boolean getVerified() {
+    return isVerified;
   }
 
   public Long getId() {
@@ -50,8 +66,30 @@ public class User implements UserDetails {
     this.name = name;
   }
 
-  public String getEmail() {
-    return email;
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  public Boolean isVerified() {
+    return isVerified;
+  }
+
+  public void setVerified(Boolean verified) {
+    isVerified = verified;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority(role.name()));
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
   }
 
   public void setEmail(String email) {
@@ -64,16 +102,6 @@ public class User implements UserDetails {
 
   public void setRole(Role role) {
     this.role = role;
-  }
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.name()));
-  }
-
-  @Override
-  public String getPassword() {
-    return password;
   }
 
   @Override
@@ -98,10 +126,6 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return false;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+    return true;
   }
 }
