@@ -1,6 +1,6 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.models.Role;
+import org.gfa.avusfoxticketbackend.enums.Role;
 
 public class ResponseUserDTO {
 
