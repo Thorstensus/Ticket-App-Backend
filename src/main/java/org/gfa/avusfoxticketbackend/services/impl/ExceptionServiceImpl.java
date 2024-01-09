@@ -19,7 +19,6 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   private final HttpServletRequest httpServletRequest;
   private final UserRepository userRepository;
-
   private final PasswordEncoder passwordEncoder;
 
   @Autowired

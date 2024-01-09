@@ -48,9 +48,26 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id) {
+
     if (id == null) {
-      throw new ApiRequestException("/api/products/{productId}", "{id} is required.");
+      throw new ApiRequestException("/api/products/{productId}", "{productId} is required.");
     }
+    if (requestProductDTO.getName() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Name is required.");
+    }
+    if (requestProductDTO.getPrice() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Price is required.");
+    }
+    if (requestProductDTO.getDuration() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Duration is required.");
+    }
+    if (requestProductDTO.getDescription() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Description is required.");
+    }
+    if (requestProductDTO.getType_id() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Type_id is required.");
+    }
+
     exceptionService.checkForUserErrors(requestProductDTO);
     Product product =
             productRepository
@@ -60,13 +77,11 @@ public class ProductServiceImpl implements ProductService {
                                     new ApiRequestException(
                                             "/api/users/{id}", "User with provided id doesn't exist"));
 
-    product.setName(requestProductDTO.getName() != null ? requestProductDTO.getName() : product.getName());
-    product.setEmail(requestProductDTO.getEmail() != null ? requestProductDTO.getEmail() : product.getEmail());
-    product.setPassword(
-            requestProductDTO.getPassword() != null
-                    ? hashPassword(requestProductDTO.getPassword())
-                    : product.getPassword());
-    userRepository.save(product);
+    product.setName(requestProductDTO.getName());
+    product.setPrice(requestProductDTO.getPrice());
+    product.setDuration(Integer.parseInt(requestProductDTO.getDuration()));
+    product.setDescription(requestProductDTO.getDescription());
+    productRepository.save(product);
 
     return toProductDto(product);
   }
