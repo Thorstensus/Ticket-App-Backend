@@ -48,4 +48,20 @@ public class NewsResponseDTO {
   public void setPublishDate(LocalDate publishDate) {
     this.publishDate = publishDate;
   }
+
+  @Override
+  public String toString() {
+    return "NewsResponseDTO{"
+        + "id="
+        + id
+        + ", title='"
+        + title
+        + '\''
+        + ", content='"
+        + content
+        + '\''
+        + ", publishDate="
+        + publishDate
+        + '}';
+  }
 }

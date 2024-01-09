@@ -3,6 +3,7 @@ package org.gfa.avusfoxticketbackend.controllers;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -34,6 +35,7 @@ public class MainController {
 
   @GetMapping("/news/")
   public ResponseEntity searchNews(@RequestParam(required = true) String search) {
+    LogHandlerInterceptor.object = search;
     List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
     if (!search.isEmpty() && !searchedNews.isEmpty()) {
       return ResponseEntity.status(200).body(new ArticlesResponseDTO(searchedNews));
@@ -51,6 +53,7 @@ public class MainController {
   public ResponseEntity<PatchResponseUserDTO> patchUser(
       @RequestBody(required = false) RequestUserDTO requestUserDTO,
       @PathVariable(required = false) Long id) {
+    LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
 }

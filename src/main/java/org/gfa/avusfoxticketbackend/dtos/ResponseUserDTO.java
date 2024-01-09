@@ -41,4 +41,17 @@ public class ResponseUserDTO {
   public void setAdmin(Boolean admin) {
     isAdmin = admin;
   }
+
+  @Override
+  public String toString() {
+    return "ResponseUserDTO{"
+        + "id="
+        + id
+        + ", email='"
+        + email
+        + '\''
+        + ", isAdmin="
+        + isAdmin
+        + '}';
+  }
 }
