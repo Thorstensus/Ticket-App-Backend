@@ -1,9 +1,9 @@
 package org.gfa.avusfoxticketbackend.services;
 
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 
 public interface ExceptionService {
   void checkForUserErrors(RequestDTO requestDto);

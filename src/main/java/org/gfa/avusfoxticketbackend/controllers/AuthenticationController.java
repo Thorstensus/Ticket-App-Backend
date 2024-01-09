@@ -6,6 +6,7 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
+import org.gfa.avusfoxticketbackend.services.UserService;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class AuthenticationController {
 
   private final AuthenticationService authService;
 
-  private final UserServiceImpl userService;
+  private final UserService userService;
 
   @Autowired
   public AuthenticationController(UserServiceImpl userService, AuthenticationService authService) {

@@ -58,7 +58,7 @@ public class MainController {
   }
 
   @PostMapping("/products")
-  public ResponseEntity createNewProduct(
+  public ResponseEntity<ResponseProductDTO> createNewProduct(
       @RequestBody(required = false) RequestProductDTO requestProductDTO) {
     LogHandlerInterceptor.object = requestProductDTO;
     return ResponseEntity.status(200)

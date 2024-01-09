@@ -175,12 +175,14 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void throwFieldIsRequired(String field) {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
+    throw new ApiRequestException(
+        httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
   }
 
   @Override
   public void productNameTaken() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product name already exists.");
+    throw new ApiRequestException(
+        httpServletRequest.getRequestURI(), "Product name already exists.");
   }
 
   @Override
@@ -197,19 +199,20 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void checkForProductError(RequestProductDTO requestProductDTO) {
     if (requestProductDTO == null) {
       throwMissingBodyRequired();
-    } else if(requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()){
+    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()) {
       throwFieldIsRequired("Name");
-    } else if(requestProductDTO.getDescription() == null || requestProductDTO.getDescription().isEmpty()) {
+    } else if (requestProductDTO.getDescription() == null
+        || requestProductDTO.getDescription().isEmpty()) {
       throwFieldIsRequired("Description");
-    } else if(requestProductDTO.getDuration() == null) {
+    } else if (requestProductDTO.getDuration() == null) {
       throwFieldIsRequired("Duration");
-    } else if(requestProductDTO.getType() == null){
+    } else if (requestProductDTO.getType() == null) {
       throwFieldIsRequired("Type");
-    } else if(requestProductDTO.getPrice() == null){
+    } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
-    } else if(productRepository.existsProductByName(requestProductDTO.getName())){
+    } else if (productRepository.existsProductByName(requestProductDTO.getName())) {
       productNameTaken();
-    } else if(!validType(requestProductDTO.getType())) {
+    } else if (!validType(requestProductDTO.getType())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
     }
   }
