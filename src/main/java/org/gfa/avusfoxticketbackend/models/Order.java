@@ -2,78 +2,70 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "users")
+@Table(name = "orders")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String status;
-    private String expiry;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+  private String status;
+  private String expiry;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-    public Order() {
-    }
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    public Order(Long id, String status, String expiry, Product product) {
-        this.id = id;
-        this.status = status;
-        this.expiry = expiry;
-        this.products = new ArrayList<>();
-    }
+  public Order() {}
 
-    public Long getId() {
-        return id;
-    }
+  public Order(String expiry, Product product) {
+    this.status = "not active";
+    this.expiry = expiry;
+    this.product = product;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public String getExpiry() {
-        return expiry;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setExpiry(String expiry) {
-        this.expiry = expiry;
-    }
+  public String getExpiry() {
+    return expiry;
+  }
 
-    public List<Product> getProducts() {
-        return products;
-    }
+  public void setExpiry(String expiry) {
+    this.expiry = expiry;
+  }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+  public Product getProduct() {
+    return product;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

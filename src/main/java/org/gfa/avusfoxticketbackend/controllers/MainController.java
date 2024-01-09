@@ -6,9 +6,11 @@ import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
+import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +21,18 @@ public class MainController {
   private final ProductService productService;
   private final NewsService newsService;
   private final UserService userService;
+  private final OrderService orderService;
 
   @Autowired
   public MainController(
-      ProductService productService, NewsService newsService, UserService userService) {
+      ProductService productService,
+      NewsService newsService,
+      UserService userService,
+      OrderService orderService) {
     this.productService = productService;
     this.newsService = newsService;
     this.userService = userService;
+    this.orderService = orderService;
   }
 
   @GetMapping("/products")
@@ -55,5 +62,12 @@ public class MainController {
       @PathVariable(required = false) Long id) {
     LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
+  }
+
+  @PostMapping("/orders")
+  public ResponseEntity<OrderSummaryDTO> order(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    token = token.substring(7);
+    orderService.saveOrdersFromCart(token);
+    return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));
   }
 }

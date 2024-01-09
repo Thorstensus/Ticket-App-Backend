@@ -1,11 +1,11 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
-import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
+import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

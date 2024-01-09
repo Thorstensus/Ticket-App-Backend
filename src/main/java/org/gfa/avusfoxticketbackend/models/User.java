@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.aspectj.weaver.ast.Or;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,23 +27,21 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
-
   @OneToMany(mappedBy = "user")
   private List<Order> orders;
 
   @ManyToMany
   @JoinTable(
-          name = "user_product",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "product_id")
-  )
+      name = "cart",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "product_id"))
   private List<Product> cart;
-
 
   public User() {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
+    this.cart = new ArrayList<>();
   }
 
   public User(String name, String email, String password) {
@@ -55,18 +51,23 @@ public class User implements UserDetails {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
+    this.cart = new ArrayList<>();
   }
 
   public String getEmail() {
     return email;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public Boolean getVerified() {
     return isVerified;
+  }
+
+  public void setVerified(Boolean verified) {
+    isVerified = verified;
   }
 
   public Long getId() {
@@ -89,10 +90,6 @@ public class User implements UserDetails {
     return isVerified;
   }
 
-  public void setVerified(Boolean verified) {
-    isVerified = verified;
-  }
-
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(role.name()));
@@ -103,8 +100,8 @@ public class User implements UserDetails {
     return password;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Role getRole() {
@@ -146,5 +143,13 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public List<Product> getCart() {
+    return cart;
+  }
+
+  public void setCart(List<Product> cart) {
+    this.cart = cart;
   }
 }
