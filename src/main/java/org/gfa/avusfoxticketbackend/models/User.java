@@ -128,4 +128,12 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
+  public List<Product> getCart() {
+    return cart;
+  }
+
+  public void setCart(List<Product> cart) {
+    this.cart = cart;
+  }
 }

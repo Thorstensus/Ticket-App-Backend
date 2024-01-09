@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import org.gfa.avusfoxticketbackend.dtos.PatchResponseUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.User;
 
 public interface UserService {
@@ -18,4 +17,6 @@ public interface UserService {
   PatchResponseUserDTO patchResponseUserDTOConverter(User user);
 
   PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id);
+
+  CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest);
 }

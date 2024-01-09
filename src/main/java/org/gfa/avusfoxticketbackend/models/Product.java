@@ -77,4 +77,12 @@ public class Product {
   public void setType(String type) {
     this.type = type;
   }
+
+  public List<User> getInCartOf() {
+    return inCartOf;
+  }
+
+  public void setInCartOf(List<User> inCartOf) {
+    this.inCartOf = inCartOf;
+  }
 }

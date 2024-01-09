@@ -3,6 +3,8 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
@@ -10,6 +12,7 @@ import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
+import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,14 +25,18 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   private final PasswordEncoder passwordEncoder;
 
+  private final ProductService productService;
+
   @Autowired
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
       UserRepository userRepository,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder,
+      ProductService productService) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.productService=productService;
   }
 
   @Override
@@ -45,6 +52,9 @@ public class ExceptionServiceImpl implements ExceptionService {
         break;
       case "/api/users/{id}":
         handlePatchErrors((RequestUserDTO) requestDto);
+        break;
+      case "api/cart":
+        handleCartErrors((CartRequestDTO) requestDto);
         break;
       default:
         break;
@@ -97,6 +107,15 @@ public class ExceptionServiceImpl implements ExceptionService {
           || !passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
         throwEmailOrPasswordIncorrect();
       }
+    }
+  }
+
+  @Override
+  public void handleCartErrors(CartRequestDTO request){
+    if (request == null || request.getProductId() == null){
+      throwProductIdRequired();
+    } else if (productService.getProductById(request.getProductId()).isEmpty()){
+      throwProductNotFound();
     }
   }
 
@@ -165,5 +184,15 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwAllFieldsRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
+  }
+
+  @Override
+  public void throwProductIdRequired() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product ID is required.");
+  }
+
+  @Override
+  public void throwProductNotFound() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product doesn't exist.");
   }
 }
