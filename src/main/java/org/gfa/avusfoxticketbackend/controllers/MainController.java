@@ -3,9 +3,7 @@ package org.gfa.avusfoxticketbackend.controllers;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
@@ -60,8 +58,8 @@ public class MainController {
   }
 
   @PostMapping("/cart")
-  public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest){
-      return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
+  public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+    return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
   }
 
 }

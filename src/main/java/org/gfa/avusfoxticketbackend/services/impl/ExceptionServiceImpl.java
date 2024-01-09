@@ -36,7 +36,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    this.productService=productService;
+    this.productService = productService;
   }
 
   @Override
@@ -111,10 +111,10 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleCartErrors(CartRequestDTO request){
-    if (request == null || request.getProductId() == null){
+  public void handleCartErrors(CartRequestDTO request) {
+    if (request == null || request.getProductId() == null) {
       throwProductIdRequired();
-    } else if (productService.getProductById(request.getProductId()).isEmpty()){
+    } else if (productService.getProductById(request.getProductId()).isEmpty()) {
       throwProductNotFound();
     }
   }

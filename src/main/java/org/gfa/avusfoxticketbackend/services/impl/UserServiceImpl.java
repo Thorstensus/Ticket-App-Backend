@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
-    this.productService=productService;
-    this.jwtService=jwtService;
+    this.productService = productService;
+    this.jwtService = jwtService;
   }
 
   @Override
@@ -99,20 +99,23 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest){
+  public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
     exceptionService.handleCartErrors(cartRequestDTO);
     String token = httpServletRequest.getHeader("Authorization").substring(7);
     String username = jwtService.extractUsername(token);
     Optional<User> currentUser = userRepository.findByEmail(username);
     Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
-    if (currentUser.isPresent() && currentProduct.isPresent()){
+    if (currentUser.isPresent() && currentProduct.isPresent()) {
       User userToChange = currentUser.get();
       Product productToChange = currentProduct.get();
       userToChange.getCart().add(currentProduct.get());
       productToChange.getInCartOf().add(currentUser.get());
       userRepository.save(userToChange);
       productService.saveProduct(productToChange);
+      return new CartResponseDTO(userToChange.getId(),productToChange.getId());
+    } else {
+      //this should realistically never occur but did it just in case
+      throw new ApiRequestException("/api/cart","?");
     }
-    return new CartResponseDTO(currentUser.get().getId(),currentProduct.get().getId());
   }
 }
