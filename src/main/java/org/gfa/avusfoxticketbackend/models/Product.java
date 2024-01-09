@@ -2,6 +2,7 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,9 @@ public class Product {
   @ManyToMany(mappedBy = "cart")
   private List<User> inCartOf;
 
-  public Product() {}
+  public Product() {
+    this.inCartOf = new ArrayList<>();
+  }
 
   public Product(String name, Double price, Integer duration, String description, String type) {
     this.name = name;
@@ -28,6 +31,7 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
+    this.inCartOf = new ArrayList<>();
   }
 
   public Long getId() {

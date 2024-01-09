@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.enums.Role;
@@ -36,6 +38,7 @@ public class User implements UserDetails {
   public User() {
     this.role = Role.USER;
     this.isVerified = false;
+    this.cart = new ArrayList<>();
   }
 
   public User(String name, String email, String password) {
@@ -44,6 +47,7 @@ public class User implements UserDetails {
     this.password = password;
     this.role = Role.USER;
     this.isVerified = false;
+    this.cart = new ArrayList<>();
   }
 
   public String getEmail() {
