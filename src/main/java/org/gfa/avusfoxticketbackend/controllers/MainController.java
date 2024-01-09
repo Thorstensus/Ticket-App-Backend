@@ -1,12 +1,8 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ArticlesResponse;
-import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.exeption.ApiRequestException;
-import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
+import org.gfa.avusfoxticketbackend.dtos.*;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -41,7 +37,7 @@ public class MainController {
     LogHandlerInterceptor.object = search;
     List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
     if (!search.isEmpty() && !searchedNews.isEmpty()) {
-      return ResponseEntity.status(200).body(new ArticlesResponse(searchedNews));
+      return ResponseEntity.status(200).body(new ArticlesResponseDTO(searchedNews));
     } else {
       throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
@@ -52,12 +48,10 @@ public class MainController {
     return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
   }
 
-  @PostMapping("/users")
-  public ResponseEntity registration(@RequestBody(required = false) RequestUserDTO requestUserDTO) {
-    LogHandlerInterceptor.object = requestUserDTO;
-    return ResponseEntity.status(200)
-        .body(
-            userService.userToResponseUserDTOConverter(
-                userService.newUserCreatedAndReturned(requestUserDTO)));
+  @PatchMapping({"/users/{id}", "/users/"})
+  public ResponseEntity<PatchResponseUserDTO> patchUser(
+      @RequestBody(required = false) RequestUserDTO requestUserDTO,
+      @PathVariable(required = false) Long id) {
+    return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
 }

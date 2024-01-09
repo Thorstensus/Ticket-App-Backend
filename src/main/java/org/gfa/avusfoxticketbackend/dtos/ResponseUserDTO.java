@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import org.gfa.avusfoxticketbackend.enums.Role;
+
 public class ResponseUserDTO {
 
   private Long id;
@@ -10,10 +12,10 @@ public class ResponseUserDTO {
     this.isAdmin = false;
   }
 
-  public ResponseUserDTO(Long id, String email) {
+  public ResponseUserDTO(Long id, String email, Role role) {
     this.id = id;
     this.email = email;
-    this.isAdmin = false;
+    this.isAdmin = (role == Role.ADMIN);
   }
 
   public Long getId() {
