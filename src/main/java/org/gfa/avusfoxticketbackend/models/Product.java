@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import org.gfa.avusfoxticketbackend.enums.Type;
 
 @Entity
 @Table(name = "products")
@@ -13,11 +14,13 @@ public class Product {
   private Double price;
   private Integer duration;
   private String description;
-  private String type;
+
+  @Enumerated(EnumType.STRING)
+  private Type type;
 
   public Product() {}
 
-  public Product(String name, Double price, Integer duration, String description, String type) {
+  public Product(String name, Double price, Integer duration, String description, Type type) {
     this.name = name;
     this.price = price;
     this.duration = duration;
@@ -65,11 +68,11 @@ public class Product {
     this.description = description;
   }
 
-  public String getType() {
+  public Type getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(Type type) {
     this.type = type;
   }
 }

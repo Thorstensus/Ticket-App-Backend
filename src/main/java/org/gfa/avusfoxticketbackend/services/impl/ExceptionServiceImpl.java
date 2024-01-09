@@ -3,11 +3,14 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   private final HttpServletRequest httpServletRequest;
   private final UserRepository userRepository;
+  private final ProductRepository productRepository;
 
   private final PasswordEncoder passwordEncoder;
 
@@ -26,10 +30,12 @@ public class ExceptionServiceImpl implements ExceptionService {
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
       UserRepository userRepository,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder,
+      ProductRepository productRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.productRepository = productRepository;
   }
 
   @Override
@@ -165,5 +171,46 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwAllFieldsRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
+  }
+
+  @Override
+  public void throwFieldIsRequired(String field) {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
+  }
+
+  @Override
+  public void productNameTaken() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product name already exists.");
+  }
+
+  @Override
+  public boolean validType(String type) {
+    for (Type t : Type.values()) {
+      if (t.name().equals(type)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public void checkForProductError(RequestProductDTO requestProductDTO) {
+    if (requestProductDTO == null) {
+      throwMissingBodyRequired();
+    } else if(requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()){
+      throwFieldIsRequired("Name");
+    } else if(requestProductDTO.getDescription() == null || requestProductDTO.getDescription().isEmpty()) {
+      throwFieldIsRequired("Description");
+    } else if(requestProductDTO.getDuration() == null) {
+      throwFieldIsRequired("Duration");
+    } else if(requestProductDTO.getType() == null){
+      throwFieldIsRequired("Type");
+    } else if(requestProductDTO.getPrice() == null){
+      throwFieldIsRequired("Price");
+    } else if(productRepository.existsProductByName(requestProductDTO.getName())){
+      productNameTaken();
+    } else if(!validType(requestProductDTO.getType())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+    }
   }
 }

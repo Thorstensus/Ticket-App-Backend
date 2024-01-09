@@ -1,20 +1,16 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
-public class ProductDTO extends ResponseDTO {
-  private Long id;
+public class RequestProductDTO extends RequestDTO {
   private String name;
   private Double price;
   private Integer duration;
   private String description;
   private String type;
 
-  public ProductDTO() {}
-
-  public ProductDTO(
-      Long id, String name, Double price, Integer duration, String description, String type) {
-    this.id = id;
+  public RequestProductDTO(
+      String name, Double price, Integer duration, String description, String type) {
     this.name = name;
     this.price = price;
     this.duration = duration;
@@ -22,13 +18,7 @@ public class ProductDTO extends ResponseDTO {
     this.type = type;
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
+  public RequestProductDTO() {}
 
   public String getName() {
     return name;
@@ -72,10 +62,8 @@ public class ProductDTO extends ResponseDTO {
 
   @Override
   public String toString() {
-    return "ProductDTO{"
-        + "id="
-        + id
-        + ", name='"
+    return "ResponseProductDTO{"
+        + "name='"
         + name
         + '\''
         + ", price="

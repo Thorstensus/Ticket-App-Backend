@@ -56,4 +56,12 @@ public class MainController {
     LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
+
+  @PostMapping("/products")
+  public ResponseEntity createNewProduct(
+      @RequestBody(required = false) RequestProductDTO requestProductDTO) {
+    LogHandlerInterceptor.object = requestProductDTO;
+    return ResponseEntity.status(200)
+        .body(productService.createNewProductAndReturn(requestProductDTO));
+  }
 }
