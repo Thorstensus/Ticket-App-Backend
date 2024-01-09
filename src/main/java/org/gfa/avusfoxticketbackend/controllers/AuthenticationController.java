@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
@@ -26,12 +27,14 @@ public class AuthenticationController {
 
   @PostMapping("/users/login")
   public ResponseDTO authenticate(@RequestBody AuthenticationRequest request) {
+    LogHandlerInterceptor.object = request;
     return authService.authenticate(request);
   }
 
   @PostMapping("/users")
   public ResponseEntity<ResponseUserDTO> registration(
       @RequestBody(required = false) RequestUserDTO requestUserDTO) {
+    LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
   }
 }
