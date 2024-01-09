@@ -29,8 +29,18 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
+
   @OneToMany(mappedBy = "user")
   private List<Order> orders;
+
+  @ManyToMany
+  @JoinTable(
+          name = "user_product",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "product_id")
+  )
+  private List<Product> cart;
+
 
   public User() {
     this.role = Role.USER;

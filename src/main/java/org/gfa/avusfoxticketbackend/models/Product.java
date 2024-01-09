@@ -2,6 +2,7 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,13 @@ public class Product {
   private String description;
   private String type;
 
+
   @ManyToMany(mappedBy = "products")
   private List<Order> orders;
+
+  @ManyToMany
+  private List<User> inCartOf;
+
 
   public Product() {}
 
