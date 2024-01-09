@@ -56,4 +56,12 @@ public class MainController {
     LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
+
+  @PatchMapping("/products/{productId}")
+  public ResponseEntity<ProductDTO> updateProduct(
+      @RequestBody(required = false) RequestProductDTO requestProductDTO,
+      @PathVariable(required = false) Long id) {
+
+    return ResponseEntity.status(200).body(productService.updateProduct(requestProductDTO, id));
+  }
 }
