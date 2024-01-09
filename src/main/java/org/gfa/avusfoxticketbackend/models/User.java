@@ -1,8 +1,12 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.aspectj.weaver.ast.Or;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +29,13 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
+  @OneToMany(mappedBy = "user")
+  private List<Order> orders;
+
   public User() {
     this.role = Role.USER;
     this.isVerified = false;
+    this.orders = new ArrayList<>();
   }
 
   public User(String name, String email, String password) {
@@ -36,6 +44,7 @@ public class User implements UserDetails {
     this.password = password;
     this.role = Role.USER;
     this.isVerified = false;
+    this.orders = new ArrayList<>();
   }
 
   public String getEmail() {
@@ -94,6 +103,14 @@ public class User implements UserDetails {
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
   }
 
   @Override

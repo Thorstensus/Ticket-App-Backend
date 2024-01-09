@@ -2,6 +2,9 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -15,6 +18,9 @@ public class Product {
   private String description;
   private String type;
 
+  @ManyToMany(mappedBy = "products")
+  private List<Order> orders;
+
   public Product() {}
 
   public Product(String name, Double price, Integer duration, String description, String type) {
@@ -23,6 +29,7 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
+    this.orders = new ArrayList<>();
   }
 
   public Long getId() {
@@ -71,5 +78,13 @@ public class Product {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
   }
 }
