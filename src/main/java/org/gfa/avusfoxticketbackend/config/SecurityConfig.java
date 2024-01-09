@@ -16,12 +16,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
+  private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
   @Autowired
   public SecurityConfig(
-      JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
+      JwtAuthenticationFilter jwtAuthFilter,
+      AuthenticationProvider authenticationProvider,
+      CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint) {
     this.jwtAuthFilter = jwtAuthFilter;
     this.authenticationProvider = authenticationProvider;
+    this.customJwtAuthenticationEntryPoint = customJwtAuthenticationEntryPoint;
   }
 
   @Bean
@@ -39,7 +43,11 @@ public class SecurityConfig {
             sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(
+            exceptionHandling ->
+                exceptionHandling.authenticationEntryPoint(customJwtAuthenticationEntryPoint));
+
     return http.build();
   }
 }

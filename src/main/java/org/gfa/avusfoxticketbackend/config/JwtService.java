@@ -19,6 +19,7 @@ public class JwtService {
   private static final Dotenv dotenv = Dotenv.configure().load();
 
   private static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
+  private static final String EXPIRATION_TIME = dotenv.get("EXPIRATION_TIME");
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -38,7 +39,7 @@ public class JwtService {
         .setClaims(extraClaims)
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+        .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(EXPIRATION_TIME)))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }

@@ -1,6 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-import org.gfa.avusfoxticketbackend.auth.AuthenticationService;
+import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;

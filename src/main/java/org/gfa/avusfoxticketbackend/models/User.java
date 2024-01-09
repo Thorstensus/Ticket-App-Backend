@@ -66,14 +66,6 @@ public class User implements UserDetails {
     this.name = name;
   }
 
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
-
   public Boolean isVerified() {
     return isVerified;
   }
@@ -94,6 +86,14 @@ public class User implements UserDetails {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
   }
 
   @Override

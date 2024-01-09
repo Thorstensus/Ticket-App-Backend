@@ -33,6 +33,7 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
 }
 
 tasks.withType<Test> {

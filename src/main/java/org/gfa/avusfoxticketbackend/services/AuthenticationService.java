@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.auth;
+package org.gfa.avusfoxticketbackend.services;
 
 import java.util.Map;
 import org.gfa.avusfoxticketbackend.config.JwtService;
