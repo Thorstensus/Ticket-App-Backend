@@ -25,6 +25,14 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
+  @ManyToMany
+  @JoinTable(
+          name = "user_product",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "product_id")
+  )
+  private List<Product> cart;
+
   public User() {
     this.role = Role.USER;
     this.isVerified = false;

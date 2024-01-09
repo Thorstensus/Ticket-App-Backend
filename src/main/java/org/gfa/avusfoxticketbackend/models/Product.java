@@ -2,6 +2,8 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -14,6 +16,9 @@ public class Product {
   private Integer duration;
   private String description;
   private String type;
+
+  @ManyToMany
+  private List<User> inCartOf;
 
   public Product() {}
 
