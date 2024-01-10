@@ -47,17 +47,17 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id) {
+  public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
 
-    exceptionService.checkUpdateProductRequestFields(requestProductDTO, id);
+    exceptionService.checkUpdateProductRequestFields(requestProductDTO, productId);
 
     Product product =
             productRepository
-                    .findById(id)
+                    .findById(productId)
                     .orElseThrow(
                             () ->
                                     new ApiRequestException(
-                                            "/api/products/{productId}", "Product with provided id doesn't exist."));
+                                            "/api/products/{productId}", "Product with provided productId doesn't exist."));
 
     product.setName(requestProductDTO.getName());
     product.setPrice(requestProductDTO.getPrice());

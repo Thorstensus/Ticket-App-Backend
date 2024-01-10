@@ -60,8 +60,8 @@ public class MainController {
   @PatchMapping("/products/{productId}")
   public ResponseEntity<ProductDTO> updateProduct(
       @RequestBody(required = false) RequestProductDTO requestProductDTO,
-      @PathVariable(required = false) Long id) {
+      @PathVariable(required = false) Long productId) {
 
-    return ResponseEntity.status(200).body(productService.updateProduct(requestProductDTO, id));
+    return ResponseEntity.status(200).body(productService.updateProduct(requestProductDTO, productId));
   }
 }
