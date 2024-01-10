@@ -52,4 +52,9 @@ public class OrderServiceImpl implements OrderService {
     }
     return new ResponseOrderSummaryDTO(responseOrderDTOList);
   }
+
+  public ResponseOrderDTO getOrderDTO(Order order) {
+    return new ResponseOrderDTO(
+            order.getId(), order.getStatus(), order.getExpiry(), order.getProduct().getId());
+  }
 }

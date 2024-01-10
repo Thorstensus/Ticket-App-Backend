@@ -7,10 +7,7 @@ import org.gfa.avusfoxticketbackend.models.Order;
 public interface OrderService {
   void saveOrdersFromCart(String token);
 
-  default ResponseOrderDTO getOrderDTO(Order order) {
-    return new ResponseOrderDTO(
-        order.getId(), order.getStatus(), order.getExpiry(), order.getProduct().getId());
-  }
+  ResponseOrderDTO getOrderDTO(Order order);
 
   ResponseOrderSummaryDTO getOrderSummaryDTO(String token);
 }
