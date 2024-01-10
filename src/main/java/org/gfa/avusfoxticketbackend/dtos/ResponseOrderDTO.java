@@ -49,4 +49,9 @@ public class ResponseOrderDTO extends ResponseDTO {
   public void setProduct_id(Long productId) {
     this.productId = productId;
   }
+
+  @Override
+  public String toString() {
+    return "ResponseOrderDTO{" + "id=" + id + ", status='" + status + '\'' + ", expiry='" + expiry + '\'' + ", productId=" + productId + '}';
+  }
 }

@@ -20,4 +20,9 @@ public class ResponseOrderSummaryDTO extends ResponseDTO {
   public void setOrders(List<ResponseOrderDTO> orders) {
     this.orders = orders;
   }
+
+  @Override
+  public String toString() {
+    return "ResponseOrderSummaryDTO{" + "orders=" + orders + '}';
+  }
 }

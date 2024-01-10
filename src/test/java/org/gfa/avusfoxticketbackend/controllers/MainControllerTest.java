@@ -20,6 +20,7 @@ import java.util.*;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,6 +55,7 @@ class MainControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.orders").isEmpty());
+        .andExpect(MockMvcResultMatchers.jsonPath("$.orders").isEmpty())
+            .andDo(print());
   }
 }
