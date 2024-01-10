@@ -2,6 +2,8 @@ package org.gfa.avusfoxticketbackend.dtos;
 
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
+import java.util.Objects;
+
 public class RequestProductDTO extends RequestDTO {
   private String name;
   private Double price;
@@ -77,5 +79,21 @@ public class RequestProductDTO extends RequestDTO {
         + type
         + '\''
         + '}';
+  }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RequestProductDTO that = (RequestProductDTO) o;
+    return Objects.equals(name, that.name) &&
+            Objects.equals(price, that.price) &&
+            Objects.equals(duration, that.duration) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(type, that.type);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, price, duration, description, type);
   }
 }

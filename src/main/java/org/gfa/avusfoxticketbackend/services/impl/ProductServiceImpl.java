@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO) {
-    exceptionService.checkForProductError(requestProductDTO);
+    exceptionService.checkForRequestProductDTOError(requestProductDTO);
     Product newProduct = requestProductDTOToProductConvert(requestProductDTO);
     productRepository.save(newProduct);
     return productToResponseProductDTOConvert(newProduct);

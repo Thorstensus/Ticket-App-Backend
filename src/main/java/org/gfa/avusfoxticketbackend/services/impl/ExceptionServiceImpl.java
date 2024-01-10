@@ -196,7 +196,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void checkForProductError(RequestProductDTO requestProductDTO) {
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
     if (requestProductDTO == null) {
       throwMissingBodyRequired();
     } else if (requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()) {

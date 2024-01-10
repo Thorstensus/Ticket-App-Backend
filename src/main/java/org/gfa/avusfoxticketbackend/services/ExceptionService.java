@@ -38,7 +38,7 @@ public interface ExceptionService {
 
   void throwAllFieldsRequired();
 
-  void checkForProductError(RequestProductDTO requestProductDTO);
+  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
 
   boolean validType(String type);
 
