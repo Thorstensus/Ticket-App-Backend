@@ -9,19 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    env:
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_URL: ${{ secrets.DB_URL }}
-      DB_DIALECT: ${{ secrets.DB_DIALECT }}
-
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: your_database_name
-          MYSQL_PASSWORD: your_database_password
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_USERNAME }}
+          MYSQL_DATABASE: ${{ secrets.DB_URL }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
