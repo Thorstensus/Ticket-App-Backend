@@ -21,7 +21,6 @@ public class MainController {
   private final NewsService newsService;
   private final UserService userService;
 
-
   @Autowired
   public MainController(
       ProductService productService, NewsService newsService, UserService userService) {
