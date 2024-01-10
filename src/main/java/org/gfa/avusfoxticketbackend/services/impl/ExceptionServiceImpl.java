@@ -3,6 +3,8 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
@@ -164,5 +166,26 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwAllFieldsRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
+  }
+
+  public void checkUpdateProductRequestFields(RequestProductDTO requestProductDTO, Long id){
+    if (id == null) {
+      throw new ApiRequestException("/api/products/{productId}", "{productId} is required.");
+    }
+    if (requestProductDTO.getName() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Name is required.");
+    }
+    if (requestProductDTO.getPrice() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Price is required.");
+    }
+    if (requestProductDTO.getDuration() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Duration is required.");
+    }
+    if (requestProductDTO.getDescription() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Description is required.");
+    }
+    if (requestProductDTO.getType_id() == null) {
+      throw new ApiRequestException("/api/products/{productId}", "Type_id is required.");
+    }
   }
 }

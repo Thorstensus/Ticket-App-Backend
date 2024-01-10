@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services;
 
+import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
@@ -36,4 +37,6 @@ public interface ExceptionService {
   void throwEmailOrPasswordIncorrect();
 
   void throwAllFieldsRequired();
+
+  void checkUpdateProductRequestFields(RequestProductDTO requestProductDTO, Long id);
 }
