@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
 public class ResponseProductDTO extends ResponseDTO {
   private Long id;
@@ -95,9 +94,18 @@ public class ResponseProductDTO extends ResponseDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof ResponseProductDTO that)) return false;
-    return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getDuration(), that.getDuration()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getType(), that.getType());
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ResponseProductDTO that)) {
+      return false;
+    }
+    return Objects.equals(getId(), that.getId())
+        && Objects.equals(getName(), that.getName())
+        && Objects.equals(getPrice(), that.getPrice())
+        && Objects.equals(getDuration(), that.getDuration())
+        && Objects.equals(getDescription(), that.getDescription())
+        && Objects.equals(getType(), that.getType());
   }
 
   @Override

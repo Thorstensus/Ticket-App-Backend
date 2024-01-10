@@ -110,19 +110,20 @@ class MainControllerTest {
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
     mockMvc
-            .perform(
-                    post("/api/products")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding(StandardCharsets.UTF_8.name())
-                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
-            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+        .perform(
+            post("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
   }
 
   @Test
   public void createNewProduct_ThrowsException_DescriptionNull() throws Exception {
-    ApiRequestException response = new ApiRequestException("/api/products", "Description is required");
+    ApiRequestException response =
+        new ApiRequestException("/api/products", "Description is required");
     RequestProductDTO requestProductDTO = new RequestProductDTO();
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
@@ -131,19 +132,20 @@ class MainControllerTest {
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
     mockMvc
-            .perform(
-                    post("/api/products")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding(StandardCharsets.UTF_8.name())
-                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
-            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+        .perform(
+            post("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
   }
 
   @Test
   public void createNewProduct_ThrowsException_DescriptionEmpty() throws Exception {
-    ApiRequestException response = new ApiRequestException("/api/products", "Description is required");
+    ApiRequestException response =
+        new ApiRequestException("/api/products", "Description is required");
     RequestProductDTO requestProductDTO = new RequestProductDTO();
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
@@ -153,13 +155,13 @@ class MainControllerTest {
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
     mockMvc
-            .perform(
-                    post("/api/products")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding(StandardCharsets.UTF_8.name())
-                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
-            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+        .perform(
+            post("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
   }
 }

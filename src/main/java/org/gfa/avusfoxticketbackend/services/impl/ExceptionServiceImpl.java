@@ -199,7 +199,8 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
     if (requestProductDTO == null) {
       throwMissingBodyRequired();
-    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().trim().isEmpty()) {
+    } else if (requestProductDTO.getName() == null
+        || requestProductDTO.getName().trim().isEmpty()) {
       throwFieldIsRequired("Name");
     } else if (requestProductDTO.getDescription() == null
         || requestProductDTO.getDescription().trim().isEmpty()) {

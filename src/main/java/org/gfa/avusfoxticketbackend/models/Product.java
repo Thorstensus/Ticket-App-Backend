@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import org.gfa.avusfoxticketbackend.enums.Type;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.enums.Type;
 
 @Entity
 @Table(name = "products")
@@ -89,19 +88,23 @@ public class Product {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || getClass() != obj.getClass()) return false;
-    Product product = (Product) obj;
-    return Objects.equals(name, product.name) &&
-            Objects.equals(price, product.price) &&
-            Objects.equals(duration, product.duration) &&
-            Objects.equals(description, product.description) &&
-            type == product.type;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Product product)) {
+      return false;
+    }
+    return Objects.equals(getId(), product.getId())
+        && Objects.equals(getName(), product.getName())
+        && Objects.equals(getPrice(), product.getPrice())
+        && Objects.equals(getDuration(), product.getDuration())
+        && Objects.equals(getDescription(), product.getDescription())
+        && getType() == product.getType();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, price, duration, description, type);
+    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType());
   }
 }
