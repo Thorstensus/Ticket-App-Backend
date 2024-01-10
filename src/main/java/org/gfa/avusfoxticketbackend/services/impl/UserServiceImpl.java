@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
       return new CartResponseDTO(userToChange.getId(),productToChange.getId());
     } else {
       //this should realistically never occur but did it just in case
-      throw new ApiRequestException("/api/cart","?");
+      throw new ApiRequestException("/api/cart","Unknown Error");
     }
   }
 }

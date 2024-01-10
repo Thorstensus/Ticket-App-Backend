@@ -61,6 +61,7 @@ public class MainController {
 
   @PostMapping("/cart")
   public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+    LogHandlerInterceptor.object = List.of(cartRequestDTO,httpServletRequest);
     return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
   }
 

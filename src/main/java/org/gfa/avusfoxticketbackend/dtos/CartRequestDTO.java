@@ -19,4 +19,13 @@ public class CartRequestDTO extends RequestDTO {
   public void setProductId(Long productId) {
     this.productId = productId;
   }
+
+  @Override
+  public String toString() {
+    return "RequestUserDTO{"
+            + "productId='"
+            + productId
+            + '\''
+            + '}';
+  }
 }
