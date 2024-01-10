@@ -8,6 +8,7 @@ import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -163,29 +164,41 @@ public class ExceptionServiceImpl implements ExceptionService {
         httpServletRequest.getRequestURI(), "Email or password is incorrect.");
   }
 
+  @Override   public void throwFieldIsRequired(String field) {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
+  }
+
   @Override
   public void throwAllFieldsRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
   }
 
-  public void checkUpdateProductRequestFields(RequestProductDTO requestProductDTO, Long id){
-    if (id == null) {
-      throw new ApiRequestException("/api/products/{productId}", "{productId} is required.");
+  @Override
+  public boolean validType(String type) {
+    for (Type t : Type.values()) {
+      if (t.name().equals(type)) {
+        return true;
+      }
     }
-    if (requestProductDTO.getName() == null) {
-      throw new ApiRequestException("/api/products/{productId}", "Name is required.");
-    }
-    if (requestProductDTO.getPrice() == null) {
-      throw new ApiRequestException("/api/products/{productId}", "Price is required.");
-    }
-    if (requestProductDTO.getDuration() == null) {
-      throw new ApiRequestException("/api/products/{productId}", "Duration is required.");
-    }
-    if (requestProductDTO.getDescription() == null) {
-      throw new ApiRequestException("/api/products/{productId}", "Description is required.");
-    }
-    if (requestProductDTO.getType_id() == null) {
-      throw new ApiRequestException("/api/products/{productId}", "Type_id is required.");
+    return false;
+  }
+
+  @Override
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
+    if (requestProductDTO == null) {
+      throwMissingBodyRequired();
+    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()) {
+      throwFieldIsRequired("Name");
+    } else if (requestProductDTO.getDescription() == null || requestProductDTO.getDescription().isEmpty()) {
+      throwFieldIsRequired("Description");
+    } else if (requestProductDTO.getDuration() == null) {
+      throwFieldIsRequired("Duration");
+    } else if (requestProductDTO.getType() == null) {
+      throwFieldIsRequired("Type");
+    } else if (requestProductDTO.getPrice() == null) {
+      throwFieldIsRequired("Price");
+    } else if (!validType(requestProductDTO.getType())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
     }
   }
 }

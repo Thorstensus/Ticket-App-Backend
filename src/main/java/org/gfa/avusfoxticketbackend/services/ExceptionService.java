@@ -36,7 +36,12 @@ public interface ExceptionService {
 
   void throwEmailOrPasswordIncorrect();
 
+  void throwFieldIsRequired(String field);
+
   void throwAllFieldsRequired();
 
-  void checkUpdateProductRequestFields(RequestProductDTO requestProductDTO, Long id);
+  boolean validType(String type);
+
+  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
+
 }

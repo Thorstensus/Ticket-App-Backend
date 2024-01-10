@@ -7,7 +7,6 @@ import org.gfa.avusfoxticketbackend.dtos.ProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -34,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         product.getDuration(),
         product.getDescription(),
-        product.getType());
+        product.getType().toString());
   }
 
   @Override
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
 
-    exceptionService.checkUpdateProductRequestFields(requestProductDTO, productId);
+    exceptionService.checkForRequestProductDTOError(requestProductDTO);
 
     Product product =
             productRepository
@@ -57,14 +56,19 @@ public class ProductServiceImpl implements ProductService {
                     .orElseThrow(
                             () ->
                                     new ApiRequestException(
-                                            "/api/products/{productId}", "Product with provided productId doesn't exist."));
+                                            ("/api/products/" + productId), "Product with provided id doesn't exist."));
 
-    product.setName(requestProductDTO.getName());
-    product.setPrice(requestProductDTO.getPrice());
-    product.setDuration(Integer.parseInt(requestProductDTO.getDuration()));
-    product.setDescription(requestProductDTO.getDescription());
-    productRepository.save(product);
+    if (!productRepository.existsByName(requestProductDTO.getName())){
 
-    return toProductDto(product);
+      product.setName(requestProductDTO.getName());
+      product.setPrice(requestProductDTO.getPrice());
+      product.setDuration(requestProductDTO.getDuration());
+      product.setDescription(requestProductDTO.getDescription());
+      productRepository.save(product);
+
+      return toProductDto(product);
+    } else {
+      throw new ApiRequestException(("/api/products/" + productId), "Product name already exists!");
+    }
   }
 }

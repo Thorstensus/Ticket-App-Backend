@@ -5,19 +5,19 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 public class RequestProductDTO extends RequestDTO {
     private String name;
     private Double price;
-    private String duration;
+    private Integer duration;
     private String description;
-    private Long type_id;
+    private String type;
 
     public RequestProductDTO() {
     }
 
-    public RequestProductDTO(String name, Double price, String duration, String description, Long type_id) {
+    public RequestProductDTO(String name, Double price, Integer duration, String description, String type) {
         this.name = name;
         this.price = price;
         this.duration = duration;
         this.description = description;
-        this.type_id = type_id;
+        this.type = type;
     }
 
     public String getName() {
@@ -36,11 +36,11 @@ public class RequestProductDTO extends RequestDTO {
         this.price = price;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -52,11 +52,11 @@ public class RequestProductDTO extends RequestDTO {
         this.description = description;
     }
 
-    public Long getType_id() {
-        return type_id;
+    public String getType() {
+        return type;
     }
 
-    public void setType_id(Long type_id) {
-        this.type_id = type_id;
+    public void setType(String type) {
+        this.type = type;
     }
 }
