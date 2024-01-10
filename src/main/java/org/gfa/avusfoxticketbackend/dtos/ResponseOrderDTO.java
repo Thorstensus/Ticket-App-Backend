@@ -2,16 +2,16 @@ package org.gfa.avusfoxticketbackend.dtos;
 
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
-public class OrderDTO extends ResponseDTO {
+public class ResponseOrderDTO extends ResponseDTO {
 
   private Long id;
   private String status;
   private String expiry;
   private Long productId;
 
-  public OrderDTO() {}
+  public ResponseOrderDTO() {}
 
-  public OrderDTO(Long id, String status, String expiry, Long productId) {
+  public ResponseOrderDTO(Long id, String status, String expiry, Long productId) {
     this.id = id;
     this.status = status;
     this.expiry = expiry;

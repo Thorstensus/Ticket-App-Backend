@@ -3,8 +3,8 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.config.JwtService;
-import org.gfa.avusfoxticketbackend.dtos.OrderDTO;
-import org.gfa.avusfoxticketbackend.dtos.OrderSummaryDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
 import org.gfa.avusfoxticketbackend.models.Order;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
@@ -44,12 +44,12 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderSummaryDTO getOrderSummaryDTO(String token) {
+  public ResponseOrderSummaryDTO getOrderSummaryDTO(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
-    List<OrderDTO> orderDTOList = new ArrayList<>();
+    List<ResponseOrderDTO> responseOrderDTOList = new ArrayList<>();
     for (Order order : user.getOrders()) {
-      orderDTOList.add(getOrderDTO(order));
+      responseOrderDTOList.add(getOrderDTO(order));
     }
-    return new OrderSummaryDTO(orderDTOList);
+    return new ResponseOrderSummaryDTO(responseOrderDTOList);
   }
 }
