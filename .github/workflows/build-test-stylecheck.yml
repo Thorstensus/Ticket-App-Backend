@@ -49,10 +49,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
-      - name: Build with Gradle
-        run: ./gradlew build --info
-
+          
       - name: Run tests
         run: gradle test --info
 
