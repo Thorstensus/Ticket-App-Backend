@@ -176,7 +176,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwFieldIsRequired(String field) {
     throw new ApiRequestException(
-        httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
+        httpServletRequest.getRequestURI(), (String.format("%s is required.", field)));
   }
 
   @Override
@@ -199,10 +199,10 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
     if (requestProductDTO == null) {
       throwMissingBodyRequired();
-    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()) {
+    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().trim().isEmpty()) {
       throwFieldIsRequired("Name");
     } else if (requestProductDTO.getDescription() == null
-        || requestProductDTO.getDescription().isEmpty()) {
+        || requestProductDTO.getDescription().trim().isEmpty()) {
       throwFieldIsRequired("Description");
     } else if (requestProductDTO.getDuration() == null) {
       throwFieldIsRequired("Duration");

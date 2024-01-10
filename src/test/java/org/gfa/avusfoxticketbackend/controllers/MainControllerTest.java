@@ -55,25 +55,111 @@ class MainControllerTest {
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .content(objectMapper.writeValueAsString(requestProductDTO)))
         .andExpect(status().is(200))
-        .andExpect(jsonPath("$.name", CoreMatchers.is(responseProductDTO.getName())))
-            .andExpect(jsonPath("$.id").value(3))
-            .andExpect(jsonPath("$.price", CoreMatchers.is(responseProductDTO.getPrice())))
-            .andExpect(jsonPath("$.duration").value("4 hours"))
-            .andExpect(jsonPath("$.description", CoreMatchers.is(responseProductDTO.getDescription())))
-            .andExpect(jsonPath("$.type", CoreMatchers.is(responseProductDTO.getType())))
+        .andExpect(content().json(objectMapper.writeValueAsString(responseProductDTO)))
         .andDo(print());
   }
 
   @Test
-  public void createNewProduct_ThrowsException() throws Exception {
+  public void createNewProduct_ThrowsException_BodyRequired() throws Exception {
     ApiRequestException response = new ApiRequestException("/api/products", "Body is required");
     when(productService.createNewProductAndReturn(null)).thenThrow(response);
-    mockMvc.perform(post("/api/products")
-            .contentType(MediaType.APPLICATION_JSON)
-                    .characterEncoding(StandardCharsets.UTF_8.name())
-            .content(objectMapper.writeValueAsString(null)))
+    mockMvc
+        .perform(
+            post("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(objectMapper.writeValueAsString(null)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
+        .andDo(print());
+  }
+
+  @Test
+  public void createNewProduct_ThrowsException_NameNull() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/products", "Name is required");
+    RequestProductDTO requestProductDTO = new RequestProductDTO();
+    requestProductDTO.setPrice(12.0);
+    requestProductDTO.setDuration(4);
+    requestProductDTO.setDescription("description");
+    requestProductDTO.setType("Adventure");
+
+    when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
+
+    mockMvc
+        .perform(
+            post("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+  }
+
+  @Test
+  public void createNewProduct_ThrowsException_NameEmpty() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/products", "Name is required");
+    RequestProductDTO requestProductDTO = new RequestProductDTO();
+    requestProductDTO.setName("");
+    requestProductDTO.setPrice(12.0);
+    requestProductDTO.setDuration(4);
+    requestProductDTO.setDescription("description");
+    requestProductDTO.setType("Adventure");
+
+    when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
+
+    mockMvc
+            .perform(
+                    post("/api/products")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding(StandardCharsets.UTF_8.name())
+                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
             .andExpect(status().is(400))
-            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
-            .andDo(print());
+            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+  }
+
+  @Test
+  public void createNewProduct_ThrowsException_DescriptionNull() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/products", "Description is required");
+    RequestProductDTO requestProductDTO = new RequestProductDTO();
+    requestProductDTO.setPrice(12.0);
+    requestProductDTO.setDuration(4);
+    requestProductDTO.setType("Adventure");
+
+    when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
+
+    mockMvc
+            .perform(
+                    post("/api/products")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding(StandardCharsets.UTF_8.name())
+                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
+  }
+
+  @Test
+  public void createNewProduct_ThrowsException_DescriptionEmpty() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/products", "Description is required");
+    RequestProductDTO requestProductDTO = new RequestProductDTO();
+    requestProductDTO.setPrice(12.0);
+    requestProductDTO.setDuration(4);
+    requestProductDTO.setDescription("");
+    requestProductDTO.setType("Adventure");
+
+    when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
+
+    mockMvc
+            .perform(
+                    post("/api/products")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding(StandardCharsets.UTF_8.name())
+                            .content(objectMapper.writeValueAsBytes(requestProductDTO)))
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
   }
 }
