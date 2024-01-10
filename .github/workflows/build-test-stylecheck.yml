@@ -54,7 +54,7 @@ jobs:
         run: ./gradlew build --info
 
       - name: Run tests
-        run: ./gradlew test --info
+        run: gradle test --info
 
   checkstyleMain:
     runs-on: ubuntu-latest
