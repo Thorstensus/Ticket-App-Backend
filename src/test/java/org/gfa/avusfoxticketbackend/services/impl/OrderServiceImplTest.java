@@ -1,8 +1,10 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
@@ -67,6 +69,14 @@ class OrderServiceImplTest {
   }
 
   @Test
+  void testSaveOrdersFromCart_FailsOnInvalidCartOrUser() {
+    String invalidJwtToken = "invalidToken";
+    when(jwtService.extractUsername(Mockito.eq(invalidJwtToken))).thenReturn(null);
+    assertThrows(Exception.class, () -> orderServiceImpl.saveOrdersFromCart(invalidJwtToken));
+    verify(jwtService).extractUsername(Mockito.eq(invalidJwtToken));
+  }
+
+  @Test
   void testGetOrderSummaryDTO_ReturnsOrderSummary_WhenValidCartAndUser() {
     when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
 
@@ -121,5 +131,11 @@ class OrderServiceImplTest {
     assertEquals("Status", actualOrderDTO.getStatus());
     assertEquals(1L, actualOrderDTO.getId().longValue());
     assertEquals(1L, actualOrderDTO.getProductId().longValue());
+  }
+
+  @Test
+  void testGetOrderDTO_FailsOnInvalidOrder() {
+    Order invalidOrder = new Order();
+    assertThrows(Exception.class, () -> orderServiceImpl.getOrderDTO(invalidOrder));
   }
 }
