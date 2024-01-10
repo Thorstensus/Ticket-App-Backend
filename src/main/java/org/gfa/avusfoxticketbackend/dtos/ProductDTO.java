@@ -69,4 +69,25 @@ public class ProductDTO extends ResponseDTO {
   public void setType(String type) {
     this.type = type;
   }
+
+  @Override
+  public String toString() {
+    return "ProductDTO{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", price="
+        + price
+        + ", duration="
+        + duration
+        + ", description='"
+        + description
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + '}';
+  }
 }

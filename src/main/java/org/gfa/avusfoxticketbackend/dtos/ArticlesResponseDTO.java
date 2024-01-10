@@ -19,4 +19,9 @@ public class ArticlesResponseDTO extends ResponseDTO {
   public List<News> getArticles() {
     return articles;
   }
+
+  @Override
+  public String toString() {
+    return "ArticlesResponse{" + "articles=" + articles + '}';
+  }
 }
