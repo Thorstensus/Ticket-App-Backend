@@ -27,7 +27,7 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Order> orders;
 
   @ManyToMany

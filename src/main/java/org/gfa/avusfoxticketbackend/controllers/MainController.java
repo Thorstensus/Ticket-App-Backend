@@ -66,6 +66,7 @@ public class MainController {
 
   @PostMapping("/orders")
   public ResponseEntity<OrderSummaryDTO> order(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = token;
     token = token.substring(7);
     orderService.saveOrdersFromCart(token);
     return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));

@@ -32,13 +32,13 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public void saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
-    List<Order> userOrders = new ArrayList<>();
+    List<Order> userOrders = user.getOrders();
     for (Product product : user.getCart()) {
       Order order = new Order(null, product);
+      order.setUser(user);
       userOrders.add(order);
       orderRepository.save(order);
     }
-    user.setOrders(userOrders);
     user.setCart(new ArrayList<>());
     userRepository.save(user);
   }
