@@ -72,7 +72,7 @@ jobs:
           echo "DB_DIALECT=${{ secrets.DB_DIALECT }}" >> $GITHUB_ENV
 
       - name: build
-        run: gradle test
+        run: gradle test -i
 
 
   checkstyleMain:
