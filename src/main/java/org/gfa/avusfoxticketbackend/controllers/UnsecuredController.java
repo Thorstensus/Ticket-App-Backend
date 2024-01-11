@@ -12,6 +12,7 @@ import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.services.NewsService;
+import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,6 @@ public class UnsecuredController {
   private final AuthenticationService authService;
 
   private final UserService userService;
-  private final OrderService orderService;
 
   private final NewsService newsService;
 
