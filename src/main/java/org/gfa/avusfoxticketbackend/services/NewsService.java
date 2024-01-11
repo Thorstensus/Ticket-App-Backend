@@ -6,11 +6,11 @@ import org.gfa.avusfoxticketbackend.models.News;
 
 public interface NewsService {
 
-    List<News> findAllNewsByTitleOrDescriptionContaining(String word);
+  List<News> findAllNewsByTitleOrDescriptionContaining(String word);
 
-    void saveNews(News... news);
+  void saveNews(News... news);
 
-    List<NewsResponseDTO> getAllNewsDTOs();
+  List<NewsResponseDTO> getAllNewsDTOs();
 
-    NewsResponseDTO toDTO(News news);
+  NewsResponseDTO toDTO(News news);
 }

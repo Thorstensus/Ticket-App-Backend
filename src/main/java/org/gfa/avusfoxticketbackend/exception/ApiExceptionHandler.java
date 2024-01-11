@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(value = {ApiRequestException.class})
-    public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
-        // 1. Create payload containing exception details
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+  @ExceptionHandler(value = {ApiRequestException.class})
+  public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
+    // 1. Create payload containing exception details
+    HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
-        ErrorResponse errorResponse =
-                new ErrorResponse(
-                        badRequest,
-                        e.getEndpoint(),
-                        e.getMessage(),
-                        ZonedDateTime.now(ZoneId.of("Europe/Prague")));
+    ErrorResponse errorResponse =
+        new ErrorResponse(
+            badRequest,
+            e.getEndpoint(),
+            e.getMessage(),
+            ZonedDateTime.now(ZoneId.of("Europe/Prague")));
 
-        // 2. Return response entity
-        return new ResponseEntity<>(errorResponse, badRequest);
-    }
+    // 2. Return response entity
+    return new ResponseEntity<>(errorResponse, badRequest);
+  }
 }

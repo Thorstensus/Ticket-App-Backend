@@ -12,31 +12,31 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NewsServiceImpl implements NewsService {
-    private final NewsRepository newsRepository;
+  private final NewsRepository newsRepository;
 
-    @Autowired
-    public NewsServiceImpl(NewsRepository newsRepository) {
-        this.newsRepository = newsRepository;
-    }
+  @Autowired
+  public NewsServiceImpl(NewsRepository newsRepository) {
+    this.newsRepository = newsRepository;
+  }
 
-    @Override
-    public List<News> findAllNewsByTitleOrDescriptionContaining(String word) {
-        return newsRepository.searchInTitleAndContentIgnoreCase(word);
-    }
+  @Override
+  public List<News> findAllNewsByTitleOrDescriptionContaining(String word) {
+    return newsRepository.searchInTitleAndContentIgnoreCase(word);
+  }
 
-    @Override
-    public void saveNews(News... news) {
-        newsRepository.saveAll(Arrays.asList(news));
-    }
+  @Override
+  public void saveNews(News... news) {
+    newsRepository.saveAll(Arrays.asList(news));
+  }
 
-    @Override
-    public List<NewsResponseDTO> getAllNewsDTOs() {
-        return newsRepository.findAll().stream().map(news -> toDTO(news)).collect(Collectors.toList());
-    }
+  @Override
+  public List<NewsResponseDTO> getAllNewsDTOs() {
+    return newsRepository.findAll().stream().map(news -> toDTO(news)).collect(Collectors.toList());
+  }
 
-    @Override
-    public NewsResponseDTO toDTO(News news) {
-        return new NewsResponseDTO(
-                news.getId(), news.getTitle(), news.getContent(), news.getPublishDate());
-    }
+  @Override
+  public NewsResponseDTO toDTO(News news) {
+    return new NewsResponseDTO(
+        news.getId(), news.getTitle(), news.getContent(), news.getPublishDate());
+  }
 }

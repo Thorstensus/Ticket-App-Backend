@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    @Query(
-            "SELECT n FROM News n WHERE lower(n.title) LIKE %:searchTerm% OR lower(n.content) LIKE %:searchTerm%")
-    List<News> searchInTitleAndContentIgnoreCase(String searchTerm);
+  @Query(
+      "SELECT n FROM News n WHERE lower(n.title) LIKE %:searchTerm% OR lower(n.content) LIKE %:searchTerm%")
+  List<News> searchInTitleAndContentIgnoreCase(String searchTerm);
 }

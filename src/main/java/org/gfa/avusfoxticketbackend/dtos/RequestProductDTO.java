@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 public class RequestProductDTO extends RequestDTO {
   private String name;

@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
+import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
@@ -14,9 +16,6 @@ import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Service
 public class ExceptionServiceImpl implements ExceptionService {
