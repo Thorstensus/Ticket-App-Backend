@@ -1,7 +1,5 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import java.util.Objects;
-
 public class CartResponseDTO {
   private Long id;
 

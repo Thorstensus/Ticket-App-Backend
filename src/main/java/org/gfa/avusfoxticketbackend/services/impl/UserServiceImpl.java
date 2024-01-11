@@ -116,9 +116,13 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest){
+  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
     String token = httpServletRequest.getHeader("Authorization").substring(7);
     String username = jwtService.extractUsername(token);
     return userRepository.findByEmail(username);
+  }
+
+  public void saveUser(User user) {
+    userRepository.save(user);
   }
 }
