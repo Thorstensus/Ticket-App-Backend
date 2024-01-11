@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.ProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
+import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
 
-    exceptionService.checkForRequestProductDTOError(requestProductDTO);
+    exceptionService.checkForRequestProductDTOError(requestProductDTO, productId);
 
     Product product =
             productRepository
@@ -64,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
+      product.setType(Type.valueOf(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toProductDto(product);

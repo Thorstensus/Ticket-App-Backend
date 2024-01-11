@@ -4,5 +4,9 @@ public enum Type {
     Cultural,
     Adventure,
     Culinary,
-    Historical
+    Historical,
+    SingleTicket,
+    WeeklyPass,
+    DailyPass,
+    MonthlyPass
 }

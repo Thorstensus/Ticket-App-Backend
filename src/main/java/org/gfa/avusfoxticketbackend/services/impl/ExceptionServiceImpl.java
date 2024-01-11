@@ -184,12 +184,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
-    if (requestProductDTO == null) {
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId) {
+    if (productId == null){
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is missing.");
+    } else if (requestProductDTO == null) {
       throwMissingBodyRequired();
-    } else if (requestProductDTO.getName() == null || requestProductDTO.getName().isEmpty()) {
+    } else if (requestProductDTO.getName() == null) {
       throwFieldIsRequired("Name");
-    } else if (requestProductDTO.getDescription() == null || requestProductDTO.getDescription().isEmpty()) {
+    } else if (requestProductDTO.getDescription() == null) {
       throwFieldIsRequired("Description");
     } else if (requestProductDTO.getDuration() == null) {
       throwFieldIsRequired("Duration");

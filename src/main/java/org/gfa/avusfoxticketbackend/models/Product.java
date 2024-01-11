@@ -14,7 +14,7 @@ public class Product {
   private Double price;
   private Integer duration;
   private String description;
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private Type type;
 
   public Product() {}
