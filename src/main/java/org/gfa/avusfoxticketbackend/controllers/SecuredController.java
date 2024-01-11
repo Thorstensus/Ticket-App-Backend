@@ -5,7 +5,6 @@ import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,5 +22,4 @@ public class SecuredController {
     this.newsService = newsService;
     this.userService = userService;
   }
-
 }

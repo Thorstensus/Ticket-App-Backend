@@ -28,7 +28,8 @@ public class UnsecuredController {
   private final NewsService newsService;
 
   @Autowired
-  public UnsecuredController(UserService userService, AuthenticationService authService, NewsService newsService) {
+  public UnsecuredController(
+      UserService userService, AuthenticationService authService, NewsService newsService) {
     this.userService = userService;
     this.authService = authService;
     this.newsService = newsService;
