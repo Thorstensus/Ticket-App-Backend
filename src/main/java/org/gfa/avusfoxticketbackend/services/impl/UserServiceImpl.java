@@ -101,9 +101,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
     exceptionService.handleCartErrors(cartRequestDTO);
-    String token = httpServletRequest.getHeader("Authorization").substring(7);
-    String username = jwtService.extractUsername(token);
-    Optional<User> currentUser = userRepository.findByEmail(username);
+    Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
     Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
     if (currentUser.isPresent() && currentProduct.isPresent()) {
       User userToChange = currentUser.get();
@@ -114,8 +112,13 @@ public class UserServiceImpl implements UserService {
       productService.saveProduct(productToChange);
       return new CartResponseDTO(userToChange.getId(),productToChange.getId());
     } else {
-      //this should realistically never occur but did it just in case
       throw new ApiRequestException("/api/cart","Unknown Error");
     }
+  }
+
+  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest){
+    String token = httpServletRequest.getHeader("Authorization").substring(7);
+    String username = jwtService.extractUsername(token);
+    return userRepository.findByEmail(username);
   }
 }

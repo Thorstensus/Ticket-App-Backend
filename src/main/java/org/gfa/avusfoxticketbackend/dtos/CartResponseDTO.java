@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import java.util.Objects;
+
 public class CartResponseDTO {
   private Long id;
 
@@ -28,4 +30,5 @@ public class CartResponseDTO {
   public void setProductId(Long productId) {
     this.productId = productId;
   }
+
 }
