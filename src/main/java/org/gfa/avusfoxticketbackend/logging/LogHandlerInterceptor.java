@@ -10,27 +10,27 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class LogHandlerInterceptor implements HandlerInterceptor {
 
-  public static Object object;
-  Logger logger = LoggerFactory.getLogger(LogHandlerInterceptor.class);
+    public static Object object;
+    Logger logger = LoggerFactory.getLogger(LogHandlerInterceptor.class);
 
-  @Override
-  public void afterCompletion(
-      HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-      throws Exception {
-    if (response.getStatus() >= 400) {
-      logger.error(
-          "Type:{} Endpoint:{} Parameters:{} Status:{}",
-          request.getMethod(),
-          request.getRequestURI(),
-          object,
-          response.getStatus());
-    } else {
-      logger.info(
-          "Type:{} Endpoint:{} Parameters:{} Status:{}",
-          request.getMethod(),
-          request.getRequestURI(),
-          object,
-          response.getStatus());
+    @Override
+    public void afterCompletion(
+            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        if (response.getStatus() >= 400) {
+            logger.error(
+                    "Type:{} Endpoint:{} Parameters:{} Status:{}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    object,
+                    response.getStatus());
+        } else {
+            logger.info(
+                    "Type:{} Endpoint:{} Parameters:{} Status:{}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    object,
+                    response.getStatus());
+        }
     }
-  }
 }

@@ -5,14 +5,14 @@ package org.gfa.avusfoxticketbackend.exception;
 
 public class ApiRequestException extends RuntimeException {
 
-  private final String endpoint;
+    private final String endpoint;
 
-  public ApiRequestException(String endpoint, String message) {
-    super(message);
-    this.endpoint = endpoint;
-  }
+    public ApiRequestException(String endpoint, String message) {
+        super(message);
+        this.endpoint = endpoint;
+    }
 
-  public String getEndpoint() {
-    return endpoint;
-  }
+    public String getEndpoint() {
+        return endpoint;
+    }
 }

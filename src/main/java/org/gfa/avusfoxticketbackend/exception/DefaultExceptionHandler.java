@@ -12,9 +12,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler({AccessDeniedException.class})
-  @ResponseBody
-  public ResponseEntity<Object> handleAuthenticationException() {
-    return new ResponseEntity<>("Unauthorized access", new HttpHeaders(), HttpStatus.FORBIDDEN);
-  }
+    @ExceptionHandler({AccessDeniedException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleAuthenticationException() {
+        return new ResponseEntity<>("Unauthorized access", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
 }

@@ -1,16 +1,17 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 
+import java.util.List;
+
 public interface NewsService {
 
-  List<News> findAllNewsByTitleOrDescriptionContaining(String word);
+    List<News> findAllNewsByTitleOrDescriptionContaining(String word);
 
-  void saveNews(News... news);
+    void saveNews(News... news);
 
-  List<NewsResponseDTO> getAllNewsDTOs();
+    List<NewsResponseDTO> getAllNewsDTOs();
 
-  NewsResponseDTO toDTO(News news);
+    NewsResponseDTO toDTO(News news);
 }

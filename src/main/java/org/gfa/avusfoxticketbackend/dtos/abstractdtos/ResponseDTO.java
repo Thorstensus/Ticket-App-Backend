@@ -1,3 +1,4 @@
 package org.gfa.avusfoxticketbackend.dtos.abstractdtos;
 
-public abstract class ResponseDTO {}
+public abstract class ResponseDTO {
+}
