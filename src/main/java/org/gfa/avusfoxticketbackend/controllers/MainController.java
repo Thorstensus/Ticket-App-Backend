@@ -62,6 +62,7 @@ public class MainController {
       @RequestBody(required = false) RequestProductDTO requestProductDTO,
       @PathVariable(required = false) Long productId) {
     LogHandlerInterceptor.object = requestProductDTO;
-    return ResponseEntity.status(200).body(productService.updateProduct(requestProductDTO, productId));
+    return ResponseEntity.status(200)
+        .body(productService.updateProduct(requestProductDTO, productId));
   }
 }

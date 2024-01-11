@@ -43,5 +43,4 @@ public interface ExceptionService {
   boolean validType(String type);
 
   void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId);
-
 }

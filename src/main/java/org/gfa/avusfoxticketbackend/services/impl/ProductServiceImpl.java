@@ -21,7 +21,8 @@ public class ProductServiceImpl implements ProductService {
   private final ExceptionService exceptionService;
 
   @Autowired
-  public ProductServiceImpl(ProductRepository productRepository, ExceptionService exceptionService) {
+  public ProductServiceImpl(
+      ProductRepository productRepository, ExceptionService exceptionService) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
   }
@@ -52,14 +53,14 @@ public class ProductServiceImpl implements ProductService {
     exceptionService.checkForRequestProductDTOError(requestProductDTO, productId);
 
     Product product =
-            productRepository
-                    .findById(productId)
-                    .orElseThrow(
-                            () ->
-                                    new ApiRequestException(
-                                            ("/api/products/" + productId), "Product with provided id doesn't exist."));
+        productRepository
+            .findById(productId)
+            .orElseThrow(
+                () ->
+                    new ApiRequestException(
+                        ("/api/products/" + productId), "Product with provided id doesn't exist."));
 
-    if (!productRepository.existsByName(requestProductDTO.getName())){
+    if (!productRepository.existsByName(requestProductDTO.getName())) {
 
       product.setName(requestProductDTO.getName());
       product.setPrice(requestProductDTO.getPrice());

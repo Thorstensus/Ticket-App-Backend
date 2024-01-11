@@ -9,5 +9,4 @@ public interface ProductService {
   ProductDTO toProductDto(Product product);
 
   ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id);
-
 }

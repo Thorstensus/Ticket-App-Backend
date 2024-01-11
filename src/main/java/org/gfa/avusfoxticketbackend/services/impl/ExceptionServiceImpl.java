@@ -164,8 +164,10 @@ public class ExceptionServiceImpl implements ExceptionService {
         httpServletRequest.getRequestURI(), "Email or password is incorrect.");
   }
 
-  @Override   public void throwFieldIsRequired(String field) {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
+  @Override
+  public void throwFieldIsRequired(String field) {
+    throw new ApiRequestException(
+        httpServletRequest.getRequestURI(), (String.format("%s is required", field)));
   }
 
   @Override
@@ -185,7 +187,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId) {
-    if (productId == null){
+    if (productId == null) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is missing.");
     } else if (requestProductDTO == null) {
       throwMissingBodyRequired();
