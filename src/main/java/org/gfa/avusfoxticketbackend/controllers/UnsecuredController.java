@@ -12,10 +12,8 @@ import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.services.NewsService;
-import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
