@@ -1,15 +1,14 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {

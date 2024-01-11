@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import org.gfa.avusfoxticketbackend.enums.Type;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.enums.Type;
 
 @Entity
 @Table(name = "products")

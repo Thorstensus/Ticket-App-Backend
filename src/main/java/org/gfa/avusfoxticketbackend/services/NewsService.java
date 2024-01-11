@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.services;
 
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
-
-import java.util.List;
 
 public interface NewsService {
 

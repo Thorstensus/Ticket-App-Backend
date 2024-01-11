@@ -7,15 +7,15 @@ import org.gfa.avusfoxticketbackend.models.User;
 
 public interface UserService {
 
-    ResponseUserDTO newUserCreatedAndReturned(RequestUserDTO requestUserDTO);
+  ResponseUserDTO newUserCreatedAndReturned(RequestUserDTO requestUserDTO);
 
-    ResponseUserDTO userToResponseUserDTOConverter(User user);
+  ResponseUserDTO userToResponseUserDTOConverter(User user);
 
-    User requestDTOtoUserConvert(RequestUserDTO dto);
+  User requestDTOtoUserConvert(RequestUserDTO dto);
 
-    ResponseUserDTO responseUserDTOConverter(User user);
+  ResponseUserDTO responseUserDTOConverter(User user);
 
-    PatchResponseUserDTO patchResponseUserDTOConverter(User user);
+  PatchResponseUserDTO patchResponseUserDTOConverter(User user);
 
-    PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id);
+  PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id);
 }

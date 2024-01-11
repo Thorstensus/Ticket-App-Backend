@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import java.util.Map;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
@@ -13,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

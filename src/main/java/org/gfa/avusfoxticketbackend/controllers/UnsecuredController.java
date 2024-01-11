@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
@@ -15,8 +16,6 @@ import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

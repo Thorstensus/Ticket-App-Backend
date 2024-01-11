@@ -6,13 +6,13 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.models.Product;
 
 public interface ProductService {
-    ApiProductsDTO getApiProductsDto();
+  ApiProductsDTO getApiProductsDto();
 
-    ResponseProductDTO toResponseProductDto(Product product);
+  ResponseProductDTO toResponseProductDto(Product product);
 
-    ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO);
+  ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO);
 
-    Product requestProductDTOToProductConvert(RequestProductDTO requestProductDTO);
+  Product requestProductDTOToProductConvert(RequestProductDTO requestProductDTO);
 
-    ResponseProductDTO productToResponseProductDTOConvert(Product product);
+  ResponseProductDTO productToResponseProductDTOConvert(Product product);
 }

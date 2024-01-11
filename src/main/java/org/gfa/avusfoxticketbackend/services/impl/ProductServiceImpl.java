@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
@@ -10,9 +12,6 @@ import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {

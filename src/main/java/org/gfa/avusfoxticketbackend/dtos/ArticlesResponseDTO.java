@@ -1,28 +1,27 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ArticlesResponseDTO extends ResponseDTO {
-    private final List<News> articles;
+  private final List<News> articles;
 
-    public ArticlesResponseDTO() {
-        this.articles = new ArrayList<>();
-    }
+  public ArticlesResponseDTO() {
+    this.articles = new ArrayList<>();
+  }
 
-    public ArticlesResponseDTO(List<News> articles) {
-        this.articles = articles;
-    }
+  public ArticlesResponseDTO(List<News> articles) {
+    this.articles = articles;
+  }
 
-    public List<News> getArticles() {
-        return articles;
-    }
+  public List<News> getArticles() {
+    return articles;
+  }
 
-    @Override
-    public String toString() {
-        return "ArticlesResponse{" + "articles=" + articles + '}';
-    }
+  @Override
+  public String toString() {
+    return "ArticlesResponse{" + "articles=" + articles + '}';
+  }
 }

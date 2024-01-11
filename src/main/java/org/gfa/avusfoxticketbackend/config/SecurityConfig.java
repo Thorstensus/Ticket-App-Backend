@@ -16,42 +16,42 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
+  private final JwtAuthenticationFilter jwtAuthFilter;
+  private final AuthenticationProvider authenticationProvider;
+  private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
-    @Autowired
-    public SecurityConfig(
-            JwtAuthenticationFilter jwtAuthFilter,
-            AuthenticationProvider authenticationProvider,
-            CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint) {
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.authenticationProvider = authenticationProvider;
-        this.customJwtAuthenticationEntryPoint = customJwtAuthenticationEntryPoint;
-    }
+  @Autowired
+  public SecurityConfig(
+      JwtAuthenticationFilter jwtAuthFilter,
+      AuthenticationProvider authenticationProvider,
+      CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint) {
+    this.jwtAuthFilter = jwtAuthFilter;
+    this.authenticationProvider = authenticationProvider;
+    this.customJwtAuthenticationEntryPoint = customJwtAuthenticationEntryPoint;
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        authorizeHttpRequests ->
-                                authorizeHttpRequests
-                                        .requestMatchers("/api/news/**", "/api/users", "/api/users/login")
-                                        .permitAll()
-                                        .requestMatchers("/api/admin//**")
-                                        .hasRole("ADMIN")
-                                        .anyRequest()
-                                        .authenticated())
-                .sessionManagement(
-                        sessionManagement ->
-                                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(
-                        exceptionHandling ->
-                                exceptionHandling.authenticationEntryPoint(customJwtAuthenticationEntryPoint));
+    http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            authorizeHttpRequests ->
+                authorizeHttpRequests
+                    .requestMatchers("/api/news/**", "/api/users", "/api/users/login")
+                    .permitAll()
+                    .requestMatchers("/api/admin//**")
+                    .hasRole("ADMIN")
+                    .anyRequest()
+                    .authenticated())
+        .sessionManagement(
+            sessionManagement ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authenticationProvider(authenticationProvider)
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(
+            exceptionHandling ->
+                exceptionHandling.authenticationEntryPoint(customJwtAuthenticationEntryPoint));
 
-        return http.build();
-    }
+    return http.build();
+  }
 }
