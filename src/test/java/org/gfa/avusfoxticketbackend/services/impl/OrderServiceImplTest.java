@@ -39,7 +39,7 @@ class OrderServiceImplTest {
   @MockBean private UserRepository userRepository;
 
   @Test
-  void testSaveOrdersFromCart_SavesOrders_WhenValidCartAndUser() {
+  void testSaveOrdersFromCart_SavesOrders_WhenValidCartAndValidUser() {
     when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
 
     User user = new User();
