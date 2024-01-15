@@ -34,6 +34,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation("com.h2database:h2:2.2.224")
+
 
 }
 
