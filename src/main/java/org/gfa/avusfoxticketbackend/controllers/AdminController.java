@@ -1,8 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.PatchResponseUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
@@ -36,5 +34,13 @@ public class AdminController {
       @PathVariable(required = false) Long id) {
     LogHandlerInterceptor.object = requestUserDTO;
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
+  }
+
+  @PostMapping("/products")
+  public ResponseEntity<ResponseProductDTO> createNewProduct(
+      @RequestBody(required = false) RequestProductDTO requestProductDTO) {
+    LogHandlerInterceptor.object = requestProductDTO;
+    return ResponseEntity.status(200)
+        .body(productService.createNewProductAndReturn(requestProductDTO));
   }
 }
