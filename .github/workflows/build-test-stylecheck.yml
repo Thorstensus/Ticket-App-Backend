@@ -44,7 +44,7 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: build
+      - name: build test
         run: gradle test -i
 
 
