@@ -28,10 +28,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(controllers = MainController.class)
+@WebMvcTest(controllers = AdminController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-class MainControllerTest {
+class AdminControllerTest {
 
     @MockBean
     private ProductService productService;
@@ -60,12 +60,12 @@ class MainControllerTest {
     }
 
     @Test
-    public void MainController_EditProduct_ReturnEdited() throws Exception {
+    public void AdminController_EditProduct_ReturnEdited() throws Exception {
         when(productService
                 .updateProduct(requestProductDTO, 1L))
                 .thenReturn(productDTO);
 
-        ResultActions response = mockMvc.perform(patch("/api/products/{productId}/", 1)
+        ResultActions response = mockMvc.perform(patch("/api/admin/products/{productId}/", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(objectMapper.writeValueAsString(requestProductDTO)));
