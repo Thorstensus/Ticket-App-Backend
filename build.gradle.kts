@@ -36,6 +36,9 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
     // https://mvnrepository.com/artifact/com.h2database/h2
     testImplementation("com.h2database:h2:2.2.224")
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation("org.mockito:mockito-core:5.8.0")
+
 
 
 }
