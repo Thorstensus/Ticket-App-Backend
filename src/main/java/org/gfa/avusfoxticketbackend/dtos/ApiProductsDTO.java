@@ -6,21 +6,21 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
 public class ApiProductsDTO extends ResponseDTO {
 
-  private List<ProductDTO> products;
+  private List<ResponseProductDTO> products;
 
   public ApiProductsDTO() {
     this.products = new ArrayList<>();
   }
 
-  public ApiProductsDTO(List<ProductDTO> products) {
+  public ApiProductsDTO(List<ResponseProductDTO> products) {
     this.products = products;
   }
 
-  public List<ProductDTO> getProducts() {
+  public List<ResponseProductDTO> getProducts() {
     return products;
   }
 
-  public void setProducts(List<ProductDTO> products) {
+  public void setProducts(List<ResponseProductDTO> products) {
     this.products = products;
   }
 
