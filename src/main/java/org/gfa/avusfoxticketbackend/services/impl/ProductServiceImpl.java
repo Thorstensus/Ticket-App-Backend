@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
@@ -47,6 +48,14 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  public Optional<Product> getProductById(Long id) {
+    return productRepository.findById(id);
+  }
+
+  @Override
+  public void saveProduct(Product product) {
+    productRepository.save(product);
+
   public ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO) {
     exceptionService.checkForRequestProductDTOError(requestProductDTO);
     Product newProduct = requestProductDTOToProductConvert(requestProductDTO);

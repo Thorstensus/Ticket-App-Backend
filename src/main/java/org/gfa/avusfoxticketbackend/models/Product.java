@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -19,7 +22,12 @@ public class Product {
   @Enumerated(EnumType.STRING)
   private Type type;
 
-  public Product() {}
+  @ManyToMany(mappedBy = "cart")
+  private List<User> inCartOf;
+
+  public Product() {
+    this.inCartOf = new ArrayList<>();
+  }
 
   public Product(String name, Double price, Integer duration, String description, Type type) {
     this.name = name;
@@ -27,6 +35,7 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
+    this.inCartOf = new ArrayList<>();
   }
 
   public Product(
@@ -86,6 +95,13 @@ public class Product {
   public void setType(Type type) {
     this.type = type;
   }
+
+  public List<User> getInCartOf() {
+    return inCartOf;
+  }
+
+  public void setInCartOf(List<User> inCartOf) {
+    this.inCartOf = inCartOf;
 
   @Override
   public boolean equals(Object o) {

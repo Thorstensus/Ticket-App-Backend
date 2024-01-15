@@ -1,16 +1,20 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
-import org.gfa.avusfoxticketbackend.dtos.PatchResponseUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
+import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,14 +24,22 @@ public class UserServiceImpl implements UserService {
 
   private final ExceptionService exceptionService;
 
+  private final ProductService productService;
+
+  private final JwtService jwtService;
+
   @Autowired
   public UserServiceImpl(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
-      ExceptionService exceptionService) {
+      ExceptionServiceImpl exceptionService,
+      ProductServiceImpl productService,
+      JwtService jwtService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
+    this.productService = productService;
+    this.jwtService = jwtService;
   }
 
   @Override
@@ -84,5 +96,33 @@ public class UserServiceImpl implements UserService {
 
   public String hashPassword(String password) {
     return passwordEncoder.encode(password);
+  }
+
+  @Override
+  public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+    exceptionService.handleCartErrors(cartRequestDTO);
+    Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
+    Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
+    if (currentUser.isPresent() && currentProduct.isPresent()) {
+      User userToChange = currentUser.get();
+      Product productToChange = currentProduct.get();
+      userToChange.getCart().add(currentProduct.get());
+      productToChange.getInCartOf().add(currentUser.get());
+      userRepository.save(userToChange);
+      productService.saveProduct(productToChange);
+      return new CartResponseDTO(userToChange.getId(),productToChange.getId());
+    } else {
+      throw new ApiRequestException("/api/cart","Unknown Error");
+    }
+  }
+
+  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
+    String token = httpServletRequest.getHeader("Authorization").substring(7);
+    String username = jwtService.extractUsername(token);
+    return userRepository.findByEmail(username);
+  }
+
+  public void saveUser(User user) {
+    userRepository.save(user);
   }
 }
