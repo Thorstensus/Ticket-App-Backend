@@ -44,13 +44,6 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Set up environment variables
-        run: |
-          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
-          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_DIALECT=${{ secrets.DB_DIALECT }}" >> $GITHUB_ENV
-
       - name: build
         run: gradle test -i
 
