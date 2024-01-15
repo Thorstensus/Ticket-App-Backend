@@ -54,7 +54,7 @@ class UserServiceImplTest {
             ApiRequestException.class,
             () -> {
               userService.saveProductToCart(request,mockRequest);
-              });
+            });
     assertEquals(exception.getEndpoint(),thrownException.getEndpoint());
     assertEquals(exception.getMessage(),thrownException.getMessage());
   }
