@@ -112,6 +112,7 @@ public class Product {
 
   public void setInCartOf(List<User> inCartOf) {
     this.inCartOf = inCartOf;
+  }
 
   @Override
   public boolean equals(Object o) {

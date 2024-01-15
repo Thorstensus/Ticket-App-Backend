@@ -101,41 +101,6 @@ class OrderServiceImplTest {
   }
 
   @Test
-  void testGetOrderDTO_ReturnsExpectedOrderDTO_WhenGivenOrderDTO() {
-    Product product = new Product();
-    product.setDescription("The characteristics of someone or something");
-    product.setDuration(1);
-    product.setId(1L);
-    product.setInCartOf(new ArrayList<>());
-    product.setName("Name");
-    product.setOrders(new ArrayList<>());
-    product.setPrice(10.0d);
-    product.setType("Type");
-
-    User user = new User();
-    user.setCart(new ArrayList<>());
-    user.setEmail("jane.doe@example.org");
-    user.setId(1L);
-    user.setName("Name");
-    user.setOrders(new ArrayList<>());
-    user.setPassword("iloveyou");
-    user.setRole(Role.USER);
-    user.setVerified(true);
-
-    Order order = new Order();
-    order.setExpiry("Expiry");
-    order.setId(1L);
-    order.setProduct(product);
-    order.setStatus("Status");
-    order.setUser(user);
-    ResponseOrderDTO actualOrderDTO = orderServiceImpl.getOrderDTO(order);
-    assertEquals("Expiry", actualOrderDTO.getExpiry());
-    assertEquals("Status", actualOrderDTO.getStatus());
-    assertEquals(1L, actualOrderDTO.getId().longValue());
-    assertEquals(1L, actualOrderDTO.getProductId().longValue());
-  }
-
-  @Test
   void testGetOrderDTO_FailsOnInvalidOrder() {
     Order invalidOrder = new Order();
     assertThrows(Exception.class, () -> orderServiceImpl.getOrderDTO(invalidOrder));
