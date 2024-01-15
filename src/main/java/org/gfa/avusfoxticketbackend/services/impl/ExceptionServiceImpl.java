@@ -42,15 +42,15 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void checkForUserErrors(RequestDTO requestDto) {
     String currentEndpoint = httpServletRequest.getRequestURI();
-    currentEndpoint = currentEndpoint.replaceAll("/api/users/\\d+", "/api/users/{id}");
+    currentEndpoint = currentEndpoint.replaceAll("/api/admin/users/\\d+", "/api/admin/users/{id}");
     switch (currentEndpoint) {
-      case "/api/users":
+      case "/api/admin/users":
         handleRegisterErrors((RequestUserDTO) requestDto);
         break;
       case "/api/users/login":
         handleLoginErrors((AuthenticationRequest) requestDto);
         break;
-      case "/api/users/{id}":
+      case "/api/admin/users/{id}":
         handlePatchErrors((RequestUserDTO) requestDto);
         break;
       case "api/cart":
