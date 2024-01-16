@@ -28,7 +28,10 @@ public class SecuredController {
 
   @Autowired
   public SecuredController(
-          ProductService productService, NewsService newsService, UserService userService, OrderService orderService) {
+      ProductService productService,
+      NewsService newsService,
+      UserService userService,
+      OrderService orderService) {
     this.productService = productService;
     this.newsService = newsService;
     this.userService = userService;
@@ -36,24 +39,28 @@ public class SecuredController {
   }
 
   @PostMapping("/cart")
-  public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
-    LogHandlerInterceptor.object = List.of(cartRequestDTO,httpServletRequest);
-    return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
+  public ResponseEntity<CartResponseDTO> addToCart(
+      @RequestBody(required = false) CartRequestDTO cartRequestDTO,
+      HttpServletRequest httpServletRequest) {
+    LogHandlerInterceptor.object = List.of(cartRequestDTO, httpServletRequest);
+    return ResponseEntity.status(200)
+        .body(userService.saveProductToCart(cartRequestDTO, httpServletRequest));
   }
 
-@PostMapping("/orders")
-public ResponseEntity<ResponseOrderSummaryDTO> order(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-  LogHandlerInterceptor.object = token;
-  token = token.substring(7);
-  orderService.saveOrdersFromCart(token);
-  return ResponseEntity.status(200).body(orderService.getCartOrderSummaryDTOandCleanCart(token));
-}
+  @PostMapping("/orders")
+  public ResponseEntity<ResponseOrderSummaryDTO> order(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = token;
+    token = token.substring(7);
+    orderService.saveOrdersFromCart(token);
+    return ResponseEntity.status(200).body(orderService.getCartOrderSummaryDTOandCleanCart(token));
+  }
 
   @GetMapping("/orders")
-  public ResponseEntity<ResponseOrderSummaryDTO> getAllOrders(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<ResponseOrderSummaryDTO> getAllOrders(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
     token = token.substring(7);
     return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));
   }
-
 }
