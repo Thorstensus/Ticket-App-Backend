@@ -64,11 +64,7 @@ public class JwtService {
   }
 
   private Date extractExpiration(String token) {
-    try {
       return extractClaim(token, Claims::getExpiration);
-    } catch (Exception e) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Token expired");
-    }
   }
 
   private Claims extractAllClaims(String token) {
