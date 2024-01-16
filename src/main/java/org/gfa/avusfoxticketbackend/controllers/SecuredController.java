@@ -49,4 +49,11 @@ public class SecuredController {
     return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
   }
 
+  @GetMapping("/orders")
+  public ResponseEntity<ResponseOrderSummaryDTO> getAllOrders(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = token;
+    token = token.substring(7);
+    return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));
+  }
+
 }
