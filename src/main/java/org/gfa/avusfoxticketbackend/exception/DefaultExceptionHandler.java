@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,13 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler({ExpiredJwtException.class})
   @ResponseBody
-  public ResponseEntity<Object> handleExpiredTokenException() {
-    return new ResponseEntity<>("Token expired", new HttpHeaders(), HttpStatus.REQUEST_TIMEOUT);
+  public ResponseEntity<Object> handleExpiredTokenException(HttpServletRequest httpServletRequest) {
+    return new ResponseEntity<>(
+        "Problem occurred during "
+            + httpServletRequest.getRequestURI()
+            + "<br>"
+            + "<strong>Token expired</strong>",
+        new HttpHeaders(),
+        HttpStatus.REQUEST_TIMEOUT);
   }
 }

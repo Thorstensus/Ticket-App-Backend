@@ -6,15 +6,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
-import jakarta.servlet.http.HttpServletRequest;
-import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +61,7 @@ public class JwtService {
   }
 
   private Date extractExpiration(String token) {
-      return extractClaim(token, Claims::getExpiration);
+    return extractClaim(token, Claims::getExpiration);
   }
 
   private Claims extractAllClaims(String token) {

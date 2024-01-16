@@ -1,10 +1,9 @@
 package org.gfa.avusfoxticketbackend.services;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.User;
-
-import java.util.Optional;
 
 public interface UserService {
 

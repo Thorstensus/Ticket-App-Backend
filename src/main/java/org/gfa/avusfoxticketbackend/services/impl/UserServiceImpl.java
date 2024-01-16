@@ -27,13 +27,12 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserServiceImpl(
-          UserRepository userRepository,
-          PasswordEncoder passwordEncoder,
-          ExceptionServiceImpl exceptionService,
-          ProductServiceImpl productService,
-          JwtService jwtService,
-          EmailSender emailSender
-  ) {
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionServiceImpl exceptionService,
+      ProductServiceImpl productService,
+      JwtService jwtService,
+      EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
@@ -49,7 +48,8 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link = "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
+    String link =
+        "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
     emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
 
     return userToResponseUserDTOConverter(user);
@@ -103,7 +103,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+  public CartResponseDTO saveProductToCart(
+      CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
     exceptionService.handleCartErrors(cartRequestDTO);
     Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
     Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
@@ -114,9 +115,9 @@ public class UserServiceImpl implements UserService {
       productToChange.getInCartOf().add(currentUser.get());
       userRepository.save(userToChange);
       productService.saveProduct(productToChange);
-      return new CartResponseDTO(userToChange.getId(),productToChange.getId());
+      return new CartResponseDTO(userToChange.getId(), productToChange.getId());
     } else {
-      throw new ApiRequestException("/api/cart","Unknown Error");
+      throw new ApiRequestException("/api/cart", "Unknown Error");
     }
   }
 
