@@ -35,19 +35,19 @@ public class SecuredController {
     this.orderService = orderService;
   }
 
-  @PostMapping("/orders")
-  public ResponseEntity<ResponseOrderSummaryDTO> order(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-    LogHandlerInterceptor.object = token;
-    token = token.substring(7);
-    orderService.saveOrdersFromCart(token);
-    return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));
-  }
-
   @PostMapping("/cart")
   public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
     LogHandlerInterceptor.object = List.of(cartRequestDTO,httpServletRequest);
     return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
   }
+
+@PostMapping("/orders")
+public ResponseEntity<ResponseOrderSummaryDTO> order(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  LogHandlerInterceptor.object = token;
+  token = token.substring(7);
+  orderService.saveOrdersFromCart(token);
+  return ResponseEntity.status(200).body(orderService.getCartOrderSummaryDTOandCleanCart(token));
+}
 
   @GetMapping("/orders")
   public ResponseEntity<ResponseOrderSummaryDTO> getAllOrders(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
