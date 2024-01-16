@@ -34,7 +34,8 @@ class AdminControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private ProductService productService;
+  @MockBean
+  private ProductService productService;
   @MockBean private JwtService jwtService;
   @MockBean private NewsService newsService;
   @MockBean private UserService userService;

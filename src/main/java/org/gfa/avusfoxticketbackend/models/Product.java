@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Type;
 
@@ -22,6 +24,9 @@ public class Product {
   @Enumerated(EnumType.STRING)
   private Type type;
 
+  @OneToMany(mappedBy = "product")
+  private List<Order> orders;
+
   @ManyToMany(mappedBy = "cart")
   private List<User> inCartOf;
 
@@ -35,6 +40,7 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
+    this.orders = new ArrayList<>();
     this.inCartOf = new ArrayList<>();
   }
 
@@ -96,12 +102,22 @@ public class Product {
     this.type = type;
   }
 
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
+  }
+
   public List<User> getInCartOf() {
     return inCartOf;
   }
 
   public void setInCartOf(List<User> inCartOf) {
     this.inCartOf = inCartOf;
+  }
+
 
   @Override
   public boolean equals(Object o) {
