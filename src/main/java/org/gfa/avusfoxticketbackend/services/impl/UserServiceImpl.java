@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
+import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
@@ -18,27 +19,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
-
   private final PasswordEncoder passwordEncoder;
-
   private final ExceptionService exceptionService;
-
   private final ProductService productService;
-
   private final JwtService jwtService;
+  private final EmailSender emailSender;
 
   @Autowired
   public UserServiceImpl(
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ExceptionServiceImpl exceptionService,
-      ProductServiceImpl productService,
-      JwtService jwtService) {
+          UserRepository userRepository,
+          PasswordEncoder passwordEncoder,
+          ExceptionServiceImpl exceptionService,
+          ProductServiceImpl productService,
+          JwtService jwtService,
+          EmailSender emailSender
+  ) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
     this.productService = productService;
     this.jwtService = jwtService;
+    this.emailSender = emailSender;
   }
 
   @Override
@@ -47,6 +48,10 @@ public class UserServiceImpl implements UserService {
     User user = requestDTOtoUserConvert(requestUserDTO);
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
+
+    String link = "http://localhost:8080/api/news";
+    emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
+
     return userToResponseUserDTOConverter(user);
   }
 

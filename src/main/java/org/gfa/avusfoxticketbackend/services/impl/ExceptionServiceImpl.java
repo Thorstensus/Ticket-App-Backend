@@ -43,7 +43,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     String currentEndpoint = httpServletRequest.getRequestURI();
     currentEndpoint = currentEndpoint.replaceAll("/api/admin/users/\\d+", "/api/admin/users/{id}");
     switch (currentEndpoint) {
-      case "/api/admin/users":
+      case "/api/users":
         handleRegisterErrors((RequestUserDTO) requestDto);
         break;
       case "/api/users/login":

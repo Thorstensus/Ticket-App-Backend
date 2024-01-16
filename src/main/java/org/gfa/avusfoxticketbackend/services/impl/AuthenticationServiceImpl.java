@@ -5,6 +5,7 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
+import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -21,19 +22,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final UserRepository userRepository;
   private final JwtService jwtService;
   private final AuthenticationManager authManager;
-
   private final ExceptionService exceptionService;
+  private final EmailSender emailSender;
 
   @Autowired
   public AuthenticationServiceImpl(
-      UserRepository userRepository,
-      JwtService jwtService,
-      AuthenticationManager authManager,
-      ExceptionService exceptionService) {
+          UserRepository userRepository,
+          JwtService jwtService,
+          AuthenticationManager authManager,
+          ExceptionService exceptionService,
+          EmailSender emailSender
+  ) {
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
+    this.emailSender = emailSender;
   }
 
   @Override
