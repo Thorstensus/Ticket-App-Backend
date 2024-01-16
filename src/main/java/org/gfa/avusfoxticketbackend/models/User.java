@@ -27,17 +27,20 @@ public class User implements UserDetails {
 
   private Boolean isVerified;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Order> orders;
+
   @ManyToMany
   @JoinTable(
-          name = "user_product",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "product_id")
-  )
+      name = "cart",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "product_id"))
   private List<Product> cart;
 
   public User() {
     this.role = Role.USER;
     this.isVerified = false;
+    this.orders = new ArrayList<>();
     this.cart = new ArrayList<>();
   }
 
@@ -47,6 +50,7 @@ public class User implements UserDetails {
     this.password = password;
     this.role = Role.USER;
     this.isVerified = false;
+    this.orders = new ArrayList<>();
     this.cart = new ArrayList<>();
   }
 
@@ -54,12 +58,16 @@ public class User implements UserDetails {
     return email;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public Boolean getVerified() {
     return isVerified;
+  }
+
+  public void setVerified(Boolean verified) {
+    isVerified = verified;
   }
 
   public Long getId() {
@@ -82,10 +90,6 @@ public class User implements UserDetails {
     return isVerified;
   }
 
-  public void setVerified(Boolean verified) {
-    isVerified = verified;
-  }
-
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(role.name()));
@@ -96,8 +100,8 @@ public class User implements UserDetails {
     return password;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Role getRole() {
@@ -106,6 +110,14 @@ public class User implements UserDetails {
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
   }
 
   @Override

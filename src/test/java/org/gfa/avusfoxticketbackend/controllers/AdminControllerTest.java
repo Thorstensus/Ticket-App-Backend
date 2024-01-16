@@ -35,7 +35,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(MockitoExtension.class)
 public class AdminControllerTest {
 
-  @MockBean private ProductService productService;
+  @MockBean
+  private ProductService productService;
   @MockBean private JwtService jwtService;
   @MockBean private UserService userService;
   @MockBean private NewsService newsService;

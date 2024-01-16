@@ -23,15 +23,18 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   private final HttpServletRequest httpServletRequest;
   private final UserRepository userRepository;
+  private final ProductRepository productRepository;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
       UserRepository userRepository,
+      ProductRepository productRepository,
       PasswordEncoder passwordEncoder) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
+    this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
   }
 
@@ -105,7 +108,11 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void handleCartErrors(CartRequestDTO request) {
-
+    if (request == null || request.getProductId() == null) {
+      throwProductIdRequired();
+    } else if (productRepository.findById(request.getProductId()).isEmpty()) {
+      throwProductNotFound();
+    }
   }
 
   @Override
@@ -171,6 +178,20 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
+  public void throwAllFieldsRequired() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
+  }
+
+  @Override
+  public void throwProductIdRequired() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is required.");
+  }
+
+  @Override
+  public void throwProductNotFound() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product doesn't exist.");
+  }
+
   public void throwFieldIsRequired(String field) {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), (String.format("%s is required", field)));

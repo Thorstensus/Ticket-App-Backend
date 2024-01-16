@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public void saveProduct(Product product) {
     productRepository.save(product);
-    }
+  }
 
   public ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO) {
     exceptionService.checkForRequestProductDTOError(requestProductDTO);
