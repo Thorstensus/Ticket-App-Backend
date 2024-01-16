@@ -38,10 +38,10 @@ public class AdminController {
 
   @PatchMapping({"/products/{productId}/", "/products/"})
   public ResponseEntity<ProductDTO> updateProduct(
-          @RequestBody(required = false) RequestProductDTO requestProductDTO,
-          @PathVariable(required = false) Long productId) {
+      @RequestBody(required = false) RequestProductDTO requestProductDTO,
+      @PathVariable(required = false) Long productId) {
     LogHandlerInterceptor.object = requestProductDTO;
     return ResponseEntity.status(200)
-            .body(productService.updateProduct(requestProductDTO, productId));
+        .body(productService.updateProduct(requestProductDTO, productId));
   }
 }

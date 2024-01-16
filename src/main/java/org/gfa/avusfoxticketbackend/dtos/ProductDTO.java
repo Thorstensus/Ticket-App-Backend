@@ -95,9 +95,18 @@ public class ProductDTO extends ResponseDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof ProductDTO that)) return false;
-    return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getDuration(), that.getDuration()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getType(), that.getType());
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ProductDTO that)) {
+      return false;
+    }
+    return Objects.equals(getId(), that.getId())
+        && Objects.equals(getName(), that.getName())
+        && Objects.equals(getPrice(), that.getPrice())
+        && Objects.equals(getDuration(), that.getDuration())
+        && Objects.equals(getDescription(), that.getDescription())
+        && Objects.equals(getType(), that.getType());
   }
 
   @Override
