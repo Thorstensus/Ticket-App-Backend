@@ -5,7 +5,6 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 
 public interface ExceptionService {
   void checkForUserErrors(RequestDTO requestDto);
@@ -44,15 +43,16 @@ public interface ExceptionService {
 
   void throwAllFieldsRequired();
 
+  void productNameTaken();
+
   boolean validType(String type);
 
   void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId);
+
+  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
+
   void throwProductIdRequired();
 
   void throwProductNotFound();
-  
-  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
-
-  void productNameTaken();
 
 }

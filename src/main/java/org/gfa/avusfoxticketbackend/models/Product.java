@@ -120,9 +120,18 @@ public class Product {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Product product)) return false;
-    return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getDuration(), product.getDuration()) && Objects.equals(getDescription(), product.getDescription()) && getType() == product.getType() && Objects.equals(getInCartOf(), product.getInCartOf());
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Product product)) {
+      return false;
+    }
+    return Objects.equals(getId(), product.getId())
+            && Objects.equals(getName(), product.getName())
+            && Objects.equals(getPrice(), product.getPrice())
+            && Objects.equals(getDuration(), product.getDuration())
+            && Objects.equals(getDescription(), product.getDescription())
+            && getType() == product.getType();
   }
 
   @Override

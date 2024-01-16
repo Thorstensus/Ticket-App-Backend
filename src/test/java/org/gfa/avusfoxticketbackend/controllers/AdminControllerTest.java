@@ -46,16 +46,19 @@ public class AdminControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   private RequestProductDTO requestProductDTO;
+  private ResponseProductDTO responseProductDTO;
 
   @BeforeEach
   public void init() {
     requestProductDTO =
         new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
+    responseProductDTO =
+        new ResponseProductDTO(1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "Adventure");
   }
 
   @Test
   public void adminControllerEditProductReturnEdited() throws Exception {
-    when(productService.updateProduct(requestProductDTO, 1L)).thenReturn(requestProductDTO);
+    when(productService.updateProduct(requestProductDTO, 1L)).thenReturn(responseProductDTO);
 
     ResultActions response =
         mockMvc.perform(
