@@ -43,5 +43,12 @@ public class AdminController {
     LogHandlerInterceptor.object = requestProductDTO;
     return ResponseEntity.status(200)
         .body(productService.updateProduct(requestProductDTO, productId));
+        
+  @PostMapping("/products")
+  public ResponseEntity<ResponseProductDTO> createNewProduct(
+      @RequestBody(required = false) RequestProductDTO requestProductDTO) {
+    LogHandlerInterceptor.object = requestProductDTO;
+    return ResponseEntity.status(200)
+        .body(productService.createNewProductAndReturn(requestProductDTO));
   }
 }
