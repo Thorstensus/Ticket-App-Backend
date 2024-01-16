@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -15,6 +16,7 @@ import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,21 +26,48 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(AdminController.class)
+@WebMvcTest(controllers = AdminController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-class AdminControllerTest {
+public class AdminControllerTest {
 
-  @Autowired ObjectMapper objectMapper;
+  @MockBean private ProductService productService;
+  @MockBean private JwtService jwtService;
+  @MockBean private UserService userService;
+  @MockBean private NewsService newsService;
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean
-  private ProductService productService;
-  @MockBean private JwtService jwtService;
-  @MockBean private NewsService newsService;
-  @MockBean private UserService userService;
+  @Autowired private ObjectMapper objectMapper;
+
+  private RequestProductDTO requestProductDTO;
+  private ResponseProductDTO responseProductDTO;
+
+  @BeforeEach
+  public void init() {
+    requestProductDTO =
+        new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
+    responseProductDTO =
+        new ResponseProductDTO(
+            1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "Adventure");
+  }
+
+  @Test
+  public void adminControllerEditProductReturnEdited() throws Exception {
+    when(productService.updateProduct(requestProductDTO, 1L)).thenReturn(responseProductDTO);
+
+    ResultActions response =
+        mockMvc.perform(
+            patch("/api/admin/products/{productId}/", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(requestProductDTO)));
+
+    response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
+  }
 
   @Test
   public void createNewProduct_status200() throws Exception {

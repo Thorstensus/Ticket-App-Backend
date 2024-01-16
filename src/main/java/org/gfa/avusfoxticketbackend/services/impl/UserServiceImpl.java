@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -13,8 +14,6 @@ import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

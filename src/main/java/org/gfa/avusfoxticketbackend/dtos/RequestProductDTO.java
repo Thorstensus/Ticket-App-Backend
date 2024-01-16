@@ -4,11 +4,15 @@ import java.util.Objects;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 public class RequestProductDTO extends RequestDTO {
+
+  private Long id;
   private String name;
   private Double price;
   private Integer duration;
   private String description;
   private String type;
+
+  public RequestProductDTO() {}
 
   public RequestProductDTO(
       String name, Double price, Integer duration, String description, String type) {
@@ -18,8 +22,6 @@ public class RequestProductDTO extends RequestDTO {
     this.description = description;
     this.type = type;
   }
-
-  public RequestProductDTO() {}
 
   public String getName() {
     return name;
@@ -88,7 +90,8 @@ public class RequestProductDTO extends RequestDTO {
     if (!(o instanceof RequestProductDTO that)) {
       return false;
     }
-    return Objects.equals(getName(), that.getName())
+    return Objects.equals(id, that.id)
+        && Objects.equals(getName(), that.getName())
         && Objects.equals(getPrice(), that.getPrice())
         && Objects.equals(getDuration(), that.getDuration())
         && Objects.equals(getDescription(), that.getDescription())
@@ -97,6 +100,6 @@ public class RequestProductDTO extends RequestDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getName(), getPrice(), getDuration(), getDescription(), getType());
+    return Objects.hash(id, getName(), getPrice(), getDuration(), getDescription(), getType());
   }
 }

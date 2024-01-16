@@ -22,22 +22,22 @@ class ExceptionServiceImplTest {
 
   @Test
   void throwFieldIsRequired_Name() {
-    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/products");
+    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/admin/products");
     ApiRequestException apiRequestException =
-        new ApiRequestException("/api/products", "Name is required");
+        new ApiRequestException("/api/admin/products", "Name is required");
     ApiRequestException thrownException =
         assertThrows(
             ApiRequestException.class,
             () -> {
               exceptionService.throwFieldIsRequired("Name");
             });
-    assertEquals("/api/products", thrownException.getEndpoint());
+    assertEquals("/api/admin/products", thrownException.getEndpoint());
     assertEquals("Name is required.", thrownException.getMessage());
   }
 
   @Test
   void throwFieldIsRequired_Description() {
-    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/products");
+    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/admin/products");
 
     ApiRequestException thrownException =
         assertThrows(
@@ -46,13 +46,13 @@ class ExceptionServiceImplTest {
               exceptionService.throwFieldIsRequired("Description");
             });
 
-    assertEquals("/api/products", thrownException.getEndpoint());
+    assertEquals("/api/admin/products", thrownException.getEndpoint());
     assertEquals("Description is required.", thrownException.getMessage());
   }
 
   @Test
   void productNameTaken() {
-    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/products");
+    when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/admin/products");
     ApiRequestException thrownException =
         assertThrows(
             ApiRequestException.class,
@@ -60,7 +60,7 @@ class ExceptionServiceImplTest {
               exceptionService.productNameTaken();
             });
 
-    assertEquals("/api/products", thrownException.getEndpoint());
+    assertEquals("/api/admin/products", thrownException.getEndpoint());
     assertEquals("Product name already exists.", thrownException.getMessage());
   }
 
@@ -214,7 +214,7 @@ class ExceptionServiceImplTest {
     requestProductDTO.setDuration(4);
     requestProductDTO.setDescription("description");
     requestProductDTO.setType("Adventure");
-    when(productRepository.existsProductByName(requestProductDTO.getName())).thenReturn(true);
+    when(productRepository.existsByName(requestProductDTO.getName())).thenReturn(true);
 
     ApiRequestException requestException =
         assertThrows(
