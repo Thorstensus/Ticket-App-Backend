@@ -14,7 +14,6 @@ import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,21 +24,18 @@ public class ExceptionServiceImpl implements ExceptionService {
   private final HttpServletRequest httpServletRequest;
   private final UserRepository userRepository;
   private final ProductRepository productRepository;
-
   private final PasswordEncoder passwordEncoder;
-
-  private final ProductService productService;
 
   @Autowired
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
       UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ProductService productService) {
+      ProductRepository productRepository,
+      PasswordEncoder passwordEncoder) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
+    this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
-    this.productService = productService;
   }
 
   @Override
@@ -117,7 +113,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void handleCartErrors(CartRequestDTO request) {
     if (request == null || request.getProductId() == null) {
       throwProductIdRequired();
-    } else if (productService.getProductById(request.getProductId()).isEmpty()) {
+    } else if (productRepository.findById(request.getProductId()).isEmpty()) {
       throwProductNotFound();
     }
   }
@@ -191,12 +187,13 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void throwProductIdRequired() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product ID is required.");
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is required.");
   }
 
   @Override
   public void throwProductNotFound() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product doesn't exist.");
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product doesn't exist.");
+  }
 
   public void throwFieldIsRequired(String field) {
     throw new ApiRequestException(
