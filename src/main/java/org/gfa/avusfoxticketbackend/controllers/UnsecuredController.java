@@ -60,5 +60,4 @@ public class UnsecuredController {
       throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
   }
-
 }

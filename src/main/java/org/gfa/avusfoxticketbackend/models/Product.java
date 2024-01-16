@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "products")
 public class Product {

@@ -52,5 +52,4 @@ public class AdminController {
     return ResponseEntity.status(200)
         .body(productService.createNewProductAndReturn(requestProductDTO));
   }
-
 }

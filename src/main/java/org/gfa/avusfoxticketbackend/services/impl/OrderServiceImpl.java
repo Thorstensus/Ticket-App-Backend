@@ -55,6 +55,6 @@ public class OrderServiceImpl implements OrderService {
 
   public ResponseOrderDTO getOrderDTO(Order order) {
     return new ResponseOrderDTO(
-            order.getId(), order.getStatus(), order.getExpiry(), order.getProduct().getId());
+        order.getId(), order.getStatus(), order.getExpiry(), order.getProduct().getId());
   }
 }

@@ -9,7 +9,7 @@ public interface ProductService {
   ApiProductsDTO getApiProductsDto();
 
   ResponseProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id);
-  
+
   Optional<Product> getProductById(Long id);
 
   void saveProduct(Product product);
@@ -21,5 +21,4 @@ public interface ProductService {
   Product requestProductDTOToProductConvert(RequestProductDTO requestProductDTO);
 
   ResponseProductDTO productToResponseProductDTOConvert(Product product);
-
 }

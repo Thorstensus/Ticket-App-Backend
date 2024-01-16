@@ -30,13 +30,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = AdminController.class)
-
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class AdminControllerTest {
 
-  @MockBean
-  private ProductService productService;
+  @MockBean private ProductService productService;
   @MockBean private JwtService jwtService;
   @MockBean private UserService userService;
   @MockBean private NewsService newsService;
@@ -53,7 +51,8 @@ public class AdminControllerTest {
     requestProductDTO =
         new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
     responseProductDTO =
-        new ResponseProductDTO(1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "Adventure");
+        new ResponseProductDTO(
+            1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "Adventure");
   }
 
   @Test
@@ -68,7 +67,7 @@ public class AdminControllerTest {
                 .content(objectMapper.writeValueAsString(requestProductDTO)));
 
     response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
- }
+  }
 
   @Test
   public void createNewProduct_status200() throws Exception {

@@ -84,9 +84,18 @@ public class RequestProductDTO extends RequestDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof RequestProductDTO that)) return false;
-    return Objects.equals(id, that.id) && Objects.equals(getName(), that.getName()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getDuration(), that.getDuration()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getType(), that.getType());
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof RequestProductDTO that)) {
+      return false;
+    }
+    return Objects.equals(id, that.id)
+        && Objects.equals(getName(), that.getName())
+        && Objects.equals(getPrice(), that.getPrice())
+        && Objects.equals(getDuration(), that.getDuration())
+        && Objects.equals(getDescription(), that.getDescription())
+        && Objects.equals(getType(), that.getType());
   }
 
   @Override
