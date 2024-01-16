@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.email;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Service;
 public class EmailService implements EmailSender {
 
   private final JavaMailSender mailSender;
+
+  private static final Dotenv dotenv = Dotenv.configure().load();
+
+  private static final String MAIL_USERNAME = dotenv.get("MAIL_USERNAME");
 
   @Autowired
   public EmailService(JavaMailSender mailSender) {
@@ -27,7 +32,7 @@ public class EmailService implements EmailSender {
       helper.setText(email, true);
       helper.setTo(to);
       helper.setSubject("Confirm your email");
-      helper.setFrom("foxticket2024@gmail.com");
+      helper.setFrom(MAIL_USERNAME);
       mailSender.send(mimeMessage);
     } catch (MessagingException e) {
       System.out.println("failed to send email");
