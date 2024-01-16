@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -21,15 +24,15 @@ public class Product {
   @Enumerated(EnumType.STRING)
   private Type type;
 
-
   @OneToMany(mappedBy = "product")
   private List<Order> orders;
 
   @ManyToMany(mappedBy = "cart")
   private List<User> inCartOf;
 
-
-  public Product() {}
+  public Product() {
+    this.inCartOf = new ArrayList<>();
+  }
 
   public Product(String name, Double price, Integer duration, String description, Type type) {
     this.name = name;
@@ -38,6 +41,7 @@ public class Product {
     this.description = description;
     this.type = type;
     this.orders = new ArrayList<>();
+    this.inCartOf = new ArrayList<>();
   }
 
   public Product(
@@ -113,6 +117,7 @@ public class Product {
   public void setInCartOf(List<User> inCartOf) {
     this.inCartOf = inCartOf;
   }
+
 
   @Override
   public boolean equals(Object o) {

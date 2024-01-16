@@ -1,7 +1,9 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-
 import org.gfa.avusfoxticketbackend.dtos.*;
+import jakarta.servlet.http.HttpServletRequest;
+import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -39,4 +42,11 @@ public class SecuredController {
     orderService.saveOrdersFromCart(token);
     return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(token));
   }
+
+  @PostMapping("/cart")
+  public ResponseEntity<CartResponseDTO> addToCart(@RequestBody(required = false) CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+    LogHandlerInterceptor.object = List.of(cartRequestDTO,httpServletRequest);
+    return ResponseEntity.status(200).body(userService.saveProductToCart(cartRequestDTO,httpServletRequest));
+  }
+
 }

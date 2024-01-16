@@ -1,10 +1,7 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-import org.gfa.avusfoxticketbackend.dtos.ArticlesResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
-import org.gfa.avusfoxticketbackend.dtos.ResponseUserDTO;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -63,4 +60,5 @@ public class UnsecuredController {
       throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
   }
+
 }
