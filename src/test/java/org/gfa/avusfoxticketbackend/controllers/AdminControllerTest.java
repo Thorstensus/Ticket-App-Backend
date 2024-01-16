@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -15,6 +16,7 @@ import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,10 +31,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = AdminController.class)
 
-@WebMvcTest(AdminController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-class AdminControllerTest {
+public class AdminControllerTest {
 
   @MockBean private ProductService productService;
   @MockBean private JwtService jwtService;
@@ -43,21 +44,17 @@ class AdminControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
 
-  private Product product;
-  private ProductDTO productDTO;
   private RequestProductDTO requestProductDTO;
 
   @BeforeEach
   public void init() {
-    product = new Product("Single Ticket", 1.99, 2, "Valid for 2 hrs", Type.Adventure);
-    productDTO = new ProductDTO(1L, "Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
     requestProductDTO =
         new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
   }
 
   @Test
   public void adminControllerEditProductReturnEdited() throws Exception {
-    when(productService.updateProduct(requestProductDTO, 1L)).thenReturn(productDTO);
+    when(productService.updateProduct(requestProductDTO, 1L)).thenReturn(requestProductDTO);
 
     ResultActions response =
         mockMvc.perform(
@@ -67,14 +64,7 @@ class AdminControllerTest {
                 .content(objectMapper.writeValueAsString(requestProductDTO)));
 
     response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
-  @Autowired ObjectMapper objectMapper;
-
-  @Autowired private MockMvc mockMvc;
-
-  @MockBean private ProductService productService;
-  @MockBean private JwtService jwtService;
-  @MockBean private NewsService newsService;
-  @MockBean private UserService userService;
+ }
 
   @Test
   public void createNewProduct_status200() throws Exception {

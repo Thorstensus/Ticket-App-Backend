@@ -37,13 +37,14 @@ public class AdminController {
   }
 
   @PatchMapping({"/products/{productId}/", "/products/"})
-  public ResponseEntity<ProductDTO> updateProduct(
+  public ResponseEntity<ResponseProductDTO> updateProduct(
       @RequestBody(required = false) RequestProductDTO requestProductDTO,
       @PathVariable(required = false) Long productId) {
     LogHandlerInterceptor.object = requestProductDTO;
     return ResponseEntity.status(200)
         .body(productService.updateProduct(requestProductDTO, productId));
-        
+  }
+
   @PostMapping("/products")
   public ResponseEntity<ResponseProductDTO> createNewProduct(
       @RequestBody(required = false) RequestProductDTO requestProductDTO) {
@@ -51,4 +52,5 @@ public class AdminController {
     return ResponseEntity.status(200)
         .body(productService.createNewProductAndReturn(requestProductDTO));
   }
+
 }

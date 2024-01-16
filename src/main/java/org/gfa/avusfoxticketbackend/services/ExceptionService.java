@@ -53,9 +53,6 @@ public interface ExceptionService {
   
   void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
 
-  boolean validType(String type);
-
   void productNameTaken();
 
-  void throwFieldIsRequired(String field);
 }

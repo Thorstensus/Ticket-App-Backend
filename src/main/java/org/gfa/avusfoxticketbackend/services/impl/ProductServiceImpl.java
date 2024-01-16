@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
+  public ResponseProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
 
     exceptionService.checkForRequestProductDTOError(requestProductDTO, productId);
 
@@ -71,10 +71,13 @@ public class ProductServiceImpl implements ProductService {
       product.setType(Type.valueOf(requestProductDTO.getType()));
       productRepository.save(product);
 
-      return toProductDto(product);
+      return toResponseProductDto(product);
     } else {
       throw new ApiRequestException(("/api/products/" + productId), "Product name already exists!");
     }
+
+  }
+
   public Optional<Product> getProductById(Long id) {
     return productRepository.findById(id);
   }
@@ -82,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public void saveProduct(Product product) {
     productRepository.save(product);
+    }
 
   public ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO) {
     exceptionService.checkForRequestProductDTOError(requestProductDTO);

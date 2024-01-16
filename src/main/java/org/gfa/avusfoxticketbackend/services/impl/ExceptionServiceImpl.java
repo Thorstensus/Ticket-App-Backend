@@ -3,6 +3,7 @@ package org.gfa.avusfoxticketbackend.services.impl;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
@@ -11,10 +12,8 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
-import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,22 +23,16 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   private final HttpServletRequest httpServletRequest;
   private final UserRepository userRepository;
-  private final ProductRepository productRepository;
-
   private final PasswordEncoder passwordEncoder;
-
-  private final ProductService productService;
 
   @Autowired
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
       UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ProductService productService) {
+      PasswordEncoder passwordEncoder) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    this.productService = productService;
   }
 
   @Override
@@ -55,9 +48,6 @@ public class ExceptionServiceImpl implements ExceptionService {
         break;
       case "/api/admin/users/{id}":
         handlePatchErrors((RequestUserDTO) requestDto);
-        break;
-      case "api/cart":
-        handleCartErrors((CartRequestDTO) requestDto);
         break;
       default:
         break;
@@ -115,11 +105,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void handleCartErrors(CartRequestDTO request) {
-    if (request == null || request.getProductId() == null) {
-      throwProductIdRequired();
-    } else if (productService.getProductById(request.getProductId()).isEmpty()) {
-      throwProductNotFound();
-    }
+
   }
 
   @Override
@@ -196,26 +182,6 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void throwProductIdRequired() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product ID is required.");
-  }
-
-  @Override
-  public void throwProductNotFound() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Product doesn't exist.");
-
-  public void throwFieldIsRequired(String field) {
-    throw new ApiRequestException(
-        httpServletRequest.getRequestURI(), (String.format("%s is required.", field)));
-  }
-
-  @Override
-  public void productNameTaken() {
-    throw new ApiRequestException(
-        httpServletRequest.getRequestURI(), "Product name already exists.");
-  }
-
-  @Override
   public boolean validType(String type) {
     for (Type t : Type.values()) {
       if (t.name().equals(type)) {
@@ -226,14 +192,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
-    if (requestProductDTO == null) {
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId) {
+    if (productId == null) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is missing.");
+    } else if (requestProductDTO == null) {
       throwMissingBodyRequired();
-    } else if (requestProductDTO.getName() == null
-        || requestProductDTO.getName().trim().isEmpty()) {
+    } else if (requestProductDTO.getName() == null) {
       throwFieldIsRequired("Name");
-    } else if (requestProductDTO.getDescription() == null
-        || requestProductDTO.getDescription().trim().isEmpty()) {
+    } else if (requestProductDTO.getDescription() == null) {
       throwFieldIsRequired("Description");
     } else if (requestProductDTO.getDuration() == null) {
       throwFieldIsRequired("Duration");
@@ -241,10 +207,28 @@ public class ExceptionServiceImpl implements ExceptionService {
       throwFieldIsRequired("Type");
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
-    } else if (productRepository.existsProductByName(requestProductDTO.getName())) {
-      productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
     }
+  }
+
+  @Override
+  public void throwProductIdRequired() {
+
+  }
+
+  @Override
+  public void throwProductNotFound() {
+
+  }
+
+  @Override
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
+
+  }
+
+  @Override
+  public void productNameTaken() {
+
   }
 }

@@ -8,9 +8,7 @@ import java.util.Optional;
 public interface ProductService {
   ApiProductsDTO getApiProductsDto();
 
-  ProductDTO toProductDto(Product product);
-
-  ProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id);
+  ResponseProductDTO updateProduct(RequestProductDTO requestProductDTO, Long id);
   Optional<Product> getProductById(Long id);
 
   void saveProduct(Product product);
