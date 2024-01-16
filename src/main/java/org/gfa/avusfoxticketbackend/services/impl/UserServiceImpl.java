@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link = "http://localhost:8080/api/news";
+    String link = "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
     emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
 
     return userToResponseUserDTOConverter(user);
@@ -139,8 +139,6 @@ public class UserServiceImpl implements UserService {
       User founded = userRepository.findByEmail(username).get();
       founded.setVerified(true);
       userRepository.save(founded);
-    } else {
-      exceptionService.verificationTokenExpired();
     }
   }
 

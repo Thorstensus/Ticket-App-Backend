@@ -261,8 +261,4 @@ public class ExceptionServiceImpl implements ExceptionService {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
   }
 
-  @Override
-  public void verificationTokenExpired() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Verification token expired.");
-  }
 }

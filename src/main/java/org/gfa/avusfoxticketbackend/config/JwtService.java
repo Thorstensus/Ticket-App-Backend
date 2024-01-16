@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,11 @@ public class JwtService {
 
   private static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
   private static final String EXPIRATION_TIME = dotenv.get("EXPIRATION_TIME");
+  private final HttpServletRequest httpServletRequest;
+
+  public JwtService(HttpServletRequest httpServletRequest) {
+    this.httpServletRequest = httpServletRequest;
+  }
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -55,7 +63,11 @@ public class JwtService {
   }
 
   private Date extractExpiration(String token) {
-    return extractClaim(token, Claims::getExpiration);
+    try {
+      return extractClaim(token, Claims::getExpiration);
+    } catch (Exception e) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Token expired");
+    }
   }
 
   private Claims extractAllClaims(String token) {
