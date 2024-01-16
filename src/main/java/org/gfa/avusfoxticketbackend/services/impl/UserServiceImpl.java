@@ -115,13 +115,34 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  @Override
   public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
     String token = httpServletRequest.getHeader("Authorization").substring(7);
     String username = jwtService.extractUsername(token);
     return userRepository.findByEmail(username);
   }
 
+  @Override
   public void saveUser(User user) {
     userRepository.save(user);
+  }
+
+  @Override
+  public void verifyUserByVerificationToken(String token) {
+    if (!jwtService.isTokenExpired(token)) {
+      String username = jwtService.extractUsername(token);
+      User founded = userRepository.findByEmail(username).get();
+      founded.setVerified(true);
+      userRepository.save(founded);
+    } else {
+      exceptionService.verificationTokenExpired();
+    }
+  }
+
+  @Override
+  public void checkUserVerification(String token) {
+    if (!userRepository.findByEmail(jwtService.extractUsername(token)).get().getVerified()) {
+      exceptionService.notVerified();
+    }
   }
 }

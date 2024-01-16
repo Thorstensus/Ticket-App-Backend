@@ -256,4 +256,13 @@ public class ExceptionServiceImpl implements ExceptionService {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
     }
   }
+  @Override
+  public void notVerified() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
+  }
+
+  @Override
+  public void verificationTokenExpired() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Verification token expired.");
+  }
 }

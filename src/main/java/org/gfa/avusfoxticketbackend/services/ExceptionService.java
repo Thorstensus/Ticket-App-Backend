@@ -54,4 +54,8 @@ public interface ExceptionService {
   void throwProductIdRequired();
 
   void throwProductNotFound();
+
+  void notVerified();
+
+  void verificationTokenExpired();
 }

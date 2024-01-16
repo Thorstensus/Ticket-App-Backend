@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.User;
 
+import java.util.Optional;
+
 public interface UserService {
 
   ResponseUserDTO newUserCreatedAndReturned(RequestUserDTO requestUserDTO);
@@ -20,4 +22,12 @@ public interface UserService {
 
   CartResponseDTO saveProductToCart(
       CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest);
+
+  Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest);
+
+  void saveUser(User user);
+
+  void verifyUserByVerificationToken(String token);
+
+  void checkUserVerification(String token);
 }
