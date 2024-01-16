@@ -39,8 +39,22 @@ public class OrderServiceImpl implements OrderService {
       userOrders.add(order);
       orderRepository.save(order);
     }
+    userRepository.save(user);
+  }
+
+  public ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token) {
+    User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
+    List<Order> actualOrder = new ArrayList<>();
+    for (int i = user.getOrders().size() - user.getCart().size(); i < user.getOrders().size(); i++) {
+      actualOrder.add(user.getOrders().get(i));
+    }
     user.setCart(new ArrayList<>());
     userRepository.save(user);
+    List<ResponseOrderDTO> responseOrderDTOList = new ArrayList<>();
+    for (Order order : actualOrder) {
+      responseOrderDTOList.add(getOrderDTO(order));
+    }
+    return new ResponseOrderSummaryDTO(responseOrderDTOList);
   }
 
   @Override
