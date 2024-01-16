@@ -7,6 +7,7 @@ import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.enums.Type;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
@@ -35,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().name());
+        product.getType().toString());
   }
 
   @Override
@@ -48,6 +49,34 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  public ResponseProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
+
+    exceptionService.checkForRequestProductDTOError(requestProductDTO, productId);
+
+    Product product =
+        productRepository
+            .findById(productId)
+            .orElseThrow(
+                () ->
+                    new ApiRequestException(
+                        ("/api/products/" + productId), "Product with provided id doesn't exist."));
+
+    if (!productRepository.existsByName(requestProductDTO.getName())) {
+
+      product.setName(requestProductDTO.getName());
+      product.setPrice(requestProductDTO.getPrice());
+      product.setDuration(requestProductDTO.getDuration());
+      product.setDescription(requestProductDTO.getDescription());
+      product.setType(Type.valueOf(requestProductDTO.getType()));
+      productRepository.save(product);
+
+      return toResponseProductDto(product);
+    } else {
+      throw new ApiRequestException(("/api/products/" + productId), "Product name already exists!");
+    }
+
+  }
+
   public Optional<Product> getProductById(Long id) {
     return productRepository.findById(id);
   }

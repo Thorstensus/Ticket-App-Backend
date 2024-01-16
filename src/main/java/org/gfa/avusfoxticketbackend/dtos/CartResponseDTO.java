@@ -5,8 +5,7 @@ public class CartResponseDTO {
 
   private Long productId;
 
-  public CartResponseDTO() {
-  }
+  public CartResponseDTO() {}
 
   public CartResponseDTO(Long id, Long productId) {
     this.id = id;
@@ -28,5 +27,4 @@ public class CartResponseDTO {
   public void setProductId(Long productId) {
     this.productId = productId;
   }
-
 }

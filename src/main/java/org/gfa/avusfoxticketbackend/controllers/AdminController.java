@@ -36,6 +36,15 @@ public class AdminController {
     return ResponseEntity.status(200).body(userService.patchUser(requestUserDTO, id));
   }
 
+  @PatchMapping({"/products/{productId}/", "/products/"})
+  public ResponseEntity<ResponseProductDTO> updateProduct(
+      @RequestBody(required = false) RequestProductDTO requestProductDTO,
+      @PathVariable(required = false) Long productId) {
+    LogHandlerInterceptor.object = requestProductDTO;
+    return ResponseEntity.status(200)
+        .body(productService.updateProduct(requestProductDTO, productId));
+  }
+
   @PostMapping("/products")
   public ResponseEntity<ResponseProductDTO> createNewProduct(
       @RequestBody(required = false) RequestProductDTO requestProductDTO) {

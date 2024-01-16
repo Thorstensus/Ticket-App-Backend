@@ -52,6 +52,17 @@ public class ResponseOrderDTO extends ResponseDTO {
 
   @Override
   public String toString() {
-    return "ResponseOrderDTO{" + "id=" + id + ", status='" + status + '\'' + ", expiry='" + expiry + '\'' + ", productId=" + productId + '}';
+    return "ResponseOrderDTO{"
+        + "id="
+        + id
+        + ", status='"
+        + status
+        + '\''
+        + ", expiry='"
+        + expiry
+        + '\''
+        + ", productId="
+        + productId
+        + '}';
   }
 }

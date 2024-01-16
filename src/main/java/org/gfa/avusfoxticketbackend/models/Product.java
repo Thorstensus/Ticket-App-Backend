@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "products")
 public class Product {
@@ -118,7 +115,6 @@ public class Product {
     this.inCartOf = inCartOf;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -128,15 +124,15 @@ public class Product {
       return false;
     }
     return Objects.equals(getId(), product.getId())
-        && Objects.equals(getName(), product.getName())
-        && Objects.equals(getPrice(), product.getPrice())
-        && Objects.equals(getDuration(), product.getDuration())
-        && Objects.equals(getDescription(), product.getDescription())
-        && getType() == product.getType();
+            && Objects.equals(getName(), product.getName())
+            && Objects.equals(getPrice(), product.getPrice())
+            && Objects.equals(getDuration(), product.getDuration())
+            && Objects.equals(getDescription(), product.getDescription())
+            && getType() == product.getType();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType());
+    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCartOf());
   }
 }

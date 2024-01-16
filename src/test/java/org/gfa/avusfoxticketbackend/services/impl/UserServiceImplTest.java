@@ -1,5 +1,8 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
@@ -16,9 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 // import org.gfa.avusfoxticketbackend.models.User;
 // import java.util.List;
 // import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {

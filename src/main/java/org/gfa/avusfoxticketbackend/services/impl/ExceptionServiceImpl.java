@@ -52,9 +52,6 @@ public class ExceptionServiceImpl implements ExceptionService {
       case "/api/admin/users/{id}":
         handlePatchErrors((RequestUserDTO) requestDto);
         break;
-      case "api/cart":
-        handleCartErrors((CartRequestDTO) requestDto);
-        break;
       default:
         break;
     }
@@ -181,11 +178,6 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void throwAllFieldsRequired() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
-  }
-
-  @Override
   public void throwProductIdRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is required.");
   }
@@ -201,9 +193,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
+  public void throwAllFieldsRequired() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "All fields are required.");
+  }
+
+  @Override
   public void productNameTaken() {
     throw new ApiRequestException(
-        httpServletRequest.getRequestURI(), "Product name already exists.");
+            httpServletRequest.getRequestURI(), "Product name already exists.");
   }
 
   @Override
@@ -214,6 +211,27 @@ public class ExceptionServiceImpl implements ExceptionService {
       }
     }
     return false;
+  }
+
+  @Override
+  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId) {
+    if (productId == null) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is missing.");
+    } else if (requestProductDTO == null) {
+      throwMissingBodyRequired();
+    } else if (requestProductDTO.getName() == null) {
+      throwFieldIsRequired("Name");
+    } else if (requestProductDTO.getDescription() == null) {
+      throwFieldIsRequired("Description");
+    } else if (requestProductDTO.getDuration() == null) {
+      throwFieldIsRequired("Duration");
+    } else if (requestProductDTO.getType() == null) {
+      throwFieldIsRequired("Type");
+    } else if (requestProductDTO.getPrice() == null) {
+      throwFieldIsRequired("Price");
+    } else if (!validType(requestProductDTO.getType())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+    }
   }
 
   @Override
@@ -232,7 +250,7 @@ public class ExceptionServiceImpl implements ExceptionService {
       throwFieldIsRequired("Type");
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
-    } else if (productRepository.existsProductByName(requestProductDTO.getName())) {
+    } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
