@@ -54,15 +54,18 @@ public class JwtServiceImpl implements JwtService {
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
-  boolean isTokenExpired(String token) {
+  @Override
+  public boolean isTokenExpired(String token) {
     return extractExpiration(token).before(new Date());
   }
 
-  Date extractExpiration(String token) {
+  @Override
+  public Date extractExpiration(String token) {
     return extractClaim(token, Claims::getExpiration);
   }
 
-  Claims extractAllClaims(String token) {
+  @Override
+  public Claims extractAllClaims(String token) {
     return Jwts.parserBuilder()
             .setSigningKey(getSignInKey())
             .build()
@@ -70,7 +73,8 @@ public class JwtServiceImpl implements JwtService {
             .getBody();
   }
 
-  Key getSignInKey() {
+  @Override
+  public Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(JwtServiceImpl.SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);
   }
