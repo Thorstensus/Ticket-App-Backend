@@ -54,8 +54,7 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link = VERIFICATION_LINK; // + token (Štěpán pls)
-    emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
+      emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), VERIFICATION_LINK)); // + token (Štěpán pls)
 
     return userToResponseUserDTOConverter(user);
   }
