@@ -8,7 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
-import org.gfa.avusfoxticketbackend.config.JwtServiceImpl;
+
+import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -35,7 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AdminControllerTest {
 
   @MockBean private ProductService productService;
-  @MockBean private JwtServiceImpl jwtServiceImpl;
+  @MockBean private JwtService jwtService;
   @MockBean private UserService userService;
   @MockBean private NewsService newsService;
 
