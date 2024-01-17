@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
