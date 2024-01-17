@@ -54,4 +54,6 @@ public interface ExceptionService {
   void throwProductIdRequired();
 
   void throwProductNotFound();
+
+  void throwFailedToGetEmailTemplate();
 }

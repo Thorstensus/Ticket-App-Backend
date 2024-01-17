@@ -3,15 +3,16 @@ package org.gfa.avusfoxticketbackend.email;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 @Service
 public class EmailService implements EmailSender {
@@ -20,9 +21,12 @@ public class EmailService implements EmailSender {
   private static final String MAIL_USERNAME = dotenv.get("MAIL_USERNAME");
   private final JavaMailSender mailSender;
 
+  private final ExceptionService exceptionService;
+
   @Autowired
-  public EmailService(JavaMailSender mailSender) {
+  public EmailService(JavaMailSender mailSender, ExceptionService exceptionService) {
     this.mailSender = mailSender;
+    this.exceptionService = exceptionService;
   }
 
   @Override
@@ -36,7 +40,7 @@ public class EmailService implements EmailSender {
         output += line;
       }
     } catch (IOException e) {
-      System.out.println("haha");
+      exceptionService.throwFailedToGetEmailTemplate();
     }
     return output;
   }

@@ -187,6 +187,11 @@ public class ExceptionServiceImpl implements ExceptionService {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product doesn't exist.");
   }
 
+  @Override
+  public void throwFailedToGetEmailTemplate() {
+    throw new RuntimeException("Failed To Get Email Template");
+  }
+
   public void throwFieldIsRequired(String field) {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), (String.format("%s is required.", field)));
