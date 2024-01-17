@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
@@ -25,6 +26,10 @@ public class UserServiceImpl implements UserService {
   private final JwtService jwtService;
   private final EmailSender emailSender;
 
+  private static final Dotenv dotenv = Dotenv.configure().load();
+
+  private static final String VERIFICATION_LINK = dotenv.get("VERIFICATION_LINK");
+
   @Autowired
   public UserServiceImpl(
           UserRepository userRepository,
@@ -49,7 +54,7 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link = "http://localhost:8080/api/news";
+    String link = VERIFICATION_LINK; // + token (Štěpán pls)
     emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
 
     return userToResponseUserDTOConverter(user);
