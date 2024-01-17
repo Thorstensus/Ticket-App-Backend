@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+  private static final Dotenv dotenv = Dotenv.configure().load();
+  private static final String VERIFICATION_LINK = dotenv.get("VERIFICATION_LINK");
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionService exceptionService;
@@ -26,19 +28,14 @@ public class UserServiceImpl implements UserService {
   private final JwtService jwtService;
   private final EmailSender emailSender;
 
-  private static final Dotenv dotenv = Dotenv.configure().load();
-
-  private static final String VERIFICATION_LINK = dotenv.get("VERIFICATION_LINK");
-
   @Autowired
   public UserServiceImpl(
-          UserRepository userRepository,
-          PasswordEncoder passwordEncoder,
-          ExceptionServiceImpl exceptionService,
-          ProductServiceImpl productService,
-          JwtService jwtService,
-          EmailSender emailSender
-  ) {
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionServiceImpl exceptionService,
+      ProductServiceImpl productService,
+      JwtService jwtService,
+      EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
@@ -54,7 +51,9 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-      emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), VERIFICATION_LINK)); // + token (Štěpán pls)
+    emailSender.send(
+        user.getEmail(),
+        emailSender.buildEmail(user.getName(), VERIFICATION_LINK)); // + token (Štěpán pls)
 
     return userToResponseUserDTOConverter(user);
   }
@@ -107,7 +106,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
+  public CartResponseDTO saveProductToCart(
+      CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
     exceptionService.handleCartErrors(cartRequestDTO);
     Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
     Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
@@ -118,9 +118,9 @@ public class UserServiceImpl implements UserService {
       productToChange.getInCartOf().add(currentUser.get());
       userRepository.save(userToChange);
       productService.saveProduct(productToChange);
-      return new CartResponseDTO(userToChange.getId(),productToChange.getId());
+      return new CartResponseDTO(userToChange.getId(), productToChange.getId());
     } else {
-      throw new ApiRequestException("/api/cart","Unknown Error");
+      throw new ApiRequestException("/api/cart", "Unknown Error");
     }
   }
 

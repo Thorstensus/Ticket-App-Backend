@@ -1,27 +1,27 @@
-//package org.gfa.avusfoxticketbackend.services.impl;
+// package org.gfa.avusfoxticketbackend.services.impl;
 //
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.*;
+// import static org.junit.jupiter.api.Assertions.*;
+// import static org.mockito.Mockito.*;
 //
-//import jakarta.servlet.http.HttpServletRequest;
-//import org.gfa.avusfoxticketbackend.config.JwtService;
-//import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
-//import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-//import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
-//import org.gfa.avusfoxticketbackend.enums.Type;
-//import org.gfa.avusfoxticketbackend.models.Product;
-//import org.gfa.avusfoxticketbackend.models.User;
-//import java.util.List;
-//import java.util.Optional;
+// import jakarta.servlet.http.HttpServletRequest;
+// import org.gfa.avusfoxticketbackend.config.JwtService;
+// import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
+// import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+// import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+// import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.extension.ExtendWith;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.junit.jupiter.MockitoExtension;
+// import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
+// import org.gfa.avusfoxticketbackend.enums.Type;
+// import org.gfa.avusfoxticketbackend.models.Product;
+// import org.gfa.avusfoxticketbackend.models.User;
+// import java.util.List;
+// import java.util.Optional;
 //
-//@ExtendWith(MockitoExtension.class)
-//class UserServiceImplTest {
+// @ExtendWith(MockitoExtension.class)
+// class UserServiceImplTest {
 //
 //  @Mock private ExceptionServiceImpl exceptionService;
 //
@@ -36,7 +36,8 @@
 //  @Test
 //  void saveProductToCartThrowsProductNotFoundError() {
 //    CartRequestDTO request = new CartRequestDTO(1L);
-//    ApiRequestException exception = new ApiRequestException("/api/cart", "Product doesn't exist.");
+//    ApiRequestException exception = new ApiRequestException("/api/cart", "Product doesn't
+// exist.");
 //    HttpServletRequest mockRequest = mock(HttpServletRequest.class);
 //
 //    doThrow(exception).when(exceptionService).handleCartErrors(request);
@@ -74,14 +75,13 @@
 //      assertEquals(user.get().getCart(), List.of(product.get()));
 //    }
 //
-//}
+// }
 
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
@@ -117,13 +117,12 @@ class UserServiceImplTest {
   @Test
   void testSaveProductToCart() {
     doThrow(new ApiRequestException("/api/cart", "Product doesn't exist."))
-            .when(exceptionServiceImpl)
-            .handleCartErrors(Mockito.<CartRequestDTO>any());
+        .when(exceptionServiceImpl)
+        .handleCartErrors(Mockito.<CartRequestDTO>any());
     CartRequestDTO cartRequestDTO = new CartRequestDTO();
     assertThrows(
-            ApiRequestException.class,
-            () -> userServiceImpl.saveProductToCart(cartRequestDTO, new MockHttpServletRequest()));
+        ApiRequestException.class,
+        () -> userServiceImpl.saveProductToCart(cartRequestDTO, new MockHttpServletRequest()));
     verify(exceptionServiceImpl).handleCartErrors(Mockito.<CartRequestDTO>any());
   }
 }
-
