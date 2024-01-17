@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import java.util.Objects;
+
 public class CartResponseDTO {
   private Long id;
 
@@ -26,5 +28,23 @@ public class CartResponseDTO {
 
   public void setProductId(Long productId) {
     this.productId = productId;
+  }
+
+  @Override
+  public String toString() {
+    return "CartResponseDTO{" + "id=" + id + ", productId=" + productId + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof CartResponseDTO that)) return false;
+    return Objects.equals(getId(), that.getId())
+        && Objects.equals(getProductId(), that.getProductId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getProductId());
   }
 }
