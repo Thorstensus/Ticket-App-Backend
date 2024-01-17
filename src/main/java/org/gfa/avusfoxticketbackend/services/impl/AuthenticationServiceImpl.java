@@ -1,7 +1,7 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.Map;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.JwtServiceImpl;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final UserRepository userRepository;
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtServiceImpl;
   private final AuthenticationManager authManager;
 
   private final ExceptionService exceptionService;
@@ -27,11 +27,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Autowired
   public AuthenticationServiceImpl(
       UserRepository userRepository,
-      JwtService jwtService,
+      JwtServiceImpl jwtServiceImpl,
       AuthenticationManager authManager,
       ExceptionService exceptionService) {
     this.userRepository = userRepository;
-    this.jwtService = jwtService;
+    this.jwtServiceImpl = jwtServiceImpl;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
   }
@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     authManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     String jwtToken =
-        jwtService.generateToken(
+        jwtServiceImpl.generateToken(
             Map.of(
                 "userId", authenticatedUser.getId(),
                 "isAdmin", authenticatedUser.getRole() == Role.ADMIN,

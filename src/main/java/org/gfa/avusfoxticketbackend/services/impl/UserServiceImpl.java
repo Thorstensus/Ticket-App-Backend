@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.JwtServiceImpl;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
   private final ProductService productService;
 
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtServiceImpl;
 
   @Autowired
   public UserServiceImpl(
@@ -33,12 +33,12 @@ public class UserServiceImpl implements UserService {
       PasswordEncoder passwordEncoder,
       ExceptionServiceImpl exceptionService,
       ProductServiceImpl productService,
-      JwtService jwtService) {
+      JwtServiceImpl jwtServiceImpl) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
     this.productService = productService;
-    this.jwtService = jwtService;
+    this.jwtServiceImpl = jwtServiceImpl;
   }
 
   @Override
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
   public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
     String token = httpServletRequest.getHeader("Authorization").substring(7);
-    String username = jwtService.extractUsername(token);
+    String username = jwtServiceImpl.extractUsername(token);
     return userRepository.findByEmail(username);
   }
 
