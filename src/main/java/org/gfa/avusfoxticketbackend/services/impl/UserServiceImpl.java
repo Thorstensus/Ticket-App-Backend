@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-  private static final Dotenv dotenv = Dotenv.configure().load();
-  private static final String VERIFICATION_LINK = dotenv.get("VERIFICATION_LINK");
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionService exceptionService;
@@ -51,9 +49,8 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    emailSender.send(
-        user.getEmail(),
-        emailSender.buildEmail(user.getName(), VERIFICATION_LINK)); // + token (Štěpán pls)
+    String link = "http://localhost:8080/api/email-verification/"; // + token (Štěpán pls)
+    emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
 
     return userToResponseUserDTOConverter(user);
   }
