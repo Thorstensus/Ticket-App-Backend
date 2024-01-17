@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.gfa.avusfoxticketbackend.config.JwtServiceImpl;
+import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -29,7 +29,7 @@ class UserServiceImplTest {
 
   @Mock private ProductServiceImpl productService;
 
-  @Mock private JwtServiceImpl jwtServiceImpl;
+  @Mock private JwtService jwtService;
 
   @InjectMocks private UserServiceImpl userService;
 
