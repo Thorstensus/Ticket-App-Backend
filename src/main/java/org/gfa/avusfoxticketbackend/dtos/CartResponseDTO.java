@@ -37,8 +37,12 @@ public class CartResponseDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof CartResponseDTO that)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof CartResponseDTO that)) {
+      return false;
+    }
     return Objects.equals(getId(), that.getId())
         && Objects.equals(getProductId(), that.getProductId());
   }

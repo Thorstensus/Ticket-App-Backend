@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 public class CartRequestDTO extends RequestDTO {
 
@@ -29,8 +28,12 @@ public class CartRequestDTO extends RequestDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof CartRequestDTO that)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof CartRequestDTO that)) {
+      return false;
+    }
     return Objects.equals(getProductId(), that.getProductId());
   }
 
