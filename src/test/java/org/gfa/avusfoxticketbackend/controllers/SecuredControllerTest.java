@@ -13,10 +13,12 @@ import java.nio.charset.StandardCharsets;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
+import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,42 +34,58 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(MockitoExtension.class)
 public class SecuredControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    JwtService jwtService;
+  @MockBean JwtService jwtService;
 
-    @MockBean
-    private OrderService orderService;
+  @MockBean private OrderService orderService;
 
-    @MockBean
-    private UserService userService;
+  @MockBean private UserService userService;
 
-    @MockBean
-    private ProductService productService;
+  @MockBean private ProductService productService;
 
-    @MockBean
-    private NewsService newsService;
+  @MockBean private NewsService newsService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Autowired private SecuredController securedController;
+  @Autowired private SecuredController securedController;
 
+  @Test
+  public void cartSendsOk() throws Exception {
+    CartRequestDTO cartRequestDTO = new CartRequestDTO(5L);
+    CartResponseDTO cartResponseDTO = new CartResponseDTO(1L, 5L);
 
-    @Test
-    public void cartSendsOk () throws Exception{
-        CartRequestDTO cartRequestDTO = new CartRequestDTO(5L);
-        CartResponseDTO cartResponseDTO = new CartResponseDTO(1L, 5L);
+    when(userService.saveProductToCart(eq(cartRequestDTO), any(HttpServletRequest.class)))
+        .thenReturn(cartResponseDTO);
 
-        when(userService.saveProductToCart(eq(cartRequestDTO), any(HttpServletRequest.class))).thenReturn(cartResponseDTO);
-        mockMvc.perform(post("/api/cart")
+    mockMvc
+        .perform(
+            post("/api/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(objectMapper.writeValueAsString(cartRequestDTO)))
-                .andExpect(status().is(200))
-                .andExpect(content().json(objectMapper.writeValueAsString(cartResponseDTO)))
-                .andDo(print());
+        .andExpect(status().is(200))
+        .andExpect(content().json(objectMapper.writeValueAsString(cartResponseDTO)))
+        .andDo(print());
+  }
+
+  @Test
+  public void cartSends400_NoId() throws Exception {
+    CartRequestDTO cartRequestDTO = new CartRequestDTO();
+    ApiRequestException response = new ApiRequestException("/api/cart", "Product ID is required.");
+
+    when(userService.saveProductToCart(eq(cartRequestDTO), any(HttpServletRequest.class)))
+        .thenThrow(response);
+
+    mockMvc
+        .perform(
+            post("/api/cart")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(cartRequestDTO)))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+        .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
+        .andDo(print());
   }
 }
