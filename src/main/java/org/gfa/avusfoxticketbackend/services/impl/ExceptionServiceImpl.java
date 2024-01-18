@@ -205,7 +205,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void productNameTaken() {
     throw new ApiRequestException(
-            httpServletRequest.getRequestURI(), "Product name already exists.");
+        httpServletRequest.getRequestURI(), "Product name already exists.");
   }
 
   @Override
@@ -260,5 +260,11 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (!validType(requestProductDTO.getType())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
     }
+  }
+
+  @Override
+  public void notVerified() {
+    throw new ApiRequestException(
+        httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
   }
 }

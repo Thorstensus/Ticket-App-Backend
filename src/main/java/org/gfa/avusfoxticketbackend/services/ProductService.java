@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.services;
 
+import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.Product;
-
-import java.util.Optional;
 
 public interface ProductService {
   ApiProductsDTO getApiProductsDto();

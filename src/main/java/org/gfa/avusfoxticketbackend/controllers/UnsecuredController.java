@@ -60,4 +60,11 @@ public class UnsecuredController {
       throw new ApiRequestException("/api/news", "No news matching the searched text found.");
     }
   }
+
+  @GetMapping("/email-verification/{token}")
+  public ResponseEntity<String> emailVerification(@PathVariable String token) {
+    LogHandlerInterceptor.object = token;
+    userService.verifyUserByVerificationToken(token);
+    return ResponseEntity.status(200).body("User verified");
+  }
 }

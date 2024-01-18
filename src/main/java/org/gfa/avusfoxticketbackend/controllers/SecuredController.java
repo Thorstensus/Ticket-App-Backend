@@ -52,6 +52,7 @@ public class SecuredController {
       @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
     token = token.substring(7);
+    userService.checkUserVerification(token);
     orderService.saveOrdersFromCart(token);
     return ResponseEntity.status(200).body(orderService.getCartOrderSummaryDTOandCleanCart(token));
   }

@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.services;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.User;
 
@@ -20,4 +21,12 @@ public interface UserService {
 
   CartResponseDTO saveProductToCart(
       CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest);
+
+  Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest);
+
+  void saveUser(User user);
+
+  void verifyUserByVerificationToken(String token);
+
+  void checkUserVerification(String token);
 }

@@ -26,4 +26,6 @@ public interface JwtService {
   Claims extractAllClaims(String token);
 
   Key getSignInKey();
+
+  String generateVerifyToken(UserDetails userDetails);
 }
