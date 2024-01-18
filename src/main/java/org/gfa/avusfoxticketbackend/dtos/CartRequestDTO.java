@@ -22,6 +22,6 @@ public class CartRequestDTO extends RequestDTO {
 
   @Override
   public String toString() {
-    return "RequestUserDTO{" + "productId='" + productId + '\'' + '}';
+    return "CartRequestDTO{" + "productId='" + productId + '\'' + '}';
   }
 }

@@ -19,9 +19,6 @@ public interface UserService {
 
   PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id);
 
-  CartResponseDTO saveProductToCart(
-      CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest);
-
   Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest);
 
   void saveUser(User user);

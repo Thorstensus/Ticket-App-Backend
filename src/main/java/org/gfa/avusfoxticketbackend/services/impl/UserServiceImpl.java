@@ -6,11 +6,9 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +19,6 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionService exceptionService;
-  private final ProductService productService;
   private final JwtService jwtService;
   private final EmailSender emailSender;
 
@@ -30,13 +27,11 @@ public class UserServiceImpl implements UserService {
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
       ExceptionServiceImpl exceptionService,
-      ProductServiceImpl productService,
       JwtService jwtService,
       EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
-    this.productService = productService;
     this.jwtService = jwtService;
     this.emailSender = emailSender;
   }
@@ -100,25 +95,6 @@ public class UserServiceImpl implements UserService {
 
   public String hashPassword(String password) {
     return passwordEncoder.encode(password);
-  }
-
-  @Override
-  public CartResponseDTO saveProductToCart(
-      CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
-    exceptionService.handleCartErrors(cartRequestDTO);
-    Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
-    Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
-    if (currentUser.isPresent() && currentProduct.isPresent()) {
-      User userToChange = currentUser.get();
-      Product productToChange = currentProduct.get();
-      userToChange.getCart().add(currentProduct.get());
-      productToChange.getInCartOf().add(currentUser.get());
-      userRepository.save(userToChange);
-      productService.saveProduct(productToChange);
-      return new CartResponseDTO(userToChange.getId(), productToChange.getId());
-    } else {
-      throw new ApiRequestException("/api/cart", "Unknown Error");
-    }
   }
 
   @Override

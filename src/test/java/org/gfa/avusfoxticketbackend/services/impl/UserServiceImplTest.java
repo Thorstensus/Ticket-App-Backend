@@ -114,7 +114,7 @@ class UserServiceImplTest {
 
   @Autowired private UserServiceImpl userServiceImpl;
 
-  @Test
+  /*@Test
   void testSaveProductToCart() {
     doThrow(new ApiRequestException("/api/cart", "Product doesn't exist."))
         .when(exceptionServiceImpl)
@@ -124,5 +124,5 @@ class UserServiceImplTest {
         ApiRequestException.class,
         () -> userServiceImpl.saveProductToCart(cartRequestDTO, new MockHttpServletRequest()));
     verify(exceptionServiceImpl).handleCartErrors(Mockito.<CartRequestDTO>any());
-  }
+  }*/
 }

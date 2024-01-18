@@ -24,11 +24,11 @@ public class Product {
   @OneToMany(mappedBy = "product")
   private List<Order> orders;
 
-  @ManyToMany(mappedBy = "cart")
-  private List<User> inCartOf;
+  @ManyToMany(mappedBy = "productList")
+  private List<Cart> inCart;
 
   public Product() {
-    this.inCartOf = new ArrayList<>();
+    this.inCart = new ArrayList<>();
   }
 
   public Product(String name, Double price, Integer duration, String description, Type type) {
@@ -38,7 +38,7 @@ public class Product {
     this.description = description;
     this.type = type;
     this.orders = new ArrayList<>();
-    this.inCartOf = new ArrayList<>();
+    this.inCart = new ArrayList<>();
   }
 
   public Product(
@@ -107,12 +107,12 @@ public class Product {
     this.orders = orders;
   }
 
-  public List<User> getInCartOf() {
-    return inCartOf;
+  public List<Cart> getInCart() {
+    return inCart;
   }
 
-  public void setInCartOf(List<User> inCartOf) {
-    this.inCartOf = inCartOf;
+  public void setInCartOf(List<Cart> inCart) {
+    this.inCart = inCart;
   }
 
   @Override
@@ -134,6 +134,6 @@ public class Product {
   @Override
   public int hashCode() {
     return Objects.hash(
-        getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCartOf());
+        getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCart());
   }
 }

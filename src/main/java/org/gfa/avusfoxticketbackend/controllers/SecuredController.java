@@ -6,10 +6,7 @@ import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
-import org.gfa.avusfoxticketbackend.services.NewsService;
-import org.gfa.avusfoxticketbackend.services.OrderService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
-import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class SecuredController {
 
-  private final ProductService productService;
-  private final NewsService newsService;
   private final UserService userService;
   private final OrderService orderService;
+  private final CartService cartService;
 
   @Autowired
   public SecuredController(
-      ProductService productService,
-      NewsService newsService,
-      UserService userService,
-      OrderService orderService) {
-    this.productService = productService;
-    this.newsService = newsService;
+      UserService userService, OrderService orderService, CartService cartService) {
     this.userService = userService;
     this.orderService = orderService;
+    this.cartService = cartService;
   }
 
   @PostMapping("/orders")
@@ -54,6 +46,6 @@ public class SecuredController {
       HttpServletRequest httpServletRequest) {
     LogHandlerInterceptor.object = List.of(cartRequestDTO, httpServletRequest);
     return ResponseEntity.status(200)
-        .body(userService.saveProductToCart(cartRequestDTO, httpServletRequest));
+        .body(cartService.saveProductToCart(cartRequestDTO, httpServletRequest));
   }
 }
