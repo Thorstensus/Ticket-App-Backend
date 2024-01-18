@@ -5,6 +5,7 @@ import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class SecuredController {
     return ResponseEntity.status(200)
         .body(cartService.saveProductToCart(cartRequestDTO, httpServletRequest));
   }
+
+  @PatchMapping("/cart")
+  public CartResponseDTO modifyCart(){
+    return new CartResponseDTO();
+  };
 
   @PostMapping("/orders")
   public ResponseEntity<ResponseOrderSummaryDTO> order(

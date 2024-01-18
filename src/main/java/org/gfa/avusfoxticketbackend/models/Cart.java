@@ -15,19 +15,19 @@ public class Cart {
 
   @ManyToMany
   @JoinTable(
-      name = "product_cart",
-      joinColumns = @JoinColumn(name = "product_id"),
+      name = "item_cart",
+      joinColumns = @JoinColumn(name = "item_id"),
       inverseJoinColumns = @JoinColumn(name = "cart_id"))
-  List<Product> productList;
+  List<CartItem> itemList;
 
   @OneToOne(mappedBy = "cart")
   User user;
 
   private Date lastActivity;
 
-  public Cart(Long id, List<Product> productList, User user, Date lastActivity) {
+  public Cart(Long id, List<CartItem> itemList, User user, Date lastActivity) {
     this.id = id;
-    this.productList = productList;
+    this.itemList = itemList;
     this.user = user;
     this.lastActivity = lastActivity;
   }
@@ -35,12 +35,12 @@ public class Cart {
   public Cart(User user) {
     this.user = user;
     this.lastActivity = new Date(System.currentTimeMillis());
-    this.productList = new ArrayList<>();
+    this.itemList = new ArrayList<>();
   }
 
   public Cart() {
     this.lastActivity = new Date(System.currentTimeMillis());
-    this.productList = new ArrayList<>();
+    this.itemList = new ArrayList<>();
   }
 
   public Long getId() {
@@ -51,12 +51,12 @@ public class Cart {
     this.id = id;
   }
 
-  public List<Product> getProductList() {
-    return productList;
+  public List<CartItem> getProductList() {
+    return itemList;
   }
 
-  public void setProductList(List<Product> productList) {
-    this.productList = productList;
+  public void setProductList(List<CartItem> productList) {
+    this.itemList = productList;
   }
 
   public User getUser() {
@@ -81,7 +81,7 @@ public class Cart {
         + "id="
         + id
         + ", productList="
-        + productList
+        + itemList
         + ", user="
         + user
         + ", lastActivity="

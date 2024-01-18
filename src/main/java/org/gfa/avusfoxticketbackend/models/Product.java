@@ -21,11 +21,11 @@ public class Product {
   @Enumerated(EnumType.STRING)
   private Type type;
 
-  @OneToMany(mappedBy = "product")
-  private List<Order> orders;
-
   @ManyToMany(mappedBy = "productList")
   private List<Cart> inCart;
+
+  @OneToMany(mappedBy = "product")
+  private List<CartItem> cartItem;
 
   public Product() {
     this.inCart = new ArrayList<>();
@@ -37,7 +37,6 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
-    this.orders = new ArrayList<>();
     this.inCart = new ArrayList<>();
   }
 
@@ -99,20 +98,24 @@ public class Product {
     this.type = type;
   }
 
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
-  }
-
   public List<Cart> getInCart() {
     return inCart;
   }
 
   public void setInCartOf(List<Cart> inCart) {
     this.inCart = inCart;
+  }
+
+  public void setInCart(List<Cart> inCart) {
+    this.inCart = inCart;
+  }
+
+  public List<CartItem> getCartItem() {
+    return cartItem;
+  }
+
+  public void setCartItem(List<CartItem> cartItem) {
+    this.cartItem = cartItem;
   }
 
   @Override

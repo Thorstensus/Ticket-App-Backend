@@ -14,8 +14,8 @@ public class Order {
   private String expiry;
 
   @ManyToOne
-  @JoinColumn(name = "product_id")
-  private Product product;
+  @JoinColumn(name = "cart_item_id")
+  private CartItem cartItem;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -23,10 +23,10 @@ public class Order {
 
   public Order() {}
 
-  public Order(String expiry, Product product) {
+  public Order(String expiry, CartItem cartItem) {
     this.status = "not active";
     this.expiry = expiry;
-    this.product = product;
+    this.cartItem = cartItem;
   }
 
   public Long getId() {
@@ -53,12 +53,12 @@ public class Order {
     this.expiry = expiry;
   }
 
-  public Product getProduct() {
-    return product;
+  public CartItem getProduct() {
+    return cartItem;
   }
 
-  public void setProduct(Product product) {
-    this.product = product;
+  public void setProduct(CartItem cartItem) {
+    this.cartItem = cartItem;
   }
 
   public User getUser() {

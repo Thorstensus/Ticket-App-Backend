@@ -5,10 +5,7 @@ import java.util.List;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
-import org.gfa.avusfoxticketbackend.models.Cart;
-import org.gfa.avusfoxticketbackend.models.Order;
-import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -40,8 +37,8 @@ public class OrderServiceImpl implements OrderService {
   public ResponseOrderSummaryDTO saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     List<Order> userOrders = user.getOrders();
-    for (Product product : user.getCart().getProductList()) {
-      Order order = new Order(null, product);
+    for (CartItem cartItem : user.getCart().getProductList()) {
+      Order order = new Order(null, cartItem);
       order.setUser(user);
       userOrders.add(order);
       orderRepository.save(order);
