@@ -45,8 +45,7 @@ public class SecuredController {
     LogHandlerInterceptor.object = token;
     token = token.substring(7);
     userService.checkUserVerification(token);
-    orderService.saveOrdersFromCart(token);
-    return ResponseEntity.status(200).body(orderService.getCartOrderSummaryDTOandCleanCart(token));
+    return ResponseEntity.status(200).body(orderService.saveOrdersFromCart(token));
   }
 
   @GetMapping("/orders")

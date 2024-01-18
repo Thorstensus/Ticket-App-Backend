@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public void saveOrdersFromCart(String token) {
+  public ResponseOrderSummaryDTO saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     List<Order> userOrders = user.getOrders();
     for (Product product : user.getCart().getProductList()) {
@@ -45,12 +45,13 @@ public class OrderServiceImpl implements OrderService {
     }
     Cart userCart = user.getCart();
     user.setCart(null);
-    getOrderSummaryDTO(token);
+    ResponseOrderSummaryDTO responseOrderSummaryDTO = getOrderSummaryDTO(token);
     cartRepository.delete(userCart);
     userRepository.save(user);
+    return responseOrderSummaryDTO;
   }
 
-  public ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token) {
+  /*public ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     List<Order> actualOrder = new ArrayList<>();
     for (int i = user.getOrders().size() - user.getCart().size(); i < user.getOrders().size(); i++) {
@@ -63,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
       responseOrderDTOList.add(getOrderDTO(order));
     }
     return new ResponseOrderSummaryDTO(responseOrderDTOList);
-  }
+  }*/
 
   @Override
   public ResponseOrderSummaryDTO getOrderSummaryDTO(String token) {
