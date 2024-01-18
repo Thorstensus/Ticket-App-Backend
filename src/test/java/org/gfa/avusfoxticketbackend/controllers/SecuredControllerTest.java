@@ -1,9 +1,9 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -16,9 +16,6 @@ import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
@@ -27,6 +24,7 @@ import org.gfa.avusfoxticketbackend.services.UserService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +32,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @WebMvcTest(controllers = SecuredController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -99,7 +101,9 @@ public class SecuredControllerTest {
   void testOrder() throws Exception {
     when(orderService.getOrderSummaryDTO(Mockito.<String>any()))
         .thenReturn(new ResponseOrderSummaryDTO());
+
     doNothing().when(orderService).saveOrdersFromCart(Mockito.<String>any());
+
     MockHttpServletRequestBuilder requestBuilder =
         MockMvcRequestBuilders.post("/api/orders")
             .header("Authorization", "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
