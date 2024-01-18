@@ -9,7 +9,7 @@ public interface OrderService {
 
   ResponseOrderDTO getOrderDTO(Order order);
 
-/*  ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token);*/
+  /*  ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token);*/
 
   ResponseOrderSummaryDTO getOrderSummaryDTO(String token);
 }
