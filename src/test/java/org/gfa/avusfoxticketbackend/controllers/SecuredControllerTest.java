@@ -1,11 +1,14 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
@@ -50,12 +53,15 @@ public class SecuredControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired private SecuredController securedController;
+
+
     @Test
     public void cartSendsOk () throws Exception{
         CartRequestDTO cartRequestDTO = new CartRequestDTO(5L);
         CartResponseDTO cartResponseDTO = new CartResponseDTO(1L, 5L);
 
-        when(userService.saveProductToCart(cartRequestDTO, null)).thenReturn(cartResponseDTO);
+        when(userService.saveProductToCart(eq(cartRequestDTO), any(HttpServletRequest.class))).thenReturn(cartResponseDTO);
         mockMvc.perform(post("/api/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
