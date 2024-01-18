@@ -43,7 +43,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     String currentEndpoint = httpServletRequest.getRequestURI();
     currentEndpoint = currentEndpoint.replaceAll("/api/admin/users/\\d+", "/api/admin/users/{id}");
     switch (currentEndpoint) {
-      case "/api/admin/users":
+      case "/api/users":
         handleRegisterErrors((RequestUserDTO) requestDto);
         break;
       case "/api/users/login":
@@ -185,6 +185,11 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwProductNotFound() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product doesn't exist.");
+  }
+
+  @Override
+  public void throwFailedToGetEmailTemplate() {
+    throw new RuntimeException("Failed To Get Email Template");
   }
 
   public void throwFieldIsRequired(String field) {

@@ -38,7 +38,8 @@ dependencies {
     testImplementation("com.h2database:h2:2.2.224")
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation("org.mockito:mockito-core:5.8.0")
-
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation("org.springframework.boot:spring-boot-starter-mail:3.2.1")
 
 
 }

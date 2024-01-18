@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,11 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+
+import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -87,5 +93,21 @@ public class SecuredControllerTest {
         .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
         .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
         .andDo(print());
+  }
+
+  @Test
+  void testOrder() throws Exception {
+    when(orderService.getOrderSummaryDTO(Mockito.<String>any()))
+        .thenReturn(new ResponseOrderSummaryDTO());
+    doNothing().when(orderService).saveOrdersFromCart(Mockito.<String>any());
+    MockHttpServletRequestBuilder requestBuilder =
+        MockMvcRequestBuilders.post("/api/orders")
+            .header("Authorization", "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
+    MockMvcBuilders.standaloneSetup(securedController)
+        .build()
+        .perform(requestBuilder)
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+        .andExpect(MockMvcResultMatchers.content().string("{\"orders\":null}"));
   }
 }
