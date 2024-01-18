@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,12 @@ public class JwtServiceImpl implements JwtService {
 
   private static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
   private static final String EXPIRATION_TIME = dotenv.get("EXPIRATION_TIME");
+  private static final String EXPIRATION_TIME_FOR_VERIFICATION = dotenv.get("EXPIRATION_TIME_FOR_VERIFICATION");
+  private final HttpServletRequest httpServletRequest;
+
+  public JwtServiceImpl(HttpServletRequest httpServletRequest) {
+    this.httpServletRequest = httpServletRequest;
+  }
 
   @Override
   public String extractUsername(String token) {
@@ -77,5 +84,15 @@ public class JwtServiceImpl implements JwtService {
   public Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);
+  }
+
+  @Override
+  public String generateVerifyToken(UserDetails userDetails) {
+    return Jwts.builder()
+        .setSubject(userDetails.getUsername())
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(EXPIRATION_TIME_FOR_VERIFICATION)))
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        .compact();
   }
 }

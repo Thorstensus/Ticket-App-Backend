@@ -74,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
     } else {
       throw new ApiRequestException(("/api/products/" + productId), "Product name already exists!");
     }
-
   }
 
   public Optional<Product> getProductById(Long id) {
