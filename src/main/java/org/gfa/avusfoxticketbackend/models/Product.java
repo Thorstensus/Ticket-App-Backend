@@ -124,15 +124,16 @@ public class Product {
       return false;
     }
     return Objects.equals(getId(), product.getId())
-            && Objects.equals(getName(), product.getName())
-            && Objects.equals(getPrice(), product.getPrice())
-            && Objects.equals(getDuration(), product.getDuration())
-            && Objects.equals(getDescription(), product.getDescription())
-            && getType() == product.getType();
+        && Objects.equals(getName(), product.getName())
+        && Objects.equals(getPrice(), product.getPrice())
+        && Objects.equals(getDuration(), product.getDuration())
+        && Objects.equals(getDescription(), product.getDescription())
+        && getType() == product.getType();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCartOf());
+    return Objects.hash(
+        getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCartOf());
   }
 }

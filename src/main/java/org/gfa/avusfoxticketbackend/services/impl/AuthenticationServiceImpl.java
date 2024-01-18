@@ -27,12 +27,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Autowired
   public AuthenticationServiceImpl(
-          UserRepository userRepository,
-          JwtService jwtService,
-          AuthenticationManager authManager,
-          ExceptionService exceptionService,
-          EmailSender emailSender
-  ) {
+      UserRepository userRepository,
+      JwtService jwtService,
+      AuthenticationManager authManager,
+      ExceptionService exceptionService,
+      EmailSender emailSender) {
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
