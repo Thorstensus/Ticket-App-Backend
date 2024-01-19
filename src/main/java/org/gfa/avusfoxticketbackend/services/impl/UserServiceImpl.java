@@ -51,13 +51,7 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link = "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
-    String name = user.getName();
-    Map<String, Object> variables = new HashMap<>();
-    variables.put("link", link);
-    variables.put("name", name);
-
-    emailSender.send(user.getEmail(), "Confirm your email", "verification-email", variables);
+    emailSender.sendVerificationEmail(user);
 
     return userToResponseUserDTOConverter(user);
   }

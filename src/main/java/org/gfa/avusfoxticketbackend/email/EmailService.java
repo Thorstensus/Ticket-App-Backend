@@ -4,14 +4,16 @@ import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.thymeleaf.ThymeleafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.mail.javamail.MimeMessageHelper;;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,20 +24,21 @@ public class EmailService implements EmailSender {
   private final JavaMailSender mailSender;
   private final ExceptionService exceptionService;
   private final ThymeleafService thymeleafService;
+  private final JwtService jwtService;
 
   @Autowired
   public EmailService(
-      JavaMailSender mailSender,
-      ExceptionService exceptionService,
-      ThymeleafService thymeleafService) {
+          JavaMailSender mailSender,
+          ExceptionService exceptionService,
+          ThymeleafService thymeleafService,
+          JwtService jwtService) {
     this.mailSender = mailSender;
     this.exceptionService = exceptionService;
     this.thymeleafService = thymeleafService;
+    this.jwtService = jwtService;
   }
 
-  @Override
-  @Async
-  public void send(String to, String subject, String template, Map<String, Object> variables) {
+  private void send(String to, String subject, String template, Map<String, Object> variables) {
     try {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
       MimeMessageHelper helper =
@@ -54,5 +57,14 @@ public class EmailService implements EmailSender {
       System.out.println("failed to send email");
       throw new IllegalStateException("failed to send email");
     }
+  }
+
+  @Override
+  public void sendVerificationEmail(User user) {
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("link", "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user));
+    variables.put("name", user.getName());
+
+    send(user.getEmail(), "Confirm your email", "verification-email", variables);
   }
 }
