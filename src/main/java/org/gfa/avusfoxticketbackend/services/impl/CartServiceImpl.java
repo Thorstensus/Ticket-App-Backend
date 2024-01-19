@@ -71,26 +71,28 @@ public class CartServiceImpl implements CartService {
     Optional<Product> currentProductOptional = productService.getProductById(cartRequestDTO.getProductId());
     if (currentUserOptional.isPresent() && currentProductOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
-      Optional<Cart> currentUsersCartOptional = cartRepository.findCartByUser(currentUser);
       Product currentProduct = currentProductOptional.get();
-      Cart currentUsersCart;
       CartItem currentCartItem = new CartItem(currentProduct);
-      if (currentUsersCartOptional.isEmpty()) {
-        currentUsersCart = new Cart(currentUser);
-        currentUser.setCart(currentUsersCart);
-        currentUsersCart.getProductList().add(currentCartItem);
-      } else {
-        currentUsersCart = currentUsersCartOptional.get();
-        currentUsersCart.setLastActivity(Date.valueOf(LocalDate.now()));
-        currentUsersCart.getProductList().add(currentCartItem);
-      }
-      cartItemService.saveCartItem(currentCartItem);
-      productService.saveProduct(currentProduct);
-      saveCart(currentUsersCart);
-      userService.saveUser(currentUser);
+      addCartItemToCart(currentUser, currentCartItem);
       return new CartResponseDTO(currentUser.getId(), currentProduct.getId());
     } else {
       throw new ApiRequestException("/api/cart", "Unknown Error");
     }
+  }
+
+  public void addCartItemToCart(User user, CartItem cartItem){
+    Cart currentUsersCart;
+    if (user.getCart() == null) {
+      currentUsersCart = new Cart(user);
+      user.setCart(currentUsersCart);
+      currentUsersCart.getProductList().add(cartItem);
+    } else {
+      currentUsersCart = user.getCart();
+      currentUsersCart.setLastActivity(Date.valueOf(LocalDate.now()));
+      currentUsersCart.getProductList().add(cartItem);
+    }
+    cartItemService.saveCartItem(cartItem);
+    saveCart(currentUsersCart);
+    userService.saveUser(user);
   }
 }
