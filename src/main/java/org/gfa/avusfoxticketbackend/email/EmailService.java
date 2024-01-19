@@ -3,11 +3,11 @@ package org.gfa.avusfoxticketbackend.email;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
+import org.gfa.avusfoxticketbackend.thymeleaf.ThymeleafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,54 +20,39 @@ public class EmailService implements EmailSender {
   private static final Dotenv dotenv = Dotenv.configure().load();
   private static final String MAIL_USERNAME = dotenv.get("MAIL_USERNAME");
   private final JavaMailSender mailSender;
-
   private final ExceptionService exceptionService;
+  private final ThymeleafService thymeleafService;
 
   @Autowired
-  public EmailService(JavaMailSender mailSender, ExceptionService exceptionService) {
+  public EmailService(
+      JavaMailSender mailSender,
+      ExceptionService exceptionService,
+      ThymeleafService thymeleafService) {
     this.mailSender = mailSender;
     this.exceptionService = exceptionService;
-  }
-
-  @Override
-  public String getEmailHtmlTemplate(String templatePath) {
-    Path path = Path.of(templatePath);
-    String output = "";
-
-    try {
-      List<String> templateLines = Files.readAllLines(path);
-      for (String line : templateLines) {
-        output += line;
-      }
-    } catch (IOException e) {
-      exceptionService.throwFailedToGetEmailTemplate();
-    }
-    return output;
+    this.thymeleafService = thymeleafService;
   }
 
   @Override
   @Async
-  public void send(String to, String email) {
+  public void send(String to, String subject, String template, Map<String, Object> variables) {
     try {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-      helper.setText(email, true);
-      helper.setTo(to);
-      helper.setSubject("Confirm your email");
+      MimeMessageHelper helper =
+          new MimeMessageHelper(
+              mimeMessage,
+              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+              StandardCharsets.UTF_8.name());
       helper.setFrom(MAIL_USERNAME);
+      helper.setText(thymeleafService.createContent(template, variables), true);
+      helper.setTo(to);
+      helper.setSubject(subject);
+
       mailSender.send(mimeMessage);
+
     } catch (MessagingException e) {
       System.out.println("failed to send email");
       throw new IllegalStateException("failed to send email");
     }
-  }
-
-  public String buildEmail(String name, String link) {
-    return getEmailHtmlTemplate("src/main/resources/templates/email-template.txt")
-        + " "
-        + name
-        + getEmailHtmlTemplate("src/main/resources/templates/email-template2.txt")
-        + link
-        + getEmailHtmlTemplate("src/main/resources/templates/email-template3.txt");
   }
 }

@@ -1,6 +1,9 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
@@ -48,9 +51,13 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link =
-        "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
-    emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
+    String link = "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
+    String name = user.getName();
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("link", link);
+    variables.put("name", name);
+
+    emailSender.send(user.getEmail(), "Confirm your email", "verification-email", variables);
 
     return userToResponseUserDTOConverter(user);
   }

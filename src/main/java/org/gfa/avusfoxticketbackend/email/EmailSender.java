@@ -1,9 +1,10 @@
 package org.gfa.avusfoxticketbackend.email;
 
+import org.springframework.scheduling.annotation.Async;
+
+import java.util.Map;
+
 public interface EmailSender {
-  void send(String to, String email);
 
-  String buildEmail(String name, String link);
-
-  String getEmailHtmlTemplate(String templatePath);
+  void send(String to, String subject, String template, Map<String, Object> variables);
 }
