@@ -1,15 +1,20 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.models.CartProduct;
+import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -116,6 +121,17 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
+  public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user){
+    Optional<Product> currentProductOptional = productRepository.findById(requestDTO.getProductId());
+    if (currentProductOptional.isEmpty()){
+      throwProductNotFound();
+    }
+    if (user.getCart() == null || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()){
+      throwProductIsNotInCart();
+    }
+  }
+
+  @Override
   public boolean isValidEmailRequest(String requestEmail) {
     return Pattern.compile(
             "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
@@ -206,6 +222,12 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void productNameTaken() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Product name already exists.");
+  }
+
+  @Override
+  public void throwProductIsNotInCart() {
+    throw new ApiRequestException(
+            httpServletRequest.getRequestURI(), "Product is not in the cart.");
   }
 
   @Override

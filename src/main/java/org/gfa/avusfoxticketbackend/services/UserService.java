@@ -21,6 +21,8 @@ public interface UserService {
 
   Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest);
 
+  Optional<User> extractUserFromToken(String token);
+
   void saveUser(User user);
 
   void verifyUserByVerificationToken(String token);

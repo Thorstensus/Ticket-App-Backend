@@ -7,38 +7,42 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cart_items")
-public class CartItem {
+@Table(name = "cart_products")
+public class CartProduct {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
+  @ManyToMany(mappedBy = "productList")
+  private List<Cart> inCart;
 
   @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
 
-  @OneToMany(mappedBy = "cartItem")
+  @OneToMany(mappedBy = "cartProduct")
   private List<Order> orders;
 
   private int quantity;
 
-  public CartItem() {
+  public CartProduct() {
     this.orders = new ArrayList<>();
   }
 
-  public CartItem(Product product, int quantity) {
+  public CartProduct(List<Cart> inCart, Product product, int quantity) {
+    this.inCart = inCart;
     this.product = product;
     this.orders = new ArrayList<>();
     this.quantity = quantity;
   }
 
-  public CartItem(Product product){
+  public CartProduct(Product product){
     this.product=product;
     this.orders = new ArrayList<>();
     this.quantity=1;
   }
 
-  public CartItem(Long id, Product product, List<Order> orders, int quantity) {
+  public CartProduct(Long id, Product product, List<Order> orders, int quantity) {
     this.id = id;
     this.product = product;
     this.orders = orders;
@@ -69,11 +73,29 @@ public class CartItem {
     this.quantity = quantity;
   }
 
+  public List<Cart> getInCart() {
+    return inCart;
+  }
+
+  public void setInCart(List<Cart> inCart) {
+    this.inCart = inCart;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
+  }
+
   @Override
   public String toString() {
-    return "CartItem{" +
+    return "CartProduct{" +
             "id=" + id +
+            ", inCart=" + inCart +
             ", product=" + product +
+            ", orders=" + orders +
             ", quantity=" + quantity +
             '}';
   }
@@ -81,12 +103,12 @@ public class CartItem {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (!(o instanceof CartItem cartItem)) return false;
-    return getQuantity() == cartItem.getQuantity() && Objects.equals(getId(), cartItem.getId()) && Objects.equals(getProduct(), cartItem.getProduct());
+    if (!(o instanceof CartProduct that)) return false;
+    return getQuantity() == that.getQuantity() && Objects.equals(getId(), that.getId()) && Objects.equals(getInCart(), that.getInCart()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getOrders(), that.getOrders());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getProduct(), getQuantity());
+    return Objects.hash(getId(), getInCart(), getProduct(), getOrders(), getQuantity());
   }
 }

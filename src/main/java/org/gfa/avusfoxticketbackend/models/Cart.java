@@ -1,10 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+
+import java.util.*;
 
 @Entity
 @Table(name = "carts")
@@ -15,19 +13,19 @@ public class Cart {
 
   @ManyToMany
   @JoinTable(
-      name = "item_cart",
-      joinColumns = @JoinColumn(name = "item_id"),
+      name = "cart_product_cart",
+      joinColumns = @JoinColumn(name = "cart_product_id"),
       inverseJoinColumns = @JoinColumn(name = "cart_id"))
-  List<CartItem> itemList;
+  List<CartProduct> productList;
 
   @OneToOne(mappedBy = "cart")
   User user;
 
   private Date lastActivity;
 
-  public Cart(Long id, List<CartItem> itemList, User user, Date lastActivity) {
+  public Cart(Long id, List<CartProduct> productList, User user, Date lastActivity) {
     this.id = id;
-    this.itemList = itemList;
+    this.productList = productList;
     this.user = user;
     this.lastActivity = lastActivity;
   }
@@ -35,12 +33,12 @@ public class Cart {
   public Cart(User user) {
     this.user = user;
     this.lastActivity = new Date(System.currentTimeMillis());
-    this.itemList = new ArrayList<>();
+    this.productList = new ArrayList<>();
   }
 
   public Cart() {
     this.lastActivity = new Date(System.currentTimeMillis());
-    this.itemList = new ArrayList<>();
+    this.productList = new ArrayList<>();
   }
 
   public Long getId() {
@@ -51,12 +49,12 @@ public class Cart {
     this.id = id;
   }
 
-  public List<CartItem> getProductList() {
-    return itemList;
+  public List<CartProduct> getProductList() {
+    return productList;
   }
 
-  public void setProductList(List<CartItem> productList) {
-    this.itemList = productList;
+  public void setProductList(List<CartProduct> productList) {
+    this.productList = productList;
   }
 
   public User getUser() {
@@ -75,13 +73,24 @@ public class Cart {
     this.lastActivity = lastRemindedAt;
   }
 
+  public Optional<CartProduct> getCartProductFromCart(Product product){
+    Optional<CartProduct> cartProductOptional = Optional.empty();
+    for (CartProduct cartProduct : productList){
+      if (cartProduct.getProduct().equals(product)) {
+        cartProductOptional = Optional.of(cartProduct);
+        break;
+      }
+    }
+    return cartProductOptional;
+  }
+
   @Override
   public String toString() {
     return "Cart{"
         + "id="
         + id
         + ", productList="
-        + itemList
+        + productList
         + ", user="
         + user
         + ", lastActivity="

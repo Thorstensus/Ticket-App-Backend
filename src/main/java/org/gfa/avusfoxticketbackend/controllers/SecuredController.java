@@ -33,16 +33,22 @@ public class SecuredController {
 
   @PostMapping("/cart")
   public ResponseEntity<CartResponseDTO> addToCart(
-      @RequestBody(required = false) CartRequestDTO cartRequestDTO,
-      HttpServletRequest httpServletRequest) {
-    LogHandlerInterceptor.object = List.of(cartRequestDTO, httpServletRequest);
+      @RequestBody(required = false) CartRequestDTO requestDTO,
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = List.of(requestDTO, token);
+    token = token.substring(7);
     return ResponseEntity.status(200)
-        .body(cartService.saveProductToCart(cartRequestDTO, httpServletRequest));
+        .body(cartService.saveProductToCart(requestDTO, token));
   }
 
   @PatchMapping("/cart")
-  public CartResponseDTO modifyCart(){
-    return new CartResponseDTO();
+  public ResponseEntity<ModifyCartResponseDTO> modifyCart
+          (@RequestBody(required = false) ModifyCartRequestDTO requestDTO,
+           @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = List.of(requestDTO, token);
+    token = token.substring(7);
+    return ResponseEntity.status(200)
+            .body(cartService.modifyProductInCart(requestDTO,token));
   };
 
   @PostMapping("/orders")

@@ -21,15 +21,10 @@ public class Product {
   @Enumerated(EnumType.STRING)
   private Type type;
 
-  @ManyToMany(mappedBy = "productList")
-  private List<Cart> inCart;
-
   @OneToMany(mappedBy = "product")
-  private List<CartItem> cartItem;
+  private List<CartProduct> cartProduct;
 
-  public Product() {
-    this.inCart = new ArrayList<>();
-  }
+  public Product() {}
 
   public Product(String name, Double price, Integer duration, String description, Type type) {
     this.name = name;
@@ -37,7 +32,6 @@ public class Product {
     this.duration = duration;
     this.description = description;
     this.type = type;
-    this.inCart = new ArrayList<>();
   }
 
   public Product(
@@ -98,24 +92,12 @@ public class Product {
     this.type = type;
   }
 
-  public List<Cart> getInCart() {
-    return inCart;
+  public List<CartProduct> getCartItem() {
+    return cartProduct;
   }
 
-  public void setInCartOf(List<Cart> inCart) {
-    this.inCart = inCart;
-  }
-
-  public void setInCart(List<Cart> inCart) {
-    this.inCart = inCart;
-  }
-
-  public List<CartItem> getCartItem() {
-    return cartItem;
-  }
-
-  public void setCartItem(List<CartItem> cartItem) {
-    this.cartItem = cartItem;
+  public void setCartItem(List<CartProduct> cartProduct) {
+    this.cartProduct = cartProduct;
   }
 
   @Override
@@ -137,6 +119,6 @@ public class Product {
   @Override
   public int hashCode() {
     return Objects.hash(
-        getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getInCart());
+        getId(), getName(), getPrice(), getDuration(), getDescription(), getType());
   }
 }

@@ -37,8 +37,8 @@ public class OrderServiceImpl implements OrderService {
   public ResponseOrderSummaryDTO saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     List<Order> userOrders = user.getOrders();
-    for (CartItem cartItem : user.getCart().getProductList()) {
-      Order order = new Order(null, cartItem);
+    for (CartProduct cartProduct : user.getCart().getProductList()) {
+      Order order = new Order(null, cartProduct);
       order.setUser(user);
       userOrders.add(order);
       orderRepository.save(order);

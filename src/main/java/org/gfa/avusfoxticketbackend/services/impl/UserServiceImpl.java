@@ -105,6 +105,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public Optional<User> extractUserFromToken(String token) {
+    String username = jwtService.extractUsername(token);
+    return userRepository.findByEmail(username);
+  }
+
+  @Override
   public void saveUser(User user) {
     userRepository.save(user);
   }
