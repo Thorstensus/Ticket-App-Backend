@@ -1,6 +1,7 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import org.gfa.avusfoxticketbackend.dtos.CartProductDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,5 +111,9 @@ public class CartProduct {
   @Override
   public int hashCode() {
     return Objects.hash(getId(), getInCart(), getProduct(), getOrders(), getQuantity());
+  }
+
+  public CartProductDTO toCartProductDTO() {
+    return new CartProductDTO(product.getId(), product.getName(), quantity);
   }
 }

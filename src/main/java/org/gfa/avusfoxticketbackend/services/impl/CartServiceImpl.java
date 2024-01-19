@@ -2,11 +2,11 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.ModifyCartResponseDTO;
+
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.CartProduct;
@@ -94,7 +94,11 @@ public class CartServiceImpl implements CartService {
       cartProductService.saveCartProduct(currentCartProduct);
       userService.saveUser(currentUser);
       saveCart(currentUserCart);
-      return new ModifyCartResponseDTO(currentUserCart);
+      List<CartProductDTO> responseList = new ArrayList<>();
+      for (CartProduct cartProduct : currentUserCart.getProductList()){
+        responseList.add(cartProduct.toCartProductDTO());
+      }
+      return new ModifyCartResponseDTO(responseList);
     } else {
       throw new ApiRequestException("/api/cart", "Unknown Error");
     }
