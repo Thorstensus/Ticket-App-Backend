@@ -6,12 +6,18 @@ import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
+import org.gfa.avusfoxticketbackend.models.Cart;
+import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,11 +28,13 @@ public class EmailService implements EmailSender {
   private final JavaMailSender mailSender;
 
   private final ExceptionService exceptionService;
+  private final CartRepository cartRepository;
 
   @Autowired
-  public EmailService(JavaMailSender mailSender, ExceptionService exceptionService) {
+  public EmailService(JavaMailSender mailSender, ExceptionService exceptionService, CartRepository cartRepository) {
     this.mailSender = mailSender;
     this.exceptionService = exceptionService;
+    this.cartRepository = cartRepository;
   }
 
   @Override
@@ -69,5 +77,18 @@ public class EmailService implements EmailSender {
         + getEmailHtmlTemplate("src/main/resources/templates/email-template2.txt")
         + link
         + getEmailHtmlTemplate("src/main/resources/templates/email-template3.txt");
+  }
+
+  @Scheduled(fixedDelay = 5000)
+  public void sendRemainder() {
+    List<Cart> cartsInDatabase = cartRepository.findAll();
+    Date currentTime = new Date(System.currentTimeMillis());
+    for(Cart cart : cartsInDatabase) {
+      if (((currentTime.getTime() - cart.getLastActivity().getTime()) / (60*1000)) > 1) {
+        cart.setLastActivity(currentTime);
+        cartRepository.save(cart);
+        System.out.println(cart.getUser().getEmail());
+      }
+    }
   }
 }

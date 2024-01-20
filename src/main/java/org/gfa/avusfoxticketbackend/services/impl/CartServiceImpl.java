@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Date;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
@@ -75,6 +77,7 @@ public class CartServiceImpl implements CartService {
       } else {
         currentUsersCart = currentUsersCartOptional.get();
         currentUsersCart.getProductList().add(currentProduct);
+        currentUsersCart.setLastActivity(new Date(System.currentTimeMillis()));
       }
       saveCart(currentUsersCart);
       userService.saveUser(currentUser);
