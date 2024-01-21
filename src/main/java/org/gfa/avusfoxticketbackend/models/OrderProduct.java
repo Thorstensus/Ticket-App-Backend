@@ -6,57 +6,57 @@ import jakarta.persistence.*;
 @Table(name = "order_products")
 public class OrderProduct {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private int quantity;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+  private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-    public OrderProduct() {
-    }
+  @ManyToOne
+  @JoinColumn(name = "order_id")
+  private Order order;
 
-    public OrderProduct(int quantity, Product product, Order order) {
-        this.quantity = quantity;
-        this.product = product;
-        this.order = order;
-    }
+  public OrderProduct() {}
 
-    public Order getOrder() {
-        return order;
-    }
+  public OrderProduct(int quantity, Product product, Order order) {
+    this.quantity = quantity;
+    this.product = product;
+    this.order = order;
+  }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+  public Order getOrder() {
+    return order;
+  }
 
-    public int getQuantity() {
-        return quantity;
-    }
+  public void setOrder(Order order) {
+    this.order = order;
+  }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+  public int getQuantity() {
+    return quantity;
+  }
 
-    public Product getProduct() {
-        return product;
-    }
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+  public Product getProduct() {
+    return product;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }

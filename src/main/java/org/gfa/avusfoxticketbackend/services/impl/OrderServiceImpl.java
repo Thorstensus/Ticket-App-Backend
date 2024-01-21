@@ -25,12 +25,12 @@ public class OrderServiceImpl implements OrderService {
 
   @Autowired
   public OrderServiceImpl(
-          OrderRepository orderRepository,
-          JwtService jwtService,
-          UserRepository userRepository,
-          OrderProductService orderProductService,
-          CartProductService cartProductService,
-          CartService cartService) {
+      OrderRepository orderRepository,
+      JwtService jwtService,
+      UserRepository userRepository,
+      OrderProductService orderProductService,
+      CartProductService cartProductService,
+      CartService cartService) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
@@ -46,10 +46,10 @@ public class OrderServiceImpl implements OrderService {
     orderRepository.save(order);
     List<OrderProduct> orderProducts = new ArrayList<>();
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
-      OrderProduct orderProduct = new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
+      OrderProduct orderProduct =
+          new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
       orderProductService.save(orderProduct);
       orderProducts.add(orderProduct);
-
     }
     order.setOrderProducts(orderProducts);
     orderRepository.save(order);

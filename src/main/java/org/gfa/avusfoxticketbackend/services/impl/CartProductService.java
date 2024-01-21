@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartProductService {
 
-    private final CartProductRepository cartProductRepository;
+  private final CartProductRepository cartProductRepository;
 
-    @Autowired
-    public CartProductService(CartProductRepository cartProductRepository) {
-        this.cartProductRepository = cartProductRepository;
-    }
+  @Autowired
+  public CartProductService(CartProductRepository cartProductRepository) {
+    this.cartProductRepository = cartProductRepository;
+  }
 
-    public void save(CartProduct cartProduct) {
-        cartProductRepository.save(cartProduct);
-    }
+  public void save(CartProduct cartProduct) {
+    cartProductRepository.save(cartProduct);
+  }
 
-    public void deleteById(Long id) {
-        cartProductRepository.deleteById(id);
-    }
+  public void deleteById(Long id) {
+    cartProductRepository.deleteById(id);
+  }
 }

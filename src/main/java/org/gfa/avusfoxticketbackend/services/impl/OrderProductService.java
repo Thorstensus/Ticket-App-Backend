@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderProductService {
 
-    private final OrderProductRepository orderProductRepository;
+  private final OrderProductRepository orderProductRepository;
 
-    public OrderProductService(OrderProductRepository orderProductRepository) {
-        this.orderProductRepository = orderProductRepository;
-    }
+  public OrderProductService(OrderProductRepository orderProductRepository) {
+    this.orderProductRepository = orderProductRepository;
+  }
 
-    public void save(OrderProduct orderProduct) {
-        orderProductRepository.save(orderProduct);
-    }
+  public void save(OrderProduct orderProduct) {
+    orderProductRepository.save(orderProduct);
+  }
 }

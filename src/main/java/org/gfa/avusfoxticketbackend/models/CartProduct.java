@@ -5,57 +5,57 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "cart_products")
 public class CartProduct {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private int quantity;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+  private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-    public CartProduct() {
-    }
+  @ManyToOne
+  @JoinColumn(name = "cart_id")
+  private Cart cart;
 
-    public CartProduct(int quantity, Product product, Cart cart) {
-        this.quantity = quantity;
-        this.product = product;
-        this.cart = cart;
-    }
+  public CartProduct() {}
 
-    public int getQuantity() {
-        return quantity;
-    }
+  public CartProduct(int quantity, Product product, Cart cart) {
+    this.quantity = quantity;
+    this.product = product;
+    this.cart = cart;
+  }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+  public int getQuantity() {
+    return quantity;
+  }
 
-    public Product getProduct() {
-        return product;
-    }
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+  public Product getProduct() {
+    return product;
+  }
 
-    public Cart getCart() {
-        return cart;
-    }
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
+  public Cart getCart() {
+    return cart;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setCart(Cart cart) {
+    this.cart = cart;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }

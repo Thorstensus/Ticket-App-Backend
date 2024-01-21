@@ -11,10 +11,10 @@ public class ResponseOrderDTO extends ResponseDTO {
   private String expiry;
   private List<ResponseOrderProductDTO> products;
 
-
   public ResponseOrderDTO() {}
 
-  public ResponseOrderDTO(Long id, String status, String expiry, List<ResponseOrderProductDTO> products) {
+  public ResponseOrderDTO(
+      Long id, String status, String expiry, List<ResponseOrderProductDTO> products) {
     this.id = id;
     this.status = status;
     this.expiry = expiry;
@@ -55,6 +55,17 @@ public class ResponseOrderDTO extends ResponseDTO {
 
   @Override
   public String toString() {
-    return "ResponseOrderDTO{" + "id=" + id + ", status='" + status + '\'' + ", expiry='" + expiry + '\'' + ", products=" + products + '}';
+    return "ResponseOrderDTO{"
+        + "id="
+        + id
+        + ", status='"
+        + status
+        + '\''
+        + ", expiry='"
+        + expiry
+        + '\''
+        + ", products="
+        + products
+        + '}';
   }
 }
