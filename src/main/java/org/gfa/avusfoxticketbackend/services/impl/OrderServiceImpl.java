@@ -9,6 +9,9 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.services.CartProductService;
+import org.gfa.avusfoxticketbackend.services.CartService;
+import org.gfa.avusfoxticketbackend.services.OrderProductService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
   private final UserRepository userRepository;
   private final OrderProductService orderProductService;
   private final CartProductService cartProductService;
-  private final CartService cartService;
+  private final CartService cartServiceImpl;
 
   @Autowired
   public OrderServiceImpl(
@@ -30,13 +33,13 @@ public class OrderServiceImpl implements OrderService {
       UserRepository userRepository,
       OrderProductService orderProductService,
       CartProductService cartProductService,
-      CartService cartService) {
+      CartService cartServiceImpl) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
     this.orderProductService = orderProductService;
     this.cartProductService = cartProductService;
-    this.cartService = cartService;
+    this.cartServiceImpl = cartServiceImpl;
   }
 
   @Override
@@ -62,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
       cartProductService.deleteById(cartProduct.getId());
     }
-    cartService.deleteById(user.getCart().getId());
+    cartServiceImpl.deleteById(user.getCart().getId());
 
     userRepository.save(user);
 

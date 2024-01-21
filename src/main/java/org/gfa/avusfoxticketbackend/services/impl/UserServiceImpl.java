@@ -11,9 +11,7 @@ import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.gfa.avusfoxticketbackend.services.ExceptionService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
-import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class UserServiceImpl implements UserService {
   private final ProductService productService;
   private final JwtService jwtService;
   private final EmailSender emailSender;
-  private final CartService cartService;
+  private final CartService cartServiceImpl;
   private final CartProductService cartProductService;
 
   @Autowired
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
           ProductServiceImpl productService,
           JwtService jwtService,
           EmailSender emailSender,
-          CartService cartService,
+          CartService cartServiceImpl,
           CartProductService cartProductService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService {
     this.productService = productService;
     this.jwtService = jwtService;
     this.emailSender = emailSender;
-    this.cartService = cartService;
+    this.cartServiceImpl = cartServiceImpl;
     this.cartProductService = cartProductService;
   }
 
@@ -137,7 +135,7 @@ public class UserServiceImpl implements UserService {
           break;
         }
       }
-      cartService.save(cart);
+      cartServiceImpl.save(cart);
 
       if (!boughtMultipleTimes) {
         CartProduct cartProduct = new CartProduct(1, productToChange, cart);
