@@ -79,20 +79,12 @@
 
 package org.gfa.avusfoxticketbackend.services.impl;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 import org.gfa.avusfoxticketbackend.config.JwtService;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
-import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
