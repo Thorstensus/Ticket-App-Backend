@@ -29,18 +29,13 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Order> orders;
 
-  @ManyToMany
-  @JoinTable(
-      name = "cart",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "product_id"))
-  private List<Product> cart;
+  @OneToOne(mappedBy = "user")
+  private Cart cart;
 
   public User() {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
-    this.cart = new ArrayList<>();
   }
 
   public User(String name, String email, String password) {
@@ -50,7 +45,14 @@ public class User implements UserDetails {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
-    this.cart = new ArrayList<>();
+  }
+
+  public Cart getCart() {
+    return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
   }
 
   public String getEmail() {
@@ -142,13 +144,5 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
-  }
-
-  public List<Product> getCart() {
-    return cart;
-  }
-
-  public void setCart(List<Product> cart) {
-    this.cart = cart;
   }
 }

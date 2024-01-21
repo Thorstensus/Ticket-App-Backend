@@ -2,13 +2,14 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.models.Cart;
+import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -27,21 +28,27 @@ public class UserServiceImpl implements UserService {
   private final ProductService productService;
   private final JwtService jwtService;
   private final EmailSender emailSender;
+  private final CartService cartService;
+  private final CartProductService cartProductService;
 
   @Autowired
   public UserServiceImpl(
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ExceptionServiceImpl exceptionService,
-      ProductServiceImpl productService,
-      JwtService jwtService,
-      EmailSender emailSender) {
+          UserRepository userRepository,
+          PasswordEncoder passwordEncoder,
+          ExceptionServiceImpl exceptionService,
+          ProductServiceImpl productService,
+          JwtService jwtService,
+          EmailSender emailSender,
+          CartService cartService,
+          CartProductService cartProductService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
     this.productService = productService;
     this.jwtService = jwtService;
     this.emailSender = emailSender;
+    this.cartService = cartService;
+    this.cartProductService = cartProductService;
   }
 
   @Override
@@ -109,13 +116,37 @@ public class UserServiceImpl implements UserService {
     exceptionService.handleCartErrors(cartRequestDTO);
     Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
     Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
+
     if (currentUser.isPresent() && currentProduct.isPresent()) {
       User userToChange = currentUser.get();
       Product productToChange = currentProduct.get();
-      userToChange.getCart().add(currentProduct.get());
-      productToChange.getInCartOf().add(currentUser.get());
+      Cart cart;
+      List<CartProduct> cartProductList = new ArrayList<>();
+
+      if (userToChange.getCart() == null) {
+        cart = new Cart(userToChange, cartProductList);
+      } else {
+        cart = userToChange.getCart();
+      }
+
+      boolean boughtMultipleTimes = false;
+
+      for (CartProduct cartProduct : cart.getCartProducts()) {
+        if (Objects.equals(productToChange.getId(), cartProduct.getProduct().getId())) {
+          cartProduct.setQuantity(cartProduct.getQuantity() + 1);
+          cartProductService.save(cartProduct);
+          boughtMultipleTimes = true;
+          break;
+        }
+      }
+      cartService.save(cart);
+
+      if (!boughtMultipleTimes) {
+        CartProduct cartProduct = new CartProduct(1, productToChange, cart);
+        cartProductService.save(cartProduct);
+        cartProductList.add(cartProduct);
+      }
       userRepository.save(userToChange);
-      productService.saveProduct(productToChange);
       return new CartResponseDTO(userToChange.getId(), productToChange.getId());
     } else {
       throw new ApiRequestException("/api/cart", "Unknown Error");
