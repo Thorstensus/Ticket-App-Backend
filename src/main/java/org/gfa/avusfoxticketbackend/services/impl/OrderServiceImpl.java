@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
   public ResponseOrderDTO getOrderDTO(Order order) {
     List<ResponseOrderProductDTO> orderProductDTOS = new ArrayList<>();
     for (OrderProduct product : order.getOrderProducts()) {
-      orderProductDTOS.add(new ResponseOrderProductDTO(product.getId(), product.getQuantity()));
+      orderProductDTOS.add(new ResponseOrderProductDTO(product.getProduct().getId(), product.getQuantity()));
     }
     return new ResponseOrderDTO(
         order.getId(), order.getStatus(), order.getExpiry(), orderProductDTOS);
