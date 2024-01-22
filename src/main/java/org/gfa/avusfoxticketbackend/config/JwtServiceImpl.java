@@ -21,7 +21,8 @@ public class JwtServiceImpl implements JwtService {
 
   private static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
   private static final String EXPIRATION_TIME = dotenv.get("EXPIRATION_TIME");
-  private static final String EXPIRATION_TIME_FOR_VERIFICATION = dotenv.get("EXPIRATION_TIME_FOR_VERIFICATION");
+  private static final String EXPIRATION_TIME_FOR_VERIFICATION =
+      dotenv.get("EXPIRATION_TIME_FOR_VERIFICATION");
   private final HttpServletRequest httpServletRequest;
 
   public JwtServiceImpl(HttpServletRequest httpServletRequest) {
@@ -91,7 +92,9 @@ public class JwtServiceImpl implements JwtService {
     return Jwts.builder()
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(EXPIRATION_TIME_FOR_VERIFICATION)))
+        .setExpiration(
+            new Date(
+                System.currentTimeMillis() + Integer.parseInt(EXPIRATION_TIME_FOR_VERIFICATION)))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }

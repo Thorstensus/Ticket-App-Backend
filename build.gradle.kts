@@ -40,6 +40,9 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.8.0")
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation("org.springframework.boot:spring-boot-starter-mail:3.2.1")
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+    implementation("org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE")
+
 
 
 }
