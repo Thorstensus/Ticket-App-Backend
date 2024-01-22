@@ -2,6 +2,7 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -19,11 +20,16 @@ public class Cart {
   @OneToMany(mappedBy = "cart")
   private List<CartProduct> cartProducts;
 
-  public Cart() {}
+  private Date lastActivity;
+
+  public Cart() {
+    this.lastActivity = new Date(System.currentTimeMillis());
+  }
 
   public Cart(User user, List<CartProduct> cartProducts) {
     this.user = user;
     this.cartProducts = cartProducts;
+    this.lastActivity = new Date(System.currentTimeMillis());
   }
 
   public User getUser() {
