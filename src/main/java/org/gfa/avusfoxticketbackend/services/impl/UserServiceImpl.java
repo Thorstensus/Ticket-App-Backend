@@ -1,15 +1,14 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.util.*;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.gfa.avusfoxticketbackend.services.ExceptionService;
-import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,11 +23,11 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserServiceImpl(
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ExceptionServiceImpl exceptionService,
-      JwtService jwtService,
-      EmailSender emailSender) {
+          UserRepository userRepository,
+          PasswordEncoder passwordEncoder,
+          ExceptionService exceptionService,
+          JwtService jwtService,
+          EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
@@ -43,9 +42,7 @@ public class UserServiceImpl implements UserService {
     user.setPassword(hashPassword(user.getPassword()));
     userRepository.save(user);
 
-    String link =
-        "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
-    emailSender.send(user.getEmail(), emailSender.buildEmail(user.getName(), link));
+    emailSender.sendVerificationEmail(user);
 
     return userToResponseUserDTOConverter(user);
   }

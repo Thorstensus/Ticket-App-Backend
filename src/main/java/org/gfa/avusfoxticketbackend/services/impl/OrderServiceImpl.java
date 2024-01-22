@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseOrderProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
 import org.gfa.avusfoxticketbackend.models.*;
-import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.services.CartProductService;
+import org.gfa.avusfoxticketbackend.services.CartService;
+import org.gfa.avusfoxticketbackend.services.OrderProductService;
 import org.gfa.avusfoxticketbackend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,52 +22,48 @@ public class OrderServiceImpl implements OrderService {
   private final OrderRepository orderRepository;
   private final JwtService jwtService;
   private final UserRepository userRepository;
-  private final CartRepository cartRepository;
+  private final OrderProductService orderProductService;
+  private final CartService cartService;
+
+  private final CartProductService cartProductService;
 
   @Autowired
   public OrderServiceImpl(
-      OrderRepository orderRepository,
-      JwtService jwtService,
-      UserRepository userRepository,
-      CartRepository cartRepository) {
+          OrderRepository orderRepository,
+          JwtService jwtService,
+          UserRepository userRepository,
+          OrderProductService orderProductService, CartService cartService, CartProductService cartProductService) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
-    this.cartRepository = cartRepository;
+    this.orderProductService = orderProductService;
+    this.cartService = cartService;
+    this.cartProductService = cartProductService;
   }
-
   @Override
-  public ResponseOrderSummaryDTO saveOrdersFromCart(String token) {
+  public ResponseOrderDTO saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
+    Order order = new Order(user);
+    orderRepository.save(order);
+    List<OrderProduct> orderProducts = new ArrayList<>();
+    for (CartProduct cartProduct : user.getCart().getCartProducts()) {
+      OrderProduct orderProduct =
+              new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
+      orderProductService.save(orderProduct);
+      orderProducts.add(orderProduct);
+    }
+    order.setOrderProducts(orderProducts);
+    orderRepository.save(order);
     List<Order> userOrders = user.getOrders();
-    for (CartProduct cartProduct : user.getCart().getProductList()) {
-      Order order = new Order(null, cartProduct);
-      order.setUser(user);
-      userOrders.add(order);
-      orderRepository.save(order);
+    userOrders.add(order);
+    user.setOrders(userOrders);
+    for (CartProduct cartProduct : user.getCart().getCartProducts()) {
+      cartProductService.deleteById(cartProduct.getId());
     }
-    Cart userCart = user.getCart();
-    user.setCart(null);
-    ResponseOrderSummaryDTO responseOrderSummaryDTO = getOrderSummaryDTO(token);
-    cartRepository.delete(userCart);
+    cartService.deleteById(user.getCart().getId());
     userRepository.save(user);
-    return responseOrderSummaryDTO;
+    return getOrderDTO(order);
   }
-
-  /*public ResponseOrderSummaryDTO getCartOrderSummaryDTOandCleanCart(String token) {
-    User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
-    List<Order> actualOrder = new ArrayList<>();
-    for (int i = user.getOrders().size() - user.getCart().size(); i < user.getOrders().size(); i++) {
-      actualOrder.add(user.getOrders().get(i));
-    }
-    user.setCart(new ArrayList<>());
-    userRepository.save(user);
-    List<ResponseOrderDTO> responseOrderDTOList = new ArrayList<>();
-    for (Order order : actualOrder) {
-      responseOrderDTOList.add(getOrderDTO(order));
-    }
-    return new ResponseOrderSummaryDTO(responseOrderDTOList);
-  }*/
 
   @Override
   public ResponseOrderSummaryDTO getOrderSummaryDTO(String token) {
@@ -77,7 +76,11 @@ public class OrderServiceImpl implements OrderService {
   }
 
   public ResponseOrderDTO getOrderDTO(Order order) {
+    List<ResponseOrderProductDTO> orderProductDTOS = new ArrayList<>();
+    for (OrderProduct product : order.getOrderProducts()) {
+      orderProductDTOS.add(new ResponseOrderProductDTO(product.getProduct().getId(), product.getQuantity()));
+    }
     return new ResponseOrderDTO(
-        order.getId(), order.getStatus(), order.getExpiry(), order.getProduct().getId());
+        order.getId(), order.getStatus(), order.getExpiry(), orderProductDTOS);
   }
 }

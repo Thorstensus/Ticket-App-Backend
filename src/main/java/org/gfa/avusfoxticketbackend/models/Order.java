@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -13,9 +15,8 @@ public class Order {
   private String status;
   private String expiry;
 
-  @ManyToOne
-  @JoinColumn(name = "cart_item_id")
-  private CartProduct cartProduct;
+  @OneToMany(mappedBy = "order")
+  private List<OrderProduct> orderProducts;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -23,10 +24,24 @@ public class Order {
 
   public Order() {}
 
-  public Order(String expiry, CartProduct cartProduct) {
-    this.status = "not active";
+  public Order(User user) {
+    this.user = user;
+    this.orderProducts = new ArrayList<>();
+  }
+
+  public Order(String status, String expiry, List<OrderProduct> orderProducts, User user) {
+    this.status = status;
     this.expiry = expiry;
-    this.cartProduct = cartProduct;
+    this.orderProducts = orderProducts;
+    this.user = user;
+  }
+
+  public List<OrderProduct> getOrderProducts() {
+    return orderProducts;
+  }
+
+  public void setOrderProducts(List<OrderProduct> orderProducts) {
+    this.orderProducts = orderProducts;
   }
 
   public Long getId() {
@@ -51,14 +66,6 @@ public class Order {
 
   public void setExpiry(String expiry) {
     this.expiry = expiry;
-  }
-
-  public CartProduct getProduct() {
-    return cartProduct;
-  }
-
-  public void setProduct(CartProduct cartProduct) {
-    this.cartProduct = cartProduct;
   }
 
   public User getUser() {

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Cart;
@@ -71,8 +70,8 @@ public class CartServiceImpl implements CartService {
     if (currentUserOptional.isPresent() && currentProductOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
       Product currentProduct = currentProductOptional.get();
-      CartProduct currentCartProduct = new CartProduct(currentProduct);
-      addCartItemToCart(currentUser, currentCartProduct);
+      CartProduct currentCartProduct = new CartProduct(currentProduct,currentUser.getCart());
+      addCartItemToCartAndSave(currentUser, currentCartProduct);
       return new CartResponseDTO(currentUser.getId(), currentProduct.getId());
     } else {
       throw new ApiRequestException("/api/cart", "Unknown Error");
@@ -91,11 +90,11 @@ public class CartServiceImpl implements CartService {
       Product currentProduct = productService.getProductById(requestDTO.getProductId()).get();
       CartProduct currentCartProduct = currentUserCart.getCartProductFromCart(currentProduct).get();
       currentCartProduct.setQuantity(requestDTO.getQuantity());
-      cartProductService.saveCartProduct(currentCartProduct);
+      cartProductService.save(currentCartProduct);
       userService.saveUser(currentUser);
       saveCart(currentUserCart);
       List<CartProductDTO> responseList = new ArrayList<>();
-      for (CartProduct cartProduct : currentUserCart.getProductList()){
+      for (CartProduct cartProduct : currentUserCart.getCartProducts()){
         responseList.add(cartProduct.toCartProductDTO());
       }
       return new ModifyCartResponseDTO(responseList);
@@ -105,19 +104,35 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public void addCartItemToCart(User user, CartProduct cartProduct){
+  public void addCartItemToCartAndSave(User user, CartProduct cartProduct) {
     Cart currentUserCart;
     if (user.getCart() == null) {
       currentUserCart = new Cart(user);
       user.setCart(currentUserCart);
-      currentUserCart.getProductList().add(cartProduct);
+      saveCart(currentUserCart);
     } else {
       currentUserCart = user.getCart();
       currentUserCart.setLastActivity(Date.valueOf(LocalDate.now()));
-      currentUserCart.getProductList().add(cartProduct);
     }
-    cartProductService.saveCartProduct(cartProduct);
-    userService.saveUser(user);
+    Optional<CartProduct> currentCartProductOptional = currentUserCart.getCartProductFromCart(cartProduct.getProduct());
+    if (currentCartProductOptional.isPresent()) {
+      cartProduct = currentCartProductOptional.get();
+      cartProduct.setQuantity(cartProduct.getQuantity() + 1);
+    } else {
+      currentUserCart.getCartProducts().add(cartProduct);
+    }
     saveCart(currentUserCart);
+    cartProductService.save(cartProduct);
+    userService.saveUser(user);
+  }
+
+  @Override
+  public void save(Cart cart) {
+    cartRepository.save(cart);
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    cartRepository.deleteById(id);
   }
 }

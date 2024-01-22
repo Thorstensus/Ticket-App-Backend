@@ -52,7 +52,7 @@ public class SecuredController {
   };
 
   @PostMapping("/orders")
-  public ResponseEntity<ResponseOrderSummaryDTO> order(
+  public ResponseEntity<ResponseOrderDTO> order(
       @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
     token = token.substring(7);

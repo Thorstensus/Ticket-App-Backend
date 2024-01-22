@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
@@ -27,5 +26,9 @@ public interface CartService {
           ModifyCartRequestDTO requestDTO,
           String token);
 
-  void addCartItemToCart(User user, CartProduct cartProduct);
+  void addCartItemToCartAndSave(User user, CartProduct cartProduct);
+
+  void save(Cart cart);
+
+  void deleteById(Long id);
 }
