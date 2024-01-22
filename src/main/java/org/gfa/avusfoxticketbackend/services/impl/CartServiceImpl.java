@@ -70,7 +70,7 @@ public class CartServiceImpl implements CartService {
     if (currentUserOptional.isPresent() && currentProductOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
       Product currentProduct = currentProductOptional.get();
-      CartProduct currentCartProduct = new CartProduct(currentProduct,currentUser.getCart());
+      CartProduct currentCartProduct = new CartProduct(currentProduct);
       addCartItemToCartAndSave(currentUser, currentCartProduct);
       return new CartResponseDTO(currentUser.getId(), currentProduct.getId());
     } else {
@@ -109,7 +109,6 @@ public class CartServiceImpl implements CartService {
     if (user.getCart() == null) {
       currentUserCart = new Cart(user);
       user.setCart(currentUserCart);
-      saveCart(currentUserCart);
     } else {
       currentUserCart = user.getCart();
       currentUserCart.setLastActivity(Date.valueOf(LocalDate.now()));
@@ -119,6 +118,7 @@ public class CartServiceImpl implements CartService {
       cartProduct = currentCartProductOptional.get();
       cartProduct.setQuantity(cartProduct.getQuantity() + 1);
     } else {
+      cartProduct.setCart(currentUserCart);
       currentUserCart.getCartProducts().add(cartProduct);
     }
     saveCart(currentUserCart);

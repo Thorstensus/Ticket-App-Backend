@@ -25,6 +25,11 @@ public class CartProduct {
 
   public CartProduct() {}
 
+  public CartProduct(Product currentProduct) {
+    this.quantity = 1;
+    this.product = currentProduct;
+  }
+
   public CartProduct(Product product, Cart cart) {
     this.quantity = 1;
     this.product = product;
