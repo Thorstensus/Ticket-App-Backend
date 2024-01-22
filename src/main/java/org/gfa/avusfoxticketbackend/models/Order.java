@@ -79,7 +79,7 @@ public class Order {
   public double getOrderPrice() {
     double output = 0;
     for (OrderProduct o : this.getOrderProducts()) {
-        output += o.getTotalPrice();
+      output += o.getTotalPrice();
     }
     return output;
   }
