@@ -34,7 +34,10 @@ public class CartResponseDTO extends ResponseDTO {
 
   @Override
   public String toString() {
-    return "CartResponseDTO{" + "id=" + id + ", productId=" + productId + '}';
+    return "CartResponseDTO{"
+            + "id=" + id
+            + ", productId=" + productId
+            + '}';
   }
 
   @Override

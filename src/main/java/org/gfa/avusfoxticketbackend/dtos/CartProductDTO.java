@@ -10,6 +10,11 @@ public class CartProductDTO {
   public CartProductDTO() {
   }
 
+  public CartProductDTO(String product, int quantity) {
+    this.product = product;
+    this.quantity = quantity;
+  }
+
   public CartProductDTO(Long id, String product, int quantity) {
     this.id = id;
     this.product = product;
@@ -42,10 +47,10 @@ public class CartProductDTO {
 
   @Override
   public String toString() {
-    return "CartProductDTO{" +
-            "id=" + id +
-            ", product='" + product + '\'' +
-            ", quantity=" + quantity +
-            '}';
+    return "CartProductDTO{"
+            + "id=" + id
+            + ", product='" + product + '\''
+            + ", quantity=" + quantity
+            + '}';
   }
 }

@@ -76,9 +76,9 @@ public class Cart {
     this.lastActivity = lastActivity;
   }
 
-  public Optional<CartProduct> getCartProductFromCart(Product product){
+  public Optional<CartProduct> getCartProductFromCart(Product product) {
     Optional<CartProduct> cartProductOptional = Optional.empty();
-    for (CartProduct cartProduct : cartProducts){
+    for (CartProduct cartProduct : cartProducts) {
       if (cartProduct.getProduct().equals(product)) {
         cartProductOptional = Optional.of(cartProduct);
         break;

@@ -1,11 +1,9 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +40,14 @@ public class SecuredController {
   }
 
   @PatchMapping("/cart")
-  public ResponseEntity<ModifyCartResponseDTO> modifyCart
-          (@RequestBody(required = false) ModifyCartRequestDTO requestDTO,
-           @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<ModifyCartResponseDTO> modifyCart(
+      @RequestBody(required = false) ModifyCartRequestDTO requestDTO,
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = List.of(requestDTO, token);
     token = token.substring(7);
     return ResponseEntity.status(200)
-            .body(cartService.modifyProductInCart(requestDTO,token));
-  };
+            .body(cartService.modifyProductInCart(requestDTO, token));
+  }
 
   @PostMapping("/orders")
   public ResponseEntity<ResponseOrderDTO> order(

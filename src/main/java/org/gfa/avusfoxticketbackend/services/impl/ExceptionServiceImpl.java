@@ -1,8 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
@@ -13,7 +11,6 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
@@ -121,12 +118,12 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user){
+  public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user) {
     Optional<Product> currentProductOptional = productRepository.findById(requestDTO.getProductId());
-    if (currentProductOptional.isEmpty()){
+    if (currentProductOptional.isEmpty()) {
       throwProductNotFound();
     }
-    if (user.getCart() == null || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()){
+    if (user.getCart() == null || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
       throwProductIsNotInCart();
     }
   }

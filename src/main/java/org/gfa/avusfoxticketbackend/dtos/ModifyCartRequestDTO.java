@@ -34,9 +34,9 @@ public class ModifyCartRequestDTO extends RequestDTO {
 
   @Override
   public String toString() {
-    return "ModifyCartRequestDTO{" +
-            "productId=" + productId +
-            ", quantity=" + quantity +
-            '}';
+    return "ModifyCartRequestDTO{"
+            + "productId=" + productId
+            + ", quantity=" + quantity
+            + '}';
   }
 }

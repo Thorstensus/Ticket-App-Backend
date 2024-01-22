@@ -94,7 +94,7 @@ public class CartServiceImpl implements CartService {
       userService.saveUser(currentUser);
       saveCart(currentUserCart);
       List<CartProductDTO> responseList = new ArrayList<>();
-      for (CartProduct cartProduct : currentUserCart.getCartProducts()){
+      for (CartProduct cartProduct : currentUserCart.getCartProducts()) {
         responseList.add(cartProduct.toCartProductDTO());
       }
       return new ModifyCartResponseDTO(responseList);
