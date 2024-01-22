@@ -16,7 +16,7 @@ public class Cart {
       name = "cart_product_cart",
       joinColumns = @JoinColumn(name = "cart_product_id"),
       inverseJoinColumns = @JoinColumn(name = "cart_id"))
-  List<CartProduct> productList;
+  List<CartProduct> cartProducts;
 
   @OneToOne(mappedBy = "cart")
   User user;

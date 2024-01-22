@@ -14,8 +14,9 @@ public class CartProduct {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToMany(mappedBy = "productList")
-  private List<Cart> inCart;
+  @ManyToOne
+  @JoinColumn(name = "cart_id")
+  private Cart cart;
 
   @ManyToOne
   @JoinColumn(name = "product_id")
@@ -30,10 +31,10 @@ public class CartProduct {
     this.orders = new ArrayList<>();
   }
 
-  public CartProduct(List<Cart> inCart, Product product, int quantity) {
-    this.inCart = inCart;
+  public CartProduct(Cart cart, Product product, List<Order> orders, int quantity) {
+    this.cart = cart;
     this.product = product;
-    this.orders = new ArrayList<>();
+    this.orders = orders;
     this.quantity = quantity;
   }
 
@@ -74,12 +75,12 @@ public class CartProduct {
     this.quantity = quantity;
   }
 
-  public List<Cart> getInCart() {
-    return inCart;
+  public Cart getCart() {
+    return cart;
   }
 
-  public void setInCart(List<Cart> inCart) {
-    this.inCart = inCart;
+  public void setCart(Cart cart) {
+    this.cart = cart;
   }
 
   public List<Order> getOrders() {
@@ -94,7 +95,7 @@ public class CartProduct {
   public String toString() {
     return "CartProduct{" +
             "id=" + id +
-            ", inCart=" + inCart +
+            ", cart=" + cart +
             ", product=" + product +
             ", orders=" + orders +
             ", quantity=" + quantity +
@@ -105,12 +106,12 @@ public class CartProduct {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof CartProduct that)) return false;
-    return getQuantity() == that.getQuantity() && Objects.equals(getId(), that.getId()) && Objects.equals(getInCart(), that.getInCart()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getOrders(), that.getOrders());
+    return getQuantity() == that.getQuantity() && Objects.equals(getId(), that.getId()) && Objects.equals(getCart(), that.getCart()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getOrders(), that.getOrders());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getInCart(), getProduct(), getOrders(), getQuantity());
+    return Objects.hash(getId(), getCart(), getProduct(), getOrders(), getQuantity());
   }
 
   public CartProductDTO toCartProductDTO() {
