@@ -6,10 +6,7 @@ import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CartResponseDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
-import org.gfa.avusfoxticketbackend.services.NewsService;
-import org.gfa.avusfoxticketbackend.services.OrderService;
-import org.gfa.avusfoxticketbackend.services.ProductService;
-import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +22,20 @@ public class SecuredController {
   private final NewsService newsService;
   private final UserService userService;
   private final OrderService orderService;
+  private final CartService cartService;
 
   @Autowired
   public SecuredController(
       ProductService productService,
       NewsService newsService,
       UserService userService,
-      OrderService orderService) {
+      OrderService orderService,
+      CartService cartService) {
     this.productService = productService;
     this.newsService = newsService;
     this.userService = userService;
     this.orderService = orderService;
+    this.cartService = cartService;
   }
 
   @PostMapping("/cart")
@@ -45,6 +45,14 @@ public class SecuredController {
     LogHandlerInterceptor.object = List.of(cartRequestDTO, httpServletRequest);
     return ResponseEntity.status(200)
         .body(userService.saveProductToCart(cartRequestDTO, httpServletRequest));
+  }
+
+  @DeleteMapping("cart")
+  public ResponseEntity<String> deleteCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = token;
+    token = token.substring(7);
+    userService.checkUserVerification(token);
+    return ResponseEntity.status(200).body(cartService.deleteCart(token));
   }
 
   @PostMapping("/orders")

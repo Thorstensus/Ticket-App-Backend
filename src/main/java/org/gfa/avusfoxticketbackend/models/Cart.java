@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -16,7 +15,7 @@ public class Cart {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToMany(mappedBy = "cart")
+  @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<CartProduct> cartProducts;
 
   public Cart() {}

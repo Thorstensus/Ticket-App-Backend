@@ -6,4 +6,6 @@ public interface CartService {
   void save(Cart cart);
 
   void deleteById(Long id);
+
+  String deleteCart(String token);
 }
