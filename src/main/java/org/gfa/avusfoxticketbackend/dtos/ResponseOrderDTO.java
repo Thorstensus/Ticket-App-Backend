@@ -2,20 +2,23 @@ package org.gfa.avusfoxticketbackend.dtos;
 
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
+import java.util.List;
+
 public class ResponseOrderDTO extends ResponseDTO {
 
   private Long id;
   private String status;
   private String expiry;
-  private Long productId;
+  private List<ResponseOrderProductDTO> products;
 
   public ResponseOrderDTO() {}
 
-  public ResponseOrderDTO(Long id, String status, String expiry, Long productId) {
+  public ResponseOrderDTO(
+      Long id, String status, String expiry, List<ResponseOrderProductDTO> products) {
     this.id = id;
     this.status = status;
     this.expiry = expiry;
-    this.productId = productId;
+    this.products = products;
   }
 
   public Long getId() {
@@ -42,12 +45,12 @@ public class ResponseOrderDTO extends ResponseDTO {
     this.expiry = expiry;
   }
 
-  public Long getProductId() {
-    return productId;
+  public List<ResponseOrderProductDTO> getProducts() {
+    return products;
   }
 
-  public void setProduct_id(Long productId) {
-    this.productId = productId;
+  public void setProducts(List<ResponseOrderProductDTO> products) {
+    this.products = products;
   }
 
   @Override
@@ -61,8 +64,8 @@ public class ResponseOrderDTO extends ResponseDTO {
         + ", expiry='"
         + expiry
         + '\''
-        + ", productId="
-        + productId
+        + ", products="
+        + products
         + '}';
   }
 }

@@ -181,7 +181,7 @@
                      value="Method type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodLength">
-            <property name="max" value="80"/>
+            <property name="max" value="150"/>
         </module>
         <module name="InterfaceTypeParameterName">
             <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>

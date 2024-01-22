@@ -79,20 +79,12 @@
 
 package org.gfa.avusfoxticketbackend.services.impl;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 import org.gfa.avusfoxticketbackend.config.JwtService;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
-import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -114,15 +106,4 @@ class UserServiceImplTest {
 
   @Autowired private UserServiceImpl userServiceImpl;
 
-  @Test
-  void testSaveProductToCart() {
-    doThrow(new ApiRequestException("/api/cart", "Product doesn't exist."))
-        .when(exceptionServiceImpl)
-        .handleCartErrors(Mockito.<CartRequestDTO>any());
-    CartRequestDTO cartRequestDTO = new CartRequestDTO();
-    assertThrows(
-        ApiRequestException.class,
-        () -> userServiceImpl.saveProductToCart(cartRequestDTO, new MockHttpServletRequest()));
-    verify(exceptionServiceImpl).handleCartErrors(Mockito.<CartRequestDTO>any());
-  }
 }

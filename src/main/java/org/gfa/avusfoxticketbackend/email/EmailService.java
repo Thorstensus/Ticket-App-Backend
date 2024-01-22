@@ -13,7 +13,7 @@ import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.thymeleaf.ThymeleafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,10 +28,10 @@ public class EmailService implements EmailSender {
 
   @Autowired
   public EmailService(
-          JavaMailSender mailSender,
-          ExceptionService exceptionService,
-          ThymeleafService thymeleafService,
-          JwtService jwtService) {
+      JavaMailSender mailSender,
+      ExceptionService exceptionService,
+      ThymeleafService thymeleafService,
+      JwtService jwtService) {
     this.mailSender = mailSender;
     this.exceptionService = exceptionService;
     this.thymeleafService = thymeleafService;
@@ -62,7 +62,9 @@ public class EmailService implements EmailSender {
   @Override
   public void sendVerificationEmail(User user) {
     Map<String, Object> variables = new HashMap<>();
-    variables.put("link", "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user));
+    variables.put(
+        "link",
+        "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user));
     variables.put("name", user.getName());
 
     send(user.getEmail(), "Confirm your email", "verification-email", variables);
