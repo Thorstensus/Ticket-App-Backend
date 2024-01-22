@@ -25,7 +25,7 @@
 
                                     </td>
                                     <td style="font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px">
-                                        <span style="font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block">Confirm your email</span>
+                                        <span style="font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block">Remainder</span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -72,16 +72,25 @@
         <tr>
             <td width="10" valign="middle"><br></td>
             <td style="font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px">
+                <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"> Knock knock. You forgot
+                    something in your cart. Get it before we spam you with email like this every day :).</p>
+                <h2>Unfinished bussiness</h2>
 
-                <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c">Hi <span
-                        th:text="${name}"></span>,</p>
-                <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"> Thank you for registering.
-                    Please click on the below link to activate your account: </p>
-                <blockquote
-                        style="Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px">
-                    <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"><a th:href="@{${link}}">Activate
-                        Now</a></p></blockquote>
-                Link will expire in 15 minutes. <p>See you soon</p>
+                <table style="border-collapse: collapse; width: 100%; margin-top: 20px; font-size: 16px;">
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Product Name</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Quantity</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Unit Price</th>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;" th:each=" cartProduct : ${cart.getCartProducts()}">
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;"
+                            th:text="${cartProduct.getProduct().getName()}"></td>
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;"
+                            th:text="${cartProduct.getQuantity()}"></td>
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: left;"
+                            th:text="${cartProduct.getProduct().getPrice()}"></td>
+                    </tr>
+                </table>
             </td>
             <td width="10" valign="middle"><br></td>
         </tr>

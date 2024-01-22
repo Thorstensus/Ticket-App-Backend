@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserServiceImpl(
-          UserRepository userRepository,
-          PasswordEncoder passwordEncoder,
-          ExceptionServiceImpl exceptionService,
-          ProductServiceImpl productService,
-          JwtService jwtService,
-          EmailSender emailSender,
-          CartService cartServiceImpl,
-          CartProductService cartProductService) {
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionServiceImpl exceptionService,
+      ProductServiceImpl productService,
+      JwtService jwtService,
+      EmailSender emailSender,
+      CartService cartServiceImpl,
+      CartProductService cartProductService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;

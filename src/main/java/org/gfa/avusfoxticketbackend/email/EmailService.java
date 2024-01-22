@@ -4,22 +4,16 @@ import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.User;
-import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.thymeleaf.ThymeleafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -66,7 +60,6 @@ public class EmailService implements EmailSender {
   }
 
   @Override
-  @Async
   public void sendVerificationEmail(User user) {
     Map<String, Object> variables = new HashMap<>();
     variables.put(
@@ -77,4 +70,9 @@ public class EmailService implements EmailSender {
     send(user.getEmail(), "Confirm your email", "verification-email", variables);
   }
 
+  public void sendRemainderEmail(User user, Cart cart) {
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("cart", cart);
+    send(user.getEmail(), "Did u forgot about us?", "remainder-email", variables);
+  }
 }
