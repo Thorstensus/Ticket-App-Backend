@@ -24,7 +24,7 @@ public class ScheduledTasks {
     this.emailService = emailService;
   }
 
-  @Scheduled(cron ="0 0 0 * * *")
+  @Scheduled(cron = "0 0 0 * * *")
   public void sendRemainder() {
     List<Cart> cartsInDatabase = cartRepository.findAll();
     Date currentTime = new Date(System.currentTimeMillis());
