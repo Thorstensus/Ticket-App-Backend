@@ -123,6 +123,7 @@ public class UserServiceImpl implements UserService {
         cart = new Cart(userToChange, cartProductList);
       } else {
         cart = userToChange.getCart();
+        cart.setLastActivity(new Date(System.currentTimeMillis()));
       }
 
       boolean boughtMultipleTimes = false;

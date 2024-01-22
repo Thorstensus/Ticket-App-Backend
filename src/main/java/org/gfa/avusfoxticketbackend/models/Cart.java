@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -54,5 +54,13 @@ public class Cart {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Date getLastActivity() {
+    return lastActivity;
+  }
+
+  public void setLastActivity(Date lastActivity) {
+    this.lastActivity = lastActivity;
   }
 }
