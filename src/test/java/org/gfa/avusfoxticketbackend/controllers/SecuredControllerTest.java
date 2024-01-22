@@ -62,7 +62,7 @@ class SecuredControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @Test
-  public void CartPostRequestReturnsCorrectResponse() throws Exception {
+  public void cartPostRequestReturnsCorrectResponse() throws Exception {
 
     CartRequestDTO request = new CartRequestDTO(1L);
     CartResponseDTO expected = new CartResponseDTO(1L,1L);
@@ -79,11 +79,11 @@ class SecuredControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(objectMapper.writeValueAsString(expected)))
             .andDo(print());
-        verify(cartService, times(1)).saveProductToCart(request, token.substring(7));
+    verify(cartService, times(1)).saveProductToCart(request, token.substring(7));
   }
 
   @Test
-  public void CartPatchRequestReturnsCorrectResponse() throws Exception {
+  public void cartPatchRequestReturnsCorrectResponse() throws Exception {
 
     ModifyCartRequestDTO request = new ModifyCartRequestDTO(1L,5);
     Product product = new Product(1L,"Basic",1.0,1,"basic", Type.Adventure);
