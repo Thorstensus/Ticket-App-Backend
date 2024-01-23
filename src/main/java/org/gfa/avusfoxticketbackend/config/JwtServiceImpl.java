@@ -12,16 +12,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-  private static final Dotenv dotenv = Dotenv.configure().load();
 
-  private static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
-  private static final String EXPIRATION_TIME = dotenv.get("EXPIRATION_TIME");
-  private static final String EXPIRATION_TIME_FOR_VERIFICATION = dotenv.get("EXPIRATION_TIME_FOR_VERIFICATION");
+  @Value("${JWT_SECRET_KEY}")
+  private String SECRET_KEY;
+
+  @Value("${EXPIRATION_TIME}")
+  private String EXPIRATION_TIME;
+
+  @Value("${EXPIRATION_TIME_FOR_VERIFICATION}")
+  private String EXPIRATION_TIME_FOR_VERIFICATION;
   private final HttpServletRequest httpServletRequest;
 
   public JwtServiceImpl(HttpServletRequest httpServletRequest) {

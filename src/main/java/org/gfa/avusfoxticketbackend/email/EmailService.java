@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 public class EmailService implements EmailSender {
 
   private static final Dotenv dotenv = Dotenv.configure().load();
-  private static final String MAIL_USERNAME = dotenv.get("MAIL_USERNAME");
+
+  @Value("${MAIL_USERNAME}")
+  private String MAIL_USERNAME;
   private final JavaMailSender mailSender;
 
   private final ExceptionService exceptionService;
