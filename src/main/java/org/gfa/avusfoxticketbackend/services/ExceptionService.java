@@ -1,10 +1,12 @@
 package org.gfa.avusfoxticketbackend.services;
 
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.models.User;
 
 public interface ExceptionService {
   void checkForUserErrors(RequestDTO requestDto);
@@ -16,6 +18,8 @@ public interface ExceptionService {
   void handleLoginErrors(AuthenticationRequest request);
 
   void handleCartErrors(CartRequestDTO request);
+
+  void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user);
 
   boolean isValidEmailRequest(String requestEmail);
 
@@ -44,6 +48,8 @@ public interface ExceptionService {
   void throwAllFieldsRequired();
 
   void productNameTaken();
+
+  void throwProductIsNotInCart();
 
   boolean validType(String type);
 

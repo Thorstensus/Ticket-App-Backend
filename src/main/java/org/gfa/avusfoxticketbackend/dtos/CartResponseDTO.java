@@ -1,8 +1,10 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
+
 import java.util.Objects;
 
-public class CartResponseDTO {
+public class CartResponseDTO extends ResponseDTO {
   private Long id;
 
   private Long productId;
@@ -32,7 +34,10 @@ public class CartResponseDTO {
 
   @Override
   public String toString() {
-    return "CartResponseDTO{" + "id=" + id + ", productId=" + productId + '}';
+    return "CartResponseDTO{"
+            + "id=" + id
+            + ", productId=" + productId
+            + '}';
   }
 
   @Override

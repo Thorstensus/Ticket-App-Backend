@@ -98,4 +98,9 @@ public class JwtServiceImpl implements JwtService {
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }
+
+  @Override
+  public String extractBearerToken(String token) {
+    return token.substring(7);
+  }
 }

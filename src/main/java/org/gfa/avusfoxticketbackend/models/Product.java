@@ -26,6 +26,8 @@ public class Product {
   @OneToMany(mappedBy = "product")
   private List<OrderProduct> orderProducts;
 
+  public Product() {}
+
   public Product(String name, Double price, Integer duration, String description, Type type) {
     this.name = name;
     this.price = price;
@@ -43,8 +45,6 @@ public class Product {
     this.description = description;
     this.type = type;
   }
-
-  public Product() {}
 
   public List<CartProduct> getCartProducts() {
     return cartProducts;
@@ -118,18 +118,18 @@ public class Product {
     if (!(o instanceof Product product)) {
       return false;
     }
-    return Objects.equals(id, product.id)
-        && Objects.equals(name, product.name)
-        && Objects.equals(price, product.price)
-        && Objects.equals(duration, product.duration)
-        && Objects.equals(description, product.description)
-        && type == product.type
-        && Objects.equals(cartProducts, product.cartProducts)
-        && Objects.equals(orderProducts, product.orderProducts);
+    return Objects.equals(getId(), product.getId())
+        && Objects.equals(getName(), product.getName())
+        && Objects.equals(getPrice(), product.getPrice())
+        && Objects.equals(getDuration(), product.getDuration())
+        && Objects.equals(getDescription(), product.getDescription())
+        && getType() == product.getType()
+        && Objects.equals(getCartProducts(), product.getCartProducts())
+        && Objects.equals(getOrderProducts(), product.getOrderProducts());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, price, duration, description, type, cartProducts, orderProducts);
+    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getCartProducts(), getOrderProducts());
   }
 }
