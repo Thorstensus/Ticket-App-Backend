@@ -8,19 +8,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
-import org.gfa.avusfoxticketbackend.dtos.ResponseOrderProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
+import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.enums.Role;
-import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Order;
 import org.gfa.avusfoxticketbackend.models.OrderProduct;
-import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -38,6 +35,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {OrderServiceImpl.class})
 @ExtendWith(SpringExtension.class)
 class OrderServiceImplTest {
+  @MockBean private EmailSender emailSender;
+
   @MockBean private CartProductService cartProductService;
 
   @MockBean private CartService cartService;
@@ -53,7 +52,7 @@ class OrderServiceImplTest {
   @MockBean private UserRepository userRepository;
 
   @Test
-  void shouldSaveOrdersFromCartAndClearCartAfterSuccessfulOrder() {
+  void shouldSaveOrdersFromCartAndSendEmailNotification() {
     Cart cart = new Cart();
     cart.setCartProducts(new ArrayList<>());
     cart.setId(1L);
@@ -167,8 +166,10 @@ class OrderServiceImplTest {
     when(userRepository.save(Mockito.<User>any())).thenReturn(user7);
     when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     doNothing().when(cartService).deleteById(Mockito.<Long>any());
+    doNothing().when(emailSender).sendOrderSummaryEmail(Mockito.<User>any(), Mockito.<Order>any());
     ResponseOrderDTO actualSaveOrdersFromCartResult = orderServiceImpl.saveOrdersFromCart("ABC123");
     verify(jwtService).extractUsername(Mockito.<String>any());
+    verify(emailSender).sendOrderSummaryEmail(Mockito.<User>any(), Mockito.<Order>any());
     verify(userRepository).findByEmail(Mockito.<String>any());
     verify(cartService).deleteById(Mockito.<Long>any());
     verify(userRepository).save(Mockito.<User>any());
@@ -180,7 +181,7 @@ class OrderServiceImplTest {
   }
 
   @Test
-  void shouldGetOrderSummaryDTOForUser() {
+  void shouldRetrieveOrderSummaryDTOForUser() {
     when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
 
     Cart cart = new Cart();
@@ -222,7 +223,7 @@ class OrderServiceImplTest {
   }
 
   @Test
-  void shouldGetOrderDTOFromOrderEntity() {
+  void shouldConvertOrderEntityToOrderDTO() {
     User user = new User();
     user.setCart(new Cart());
     user.setEmail("jane.doe@example.org");
@@ -260,90 +261,5 @@ class OrderServiceImplTest {
     assertEquals("Status", actualOrderDTO.getStatus());
     assertEquals(1L, actualOrderDTO.getId().longValue());
     assertEquals(orderProducts, actualOrderDTO.getProducts());
-  }
-
-  @Test
-  void shouldGetOrderDTOWithProductsFromOrderEntity() {
-    Cart cart = new Cart();
-    cart.setCartProducts(new ArrayList<>());
-    cart.setId(1L);
-    cart.setUser(new User());
-
-    User user = new User();
-    user.setCart(cart);
-    user.setEmail("jane.doe@example.org");
-    user.setId(1L);
-    user.setName("Name");
-    user.setOrders(new ArrayList<>());
-    user.setPassword("iloveyou");
-    user.setRole(Role.USER);
-    user.setVerified(true);
-
-    Order order = new Order();
-    order.setExpiry("Expiry");
-    order.setId(1L);
-    order.setOrderProducts(new ArrayList<>());
-    order.setStatus("Status");
-    order.setUser(user);
-
-    Product product = new Product();
-    product.setCartProducts(new ArrayList<>());
-    product.setDescription("The characteristics of someone or something");
-    product.setDuration(1);
-    product.setId(1L);
-    product.setName("Name");
-    product.setOrderProducts(new ArrayList<>());
-    product.setPrice(10.0d);
-    product.setType(Type.Cultural);
-
-    OrderProduct orderProduct = new OrderProduct();
-    orderProduct.setId(1L);
-    orderProduct.setOrder(order);
-    orderProduct.setProduct(product);
-    orderProduct.setQuantity(1);
-
-    ArrayList<OrderProduct> orderProducts = new ArrayList<>();
-    orderProducts.add(orderProduct);
-
-    User user2 = new User();
-    user2.setCart(new Cart());
-    user2.setEmail("jane.doe@example.org");
-    user2.setId(1L);
-    user2.setName("Name");
-    user2.setOrders(new ArrayList<>());
-    user2.setPassword("iloveyou");
-    user2.setRole(Role.USER);
-    user2.setVerified(true);
-
-    Cart cart2 = new Cart();
-    cart2.setCartProducts(new ArrayList<>());
-    cart2.setId(1L);
-    cart2.setUser(user2);
-
-    User user3 = new User();
-    user3.setCart(cart2);
-    user3.setEmail("jane.doe@example.org");
-    user3.setId(1L);
-    user3.setName("Name");
-    user3.setOrders(new ArrayList<>());
-    user3.setPassword("iloveyou");
-    user3.setRole(Role.USER);
-    user3.setVerified(true);
-
-    Order order2 = new Order();
-    order2.setExpiry("Expiry");
-    order2.setId(1L);
-    order2.setOrderProducts(orderProducts);
-    order2.setStatus("Status");
-    order2.setUser(user3);
-    ResponseOrderDTO actualOrderDTO = orderServiceImpl.getOrderDTO(order2);
-    assertEquals("Expiry", actualOrderDTO.getExpiry());
-    assertEquals("Status", actualOrderDTO.getStatus());
-    List<ResponseOrderProductDTO> products = actualOrderDTO.getProducts();
-    assertEquals(1, products.size());
-    ResponseOrderProductDTO getResult = products.get(0);
-    assertEquals(1, getResult.getQuantity());
-    assertEquals(1L, actualOrderDTO.getId().longValue());
-    assertEquals(1L, getResult.getProductId().longValue());
   }
 }

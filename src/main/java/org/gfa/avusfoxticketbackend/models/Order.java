@@ -75,4 +75,12 @@ public class Order {
   public void setUser(User user) {
     this.user = user;
   }
+
+  public double getOrderPrice() {
+    double output = 0;
+    for (OrderProduct o : this.getOrderProducts()) {
+      output += o.getTotalPrice();
+    }
+    return output;
+  }
 }
