@@ -145,13 +145,13 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public String deleteCart(String token) {
+  public ResponseStatusMessageDTO deleteCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     if (user.getCart() == null) {
-      return "No cart to delete";
+      return new ResponseStatusMessageDTO("No cart to delete");
     } else {
       cartRepository.delete(user.getCart());
-      return "Cart has been deleted";
+      return new ResponseStatusMessageDTO("Cart has been deleted");
     }
   }
 }

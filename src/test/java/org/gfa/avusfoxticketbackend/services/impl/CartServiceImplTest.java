@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseStatusMessageDTO;
 import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Cart;
@@ -140,7 +141,7 @@ class CartServiceImplTest {
     Mockito.lenient().when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
 
     assertNull(user.getCart());
-    assertEquals("No cart to delete", cartService.deleteCart(token));
+    assertEquals(new ResponseStatusMessageDTO("No cart to delete"), cartService.deleteCart(token));
   }
 
   @Test
@@ -152,6 +153,7 @@ class CartServiceImplTest {
     Mockito.lenient().when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
     doNothing().when(cartRepository).delete(user.getCart());
 
-    assertEquals("Cart has been deleted", cartService.deleteCart(token));
+    assertEquals(
+        new ResponseStatusMessageDTO("Cart has been deleted"), cartService.deleteCart(token));
   }
 }
