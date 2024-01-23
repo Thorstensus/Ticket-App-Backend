@@ -76,6 +76,7 @@ public class EmailService implements EmailSender {
     variables.put("cart", cart);
     send(user.getEmail(), "Did u forgot about us?", "remainder-email", variables);
   }
+
   @Override
   public void sendOrderSummaryEmail(User user, Order order) {
     Map<String, Object> variables = new HashMap<>();
@@ -84,6 +85,4 @@ public class EmailService implements EmailSender {
 
     send(user.getEmail(), "Your order summary", "order-summary", variables);
   }
-
-
 }
