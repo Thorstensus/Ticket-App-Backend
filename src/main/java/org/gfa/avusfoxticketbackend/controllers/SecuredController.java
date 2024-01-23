@@ -57,7 +57,7 @@ public class SecuredController {
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = requestHeader;
     userService.checkUserVerification(requestHeader);
-    return ResponseEntity.status(200).body(orderService.saveOrdersFromCart(requestHeader));
+    return ResponseEntity.status(200).body(orderService.saveOrdersFromCart(jwtService.extractBearerToken(requestHeader)));
   }
 
   @GetMapping("/orders")
