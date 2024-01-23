@@ -71,12 +71,11 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public CartResponseDTO saveProductToCart(
-          CartRequestDTO requestDTO,
-          String token) {
+  public CartResponseDTO saveProductToCart(CartRequestDTO requestDTO, String token) {
     exceptionService.handleCartErrors(requestDTO);
     Optional<User> currentUserOptional = userService.extractUserFromToken(token);
-    Optional<Product> currentProductOptional = productService.getProductById(requestDTO.getProductId());
+    Optional<Product> currentProductOptional =
+        productService.getProductById(requestDTO.getProductId());
     if (currentUserOptional.isPresent() && currentProductOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
       Product currentProduct = currentProductOptional.get();
@@ -89,13 +88,11 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public ModifyCartResponseDTO modifyProductInCart(
-          ModifyCartRequestDTO requestDTO,
-          String token) {
+  public ModifyCartResponseDTO modifyProductInCart(ModifyCartRequestDTO requestDTO, String token) {
     Optional<User> currentUserOptional = userService.extractUserFromToken(token);
     if (currentUserOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
-      exceptionService.handleModifyCartErrors(requestDTO,currentUser);
+      exceptionService.handleModifyCartErrors(requestDTO, currentUser);
       Cart currentUserCart = getCartByUser(currentUser).get();
       Product currentProduct = productService.getProductById(requestDTO.getProductId()).get();
       CartProduct currentCartProduct = currentUserCart.getCartProductFromCart(currentProduct).get();
@@ -123,7 +120,8 @@ public class CartServiceImpl implements CartService {
       currentUserCart = user.getCart();
       currentUserCart.setLastActivity(Date.valueOf(LocalDate.now()));
     }
-    Optional<CartProduct> currentCartProductOptional = currentUserCart.getCartProductFromCart(cartProduct.getProduct());
+    Optional<CartProduct> currentCartProductOptional =
+        currentUserCart.getCartProductFromCart(cartProduct.getProduct());
     if (currentCartProductOptional.isPresent()) {
       cartProduct = currentCartProductOptional.get();
       cartProduct.setQuantity(cartProduct.getQuantity() + 1);
