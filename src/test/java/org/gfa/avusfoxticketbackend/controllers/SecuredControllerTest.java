@@ -1,6 +1,15 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.enums.Type;
@@ -21,17 +30,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @WebMvcTest(controllers = SecuredController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -106,5 +104,41 @@ class SecuredControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(objectMapper.writeValueAsString(expected)));
     verify(cartService, times(1)).modifyProductInCart(any(ModifyCartRequestDTO.class), any(String.class));
+  }
+
+  @Test
+  public void cartDeletedResponse() throws Exception {
+    String token = "hahaToken";
+    ResponseStatusMessageDTO response = new ResponseStatusMessageDTO("Cart has been deleted");
+
+    when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
+    when(cartService.deleteCart(token.substring(7))).thenReturn(response);
+
+    mockMvc.perform(
+            delete("/api/cart")
+                    .header(HttpHeaders.AUTHORIZATION, token)
+                    .content(""))
+            .andExpect(status().is(200))
+            .andExpect(content().json(objectMapper.writeValueAsString(response)))
+            .andDo(print());
+
+  }
+
+  @Test
+  public void noCartToDeleteResponse() throws Exception {
+    String token = "hahaToken";
+    ResponseStatusMessageDTO response = new ResponseStatusMessageDTO("No cart to delete");
+
+    when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
+    when(cartService.deleteCart(token.substring(7))).thenReturn(response);
+
+    mockMvc.perform(
+                    delete("/api/cart")
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                            .content(""))
+            .andExpect(status().is(200))
+            .andExpect(content().json(objectMapper.writeValueAsString(response)))
+            .andDo(print());
+
   }
 }
