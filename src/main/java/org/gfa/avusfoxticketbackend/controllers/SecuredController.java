@@ -55,7 +55,7 @@ public class SecuredController {
   @DeleteMapping("/cart")
   public ResponseEntity<String> deleteCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
-    token = token.substring(7);
+    token = jwtService.extractBearerToken(token);
     userService.checkUserVerification(token);
     return ResponseEntity.status(200).body(cartService.deleteCart(token));
   }
