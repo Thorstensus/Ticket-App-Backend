@@ -1,4 +1,4 @@
-/*package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -346,4 +346,4 @@ class OrderServiceImplTest {
     assertEquals(1L, actualOrderDTO.getId().longValue());
     assertEquals(1L, getResult.getProductId().longValue());
   }
-}*/
+}

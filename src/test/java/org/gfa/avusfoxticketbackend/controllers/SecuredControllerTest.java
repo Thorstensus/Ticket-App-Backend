@@ -105,5 +105,4 @@ class SecuredControllerTest {
             .andExpect(content().json(objectMapper.writeValueAsString(expected)));
     verify(cartService, times(1)).modifyProductInCart(any(ModifyCartRequestDTO.class), any(String.class));
   }
-
 }
