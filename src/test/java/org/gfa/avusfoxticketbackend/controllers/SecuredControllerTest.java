@@ -52,8 +52,7 @@ class SecuredControllerTest {
 
   @Mock private CartProductService cartProductService;
 
-  @InjectMocks
-  private SecuredController securedController;
+  @InjectMocks private SecuredController securedController;
 
   @Autowired private MockMvc mockMvc;
 
@@ -63,29 +62,30 @@ class SecuredControllerTest {
   public void cartPostRequestReturnsCorrectResponse() throws Exception {
 
     CartRequestDTO request = new CartRequestDTO(1L);
-    CartResponseDTO expected = new CartResponseDTO(1L,1L);
+    CartResponseDTO expected = new CartResponseDTO(1L, 1L);
     String token = "muchJwtWow";
 
     when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
-    when(cartService.saveProductToCart(request,token.substring(7))).thenReturn(expected);
+    when(cartService.saveProductToCart(request, token.substring(7))).thenReturn(expected);
 
-    mockMvc.perform(
+    mockMvc
+        .perform(
             post("/api/cart")
-                    .header(HttpHeaders.AUTHORIZATION, token)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .characterEncoding(StandardCharsets.UTF_8)
-                    .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andExpect(content().json(objectMapper.writeValueAsString(expected)))
-            .andDo(print());
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)))
+        .andDo(print());
     verify(cartService, times(1)).saveProductToCart(request, token.substring(7));
   }
 
   @Test
   public void cartPatchRequestReturnsCorrectResponse() throws Exception {
 
-    ModifyCartRequestDTO request = new ModifyCartRequestDTO(1L,5);
-    Product product = new Product(1L,"Basic",1.0,1,"basic", Type.Adventure);
+    ModifyCartRequestDTO request = new ModifyCartRequestDTO(1L, 5);
+    Product product = new Product(1L, "Basic", 1.0, 1, "basic", Type.Adventure);
     CartProduct cartProduct = new CartProduct(5, product, new Cart());
     List<CartProductDTO> cartProductDTOList = new ArrayList<>();
     cartProductDTOList.add(cartProduct.toCartProductDTO());
@@ -93,17 +93,20 @@ class SecuredControllerTest {
     String token = "muchJwtWowManySecurity";
 
     when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
-    when(cartService.modifyProductInCart(any(ModifyCartRequestDTO.class),any(String.class))).thenReturn(expected);
+    when(cartService.modifyProductInCart(any(ModifyCartRequestDTO.class), any(String.class)))
+        .thenReturn(expected);
 
-    mockMvc.perform(
-                    patch("/api/cart")
-                            .header(HttpHeaders.AUTHORIZATION, token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding(StandardCharsets.UTF_8)
-                            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andExpect(content().json(objectMapper.writeValueAsString(expected)));
-    verify(cartService, times(1)).modifyProductInCart(any(ModifyCartRequestDTO.class), any(String.class));
+    mockMvc
+        .perform(
+            patch("/api/cart")
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
+    verify(cartService, times(1))
+        .modifyProductInCart(any(ModifyCartRequestDTO.class), any(String.class));
   }
 
   @Test
@@ -114,14 +117,11 @@ class SecuredControllerTest {
     when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
     when(cartService.deleteCart(token.substring(7))).thenReturn(response);
 
-    mockMvc.perform(
-            delete("/api/cart")
-                    .header(HttpHeaders.AUTHORIZATION, token)
-                    .content(""))
-            .andExpect(status().is(200))
-            .andExpect(content().json(objectMapper.writeValueAsString(response)))
-            .andDo(print());
-
+    mockMvc
+        .perform(delete("/api/cart").header(HttpHeaders.AUTHORIZATION, token).content(""))
+        .andExpect(status().is(200))
+        .andExpect(content().json(objectMapper.writeValueAsString(response)))
+        .andDo(print());
   }
 
   @Test
@@ -132,13 +132,10 @@ class SecuredControllerTest {
     when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
     when(cartService.deleteCart(token.substring(7))).thenReturn(response);
 
-    mockMvc.perform(
-                    delete("/api/cart")
-                            .header(HttpHeaders.AUTHORIZATION, token)
-                            .content(""))
-            .andExpect(status().is(200))
-            .andExpect(content().json(objectMapper.writeValueAsString(response)))
-            .andDo(print());
-
+    mockMvc
+        .perform(delete("/api/cart").header(HttpHeaders.AUTHORIZATION, token).content(""))
+        .andExpect(status().is(200))
+        .andExpect(content().json(objectMapper.writeValueAsString(response)))
+        .andDo(print());
   }
 }
