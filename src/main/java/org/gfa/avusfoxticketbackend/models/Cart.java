@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "carts")
@@ -23,12 +22,35 @@ public class Cart {
 
   public Cart() {
     this.lastActivity = new Date(System.currentTimeMillis());
+    this.cartProducts = new ArrayList<>();
+  }
+
+  public Cart(User user) {
+    this.user = user;
+    this.lastActivity = new Date(System.currentTimeMillis());
+    this.cartProducts = new ArrayList<>();
   }
 
   public Cart(User user, List<CartProduct> cartProducts) {
     this.user = user;
+    this.lastActivity = new Date(System.currentTimeMillis());
     this.cartProducts = cartProducts;
     this.lastActivity = new Date(System.currentTimeMillis());
+  }
+
+  public Cart(Long id, List<CartProduct> productList, User user, Date lastActivity) {
+    this.id = id;
+    this.cartProducts = productList;
+    this.user = user;
+    this.lastActivity = lastActivity;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public User getUser() {
@@ -47,14 +69,6 @@ public class Cart {
     this.cartProducts = cartProducts;
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public Date getLastActivity() {
     return lastActivity;
   }
@@ -62,4 +76,16 @@ public class Cart {
   public void setLastActivity(Date lastActivity) {
     this.lastActivity = lastActivity;
   }
+
+  public Optional<CartProduct> getCartProductFromCart(Product product) {
+    Optional<CartProduct> cartProductOptional = Optional.empty();
+    for (CartProduct cartProduct : cartProducts) {
+      if (cartProduct.getProduct().equals(product)) {
+        cartProductOptional = Optional.of(cartProduct);
+        break;
+      }
+    }
+    return cartProductOptional;
+  }
+
 }

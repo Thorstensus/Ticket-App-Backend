@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
   private List<Order> orders;
 
   @OneToOne(mappedBy = "user")
+
   private Cart cart;
 
   public User() {
@@ -45,14 +47,6 @@ public class User implements UserDetails {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
-  }
-
-  public Cart getCart() {
-    return cart;
-  }
-
-  public void setCart(Cart cart) {
-    this.cart = cart;
   }
 
   public String getEmail() {
@@ -144,5 +138,70 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public Cart getCart() {
+    return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
+  }
+
+  @Override
+  public String toString() {
+    return "User{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + ", role="
+        + role
+        + ", isVerified="
+        + isVerified
+        + ", orders="
+        + orders
+        + ", cart="
+        + cart
+        + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(getId(), user.getId())
+        && Objects.equals(getName(), user.getName())
+        && Objects.equals(getEmail(), user.getEmail())
+        && Objects.equals(getPassword(), user.getPassword())
+        && getRole() == user.getRole()
+        && Objects.equals(isVerified, user.isVerified)
+        && Objects.equals(getOrders(), user.getOrders())
+        && Objects.equals(getCart(), user.getCart());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getId(),
+        getName(),
+        getEmail(),
+        getPassword(),
+        getRole(),
+        isVerified,
+        getOrders(),
+        getCart());
   }
 }

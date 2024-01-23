@@ -1,10 +1,14 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import org.gfa.avusfoxticketbackend.dtos.CartProductDTO;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "cart_products")
 public class CartProduct {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -21,10 +25,30 @@ public class CartProduct {
 
   public CartProduct() {}
 
+  public CartProduct(Product currentProduct) {
+    this.quantity = 1;
+    this.product = currentProduct;
+  }
+
+  public CartProduct(Product product, Cart cart) {
+    this.quantity = 1;
+    this.product = product;
+    this.cart = cart;
+  }
+
   public CartProduct(int quantity, Product product, Cart cart) {
     this.quantity = quantity;
     this.product = product;
     this.cart = cart;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+
   }
 
   public int getQuantity() {
@@ -51,11 +75,33 @@ public class CartProduct {
     this.cart = cart;
   }
 
-  public Long getId() {
-    return id;
+  @Override
+  public String toString() {
+    return "CartProduct{"
+            + "id=" + id
+            + ", quantity=" + quantity
+            + ", product=" + product
+            + ", cart=" + cart
+            + '}';
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof CartProduct that)) {
+      return false;
+    }
+    return getQuantity() == that.getQuantity() && Objects.equals(getId(), that.getId()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getCart(), that.getCart());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getQuantity(), getProduct(), getCart());
+  }
+
+  public CartProductDTO toCartProductDTO() {
+    return new CartProductDTO(product.getId(), product.getName(), quantity);
   }
 }

@@ -105,5 +105,4 @@ class UserServiceImplTest {
   @MockBean private UserRepository userRepository;
 
   @Autowired private UserServiceImpl userServiceImpl;
-
 }

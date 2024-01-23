@@ -6,6 +6,7 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;
+import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -23,8 +24,9 @@ public class OrderServiceImpl implements OrderService {
   private final JwtService jwtService;
   private final UserRepository userRepository;
   private final OrderProductService orderProductService;
+  private final CartService cartService;
   private final CartProductService cartProductService;
-  private final CartService cartServiceImpl;
+  private final EmailSender emailSender;
 
   @Autowired
   public OrderServiceImpl(
@@ -33,13 +35,15 @@ public class OrderServiceImpl implements OrderService {
       UserRepository userRepository,
       OrderProductService orderProductService,
       CartProductService cartProductService,
-      CartService cartServiceImpl) {
+      CartService cartService,
+      EmailSender emailSender) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
     this.orderProductService = orderProductService;
+    this.cartService = cartService;
     this.cartProductService = cartProductService;
-    this.cartServiceImpl = cartServiceImpl;
+    this.emailSender = emailSender;
   }
 
   @Override
@@ -60,15 +64,13 @@ public class OrderServiceImpl implements OrderService {
     userOrders.add(order);
     user.setOrders(userOrders);
 
-    // add email sending here
+    emailSender.sendOrderSummaryEmail(user, order);
 
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
       cartProductService.deleteById(cartProduct.getId());
     }
-    cartServiceImpl.deleteById(user.getCart().getId());
-
+    cartService.deleteById(user.getCart().getId());
     userRepository.save(user);
-
     return getOrderDTO(order);
   }
 
@@ -85,7 +87,8 @@ public class OrderServiceImpl implements OrderService {
   public ResponseOrderDTO getOrderDTO(Order order) {
     List<ResponseOrderProductDTO> orderProductDTOS = new ArrayList<>();
     for (OrderProduct product : order.getOrderProducts()) {
-      orderProductDTOS.add(new ResponseOrderProductDTO(product.getId(), product.getQuantity()));
+      orderProductDTOS.add(
+          new ResponseOrderProductDTO(product.getProduct().getId(), product.getQuantity()));
     }
     return new ResponseOrderDTO(
         order.getId(), order.getStatus(), order.getExpiry(), orderProductDTOS);

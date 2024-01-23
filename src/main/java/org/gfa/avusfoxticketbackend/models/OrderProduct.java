@@ -59,4 +59,8 @@ public class OrderProduct {
   public void setId(Long id) {
     this.id = id;
   }
+
+  public double getTotalPrice() {
+    return this.product.getPrice() * this.quantity;
+  }
 }

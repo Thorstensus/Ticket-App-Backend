@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.models.Cart;
+import org.gfa.avusfoxticketbackend.models.Order;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.thymeleaf.ThymeleafService;
@@ -75,4 +76,14 @@ public class EmailService implements EmailSender {
     variables.put("cart", cart);
     send(user.getEmail(), "Did u forgot about us?", "remainder-email", variables);
   }
+  @Override
+  public void sendOrderSummaryEmail(User user, Order order) {
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("name", user.getName());
+    variables.put("order", order);
+
+    send(user.getEmail(), "Your order summary", "order-summary", variables);
+  }
+
+
 }
