@@ -68,6 +68,7 @@ class SecuredControllerTest {
     CartResponseDTO expected = new CartResponseDTO(1L,1L);
     String token = "muchJwtWow";
 
+    when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
     when(cartService.saveProductToCart(request,token.substring(7))).thenReturn(expected);
 
     mockMvc.perform(
@@ -93,6 +94,7 @@ class SecuredControllerTest {
     ModifyCartResponseDTO expected = new ModifyCartResponseDTO(cartProductDTOList);
     String token = "muchJwtWowManySecurity";
 
+    when(jwtService.extractBearerToken(token)).thenReturn(token.substring(7));
     when(cartService.modifyProductInCart(any(ModifyCartRequestDTO.class),any(String.class))).thenReturn(expected);
 
     mockMvc.perform(
