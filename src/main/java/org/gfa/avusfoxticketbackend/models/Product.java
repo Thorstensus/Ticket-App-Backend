@@ -118,7 +118,14 @@ public class Product {
     if (!(o instanceof Product product)) {
       return false;
     }
-    return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getDuration(), product.getDuration()) && Objects.equals(getDescription(), product.getDescription()) && getType() == product.getType() && Objects.equals(getCartProducts(), product.getCartProducts()) && Objects.equals(getOrderProducts(), product.getOrderProducts());
+    return Objects.equals(getId(), product.getId())
+        && Objects.equals(getName(), product.getName())
+        && Objects.equals(getPrice(), product.getPrice())
+        && Objects.equals(getDuration(), product.getDuration())
+        && Objects.equals(getDescription(), product.getDescription())
+        && getType() == product.getType()
+        && Objects.equals(getCartProducts(), product.getCartProducts())
+        && Objects.equals(getOrderProducts(), product.getOrderProducts());
   }
 
   @Override

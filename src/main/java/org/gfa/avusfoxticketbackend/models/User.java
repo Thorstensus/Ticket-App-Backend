@@ -38,7 +38,6 @@ public class User implements UserDetails {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
-    this.cart = null;
   }
 
   public User(String name, String email, String password) {
@@ -48,7 +47,6 @@ public class User implements UserDetails {
     this.role = Role.USER;
     this.isVerified = false;
     this.orders = new ArrayList<>();
-    this.cart = null;
   }
 
   public String getEmail() {
