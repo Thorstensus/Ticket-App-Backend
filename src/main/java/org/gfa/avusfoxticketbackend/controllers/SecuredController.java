@@ -56,7 +56,7 @@ public class SecuredController {
   public ResponseEntity<ResponseOrderDTO> order(
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = requestHeader;
-    userService.checkUserVerification(requestHeader);
+    userService.checkUserVerification(jwtService.extractBearerToken(requestHeader));
     return ResponseEntity.status(200).body(orderService.saveOrdersFromCart(jwtService.extractBearerToken(requestHeader)));
   }
 
