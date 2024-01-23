@@ -71,10 +71,11 @@ public class EmailService implements EmailSender {
     send(user.getEmail(), "Confirm your email", "verification-email", variables);
   }
 
-  public void sendRemainderEmail(User user, Cart cart) {
+  @Override
+  public void sendReminderEmail(User user, Cart cart) {
     Map<String, Object> variables = new HashMap<>();
     variables.put("cart", cart);
-    send(user.getEmail(), "Did u forgot about us?", "remainder-email", variables);
+    send(user.getEmail(), "Did u forgot about us?", "reminder-email", variables);
   }
 
   @Override

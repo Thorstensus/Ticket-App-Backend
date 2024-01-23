@@ -31,7 +31,7 @@ public class ScheduledTasks {
     for (Cart cart : cartsInDatabase) {
       if (((currentTime.getTime() - cart.getLastActivity().getTime()) / (60 * 1000)) > 1) {
         User user = cart.getUser();
-        emailService.sendRemainderEmail(user, cart);
+        emailService.sendReminderEmail(user, cart);
         cart.setLastActivity(currentTime);
         cartRepository.save(cart);
       }
