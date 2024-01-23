@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Cart;
@@ -12,6 +13,7 @@ import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.CartRepository;
+import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +38,16 @@ public class CartServiceImpl implements CartService {
       ExceptionService exceptionService,
       UserService userService,
       ProductService productService,
-      CartProductService cartProductService) {
+      CartProductService cartProductService,
+      UserRepository userRepository,
+      JwtService jwtService) {
     this.cartRepository = cartRepository;
     this.exceptionService = exceptionService;
     this.userService = userService;
     this.productService = productService;
     this.cartProductService = cartProductService;
+    this.userRepository = userRepository;
+    this.jwtService = jwtService;
   }
 
   @Override
