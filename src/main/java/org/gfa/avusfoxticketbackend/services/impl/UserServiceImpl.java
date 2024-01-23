@@ -6,9 +6,6 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.Cart;
-import org.gfa.avusfoxticketbackend.models.CartProduct;
-import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.*;
@@ -21,30 +18,21 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionService exceptionService;
-  private final ProductService productService;
   private final JwtService jwtService;
   private final EmailSender emailSender;
-  private final CartService cartServiceImpl;
-  private final CartProductService cartProductService;
 
   @Autowired
   public UserServiceImpl(
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder,
-      ExceptionServiceImpl exceptionService,
-      ProductServiceImpl productService,
-      JwtService jwtService,
-      EmailSender emailSender,
-      CartService cartServiceImpl,
-      CartProductService cartProductService) {
+          UserRepository userRepository,
+          PasswordEncoder passwordEncoder,
+          ExceptionService exceptionService,
+          JwtService jwtService,
+          EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
-    this.productService = productService;
     this.jwtService = jwtService;
     this.emailSender = emailSender;
-    this.cartServiceImpl = cartServiceImpl;
-    this.cartProductService = cartProductService;
   }
 
   @Override
@@ -107,51 +95,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public CartResponseDTO saveProductToCart(
-      CartRequestDTO cartRequestDTO, HttpServletRequest httpServletRequest) {
-    exceptionService.handleCartErrors(cartRequestDTO);
-    Optional<User> currentUser = extractUserFromRequest(httpServletRequest);
-    Optional<Product> currentProduct = productService.getProductById(cartRequestDTO.getProductId());
-
-    if (currentUser.isPresent() && currentProduct.isPresent()) {
-      User userToChange = currentUser.get();
-      Product productToChange = currentProduct.get();
-      Cart cart;
-      List<CartProduct> cartProductList = new ArrayList<>();
-
-      if (userToChange.getCart() == null) {
-        cart = new Cart(userToChange, cartProductList);
-      } else {
-        cart = userToChange.getCart();
-      }
-
-      boolean boughtMultipleTimes = false;
-
-      for (CartProduct cartProduct : cart.getCartProducts()) {
-        if (Objects.equals(productToChange.getId(), cartProduct.getProduct().getId())) {
-          cartProduct.setQuantity(cartProduct.getQuantity() + 1);
-          cartProductService.save(cartProduct);
-          boughtMultipleTimes = true;
-          break;
-        }
-      }
-      cartServiceImpl.save(cart);
-
-      if (!boughtMultipleTimes) {
-        CartProduct cartProduct = new CartProduct(1, productToChange, cart);
-        cartProductService.save(cartProduct);
-        cartProductList.add(cartProduct);
-      }
-      userRepository.save(userToChange);
-      return new CartResponseDTO(userToChange.getId(), productToChange.getId());
-    } else {
-      throw new ApiRequestException("/api/cart", "Unknown Error");
-    }
+  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
+    String token = httpServletRequest.getHeader("Authorization").substring(7);
+    String username = jwtService.extractUsername(token);
+    return userRepository.findByEmail(username);
   }
 
   @Override
-  public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
-    String token = httpServletRequest.getHeader("Authorization").substring(7);
+  public Optional<User> extractUserFromToken(String token) {
     String username = jwtService.extractUsername(token);
     return userRepository.findByEmail(username);
   }
