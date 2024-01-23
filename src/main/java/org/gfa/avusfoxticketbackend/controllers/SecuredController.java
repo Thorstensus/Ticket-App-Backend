@@ -52,7 +52,7 @@ public class SecuredController {
             .body(cartService.modifyProductInCart(requestDTO, jwtService.extractBearerToken(requestHeader)));
   }
 
-  @DeleteMapping("cart")
+  @DeleteMapping("/cart")
   public ResponseEntity<String> deleteCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
     token = token.substring(7);
