@@ -24,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
   private final JwtService jwtService;
   private final UserRepository userRepository;
   private final OrderProductService orderProductService;
+  private final CartService cartService;
+
   private final CartProductService cartProductService;
   private final CartService cartServiceImpl;
   private final EmailSender emailSender;
@@ -41,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     this.jwtService = jwtService;
     this.userRepository = userRepository;
     this.orderProductService = orderProductService;
+    this.cartService = cartService;
     this.cartProductService = cartProductService;
     this.cartServiceImpl = cartServiceImpl;
     this.emailSender = emailSender;
@@ -54,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     List<OrderProduct> orderProducts = new ArrayList<>();
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
       OrderProduct orderProduct =
-          new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
+              new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
       orderProductService.save(orderProduct);
       orderProducts.add(orderProduct);
     }
@@ -69,10 +72,8 @@ public class OrderServiceImpl implements OrderService {
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
       cartProductService.deleteById(cartProduct.getId());
     }
-    cartServiceImpl.deleteById(user.getCart().getId());
-
+    cartService.deleteById(user.getCart().getId());
     userRepository.save(user);
-
     return getOrderDTO(order);
   }
 

@@ -27,4 +27,6 @@ public interface JwtService {
   Key getSignInKey();
 
   String generateVerifyToken(UserDetails userDetails);
+
+  String extractBearerToken(String token);
 }
