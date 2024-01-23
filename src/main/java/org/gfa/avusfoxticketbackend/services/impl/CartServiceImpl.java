@@ -66,11 +66,6 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public void deleteCart(Cart cart) {
-    cartRepository.delete(cart);
-  }
-
-  @Override
   public CartResponseDTO saveProductToCart(CartRequestDTO requestDTO, String token) {
     exceptionService.handleCartErrors(requestDTO);
     Optional<User> currentUserOptional = userService.extractUserFromToken(token);
@@ -142,6 +137,11 @@ public class CartServiceImpl implements CartService {
   @Override
   public void deleteById(Long id) {
     cartRepository.deleteById(id);
+  }
+
+  @Override
+  public void deleteCart(Cart cart) {
+    cartRepository.delete(cart);
   }
 
   @Override

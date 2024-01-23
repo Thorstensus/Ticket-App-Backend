@@ -16,21 +16,17 @@ public interface CartService {
 
   void saveCart(Cart cart);
 
-  void deleteCart(Cart cart);
+  CartResponseDTO saveProductToCart(CartRequestDTO cartRequestDTO, String token);
 
-  CartResponseDTO saveProductToCart(
-          CartRequestDTO cartRequestDTO,
-          String token);
-
-  ModifyCartResponseDTO modifyProductInCart(
-          ModifyCartRequestDTO requestDTO,
-          String token);
+  ModifyCartResponseDTO modifyProductInCart(ModifyCartRequestDTO requestDTO, String token);
 
   void addCartItemToCartAndSave(User user, CartProduct cartProduct);
 
   void save(Cart cart);
 
   void deleteById(Long id);
+
+  void deleteCart(Cart cart);
 
   String deleteCart(String token);
 }
