@@ -25,27 +25,24 @@ public class OrderServiceImpl implements OrderService {
   private final UserRepository userRepository;
   private final OrderProductService orderProductService;
   private final CartService cartService;
-
   private final CartProductService cartProductService;
-  private final CartService cartServiceImpl;
   private final EmailSender emailSender;
 
   @Autowired
   public OrderServiceImpl(
-          OrderRepository orderRepository,
-          JwtService jwtService,
-          UserRepository userRepository,
-          OrderProductService orderProductService,
-          CartProductService cartProductService,
-          CartService cartServiceImpl,
-          EmailSender emailSender) {
+      OrderRepository orderRepository,
+      JwtService jwtService,
+      UserRepository userRepository,
+      OrderProductService orderProductService,
+      CartProductService cartProductService,
+      CartService cartService,
+      EmailSender emailSender) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
     this.orderProductService = orderProductService;
     this.cartService = cartService;
     this.cartProductService = cartProductService;
-    this.cartServiceImpl = cartServiceImpl;
     this.emailSender = emailSender;
   }
 
@@ -57,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     List<OrderProduct> orderProducts = new ArrayList<>();
     for (CartProduct cartProduct : user.getCart().getCartProducts()) {
       OrderProduct orderProduct =
-              new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
+          new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct(), order);
       orderProductService.save(orderProduct);
       orderProducts.add(orderProduct);
     }
@@ -90,7 +87,8 @@ public class OrderServiceImpl implements OrderService {
   public ResponseOrderDTO getOrderDTO(Order order) {
     List<ResponseOrderProductDTO> orderProductDTOS = new ArrayList<>();
     for (OrderProduct product : order.getOrderProducts()) {
-      orderProductDTOS.add(new ResponseOrderProductDTO(product.getProduct().getId(), product.getQuantity()));
+      orderProductDTOS.add(
+          new ResponseOrderProductDTO(product.getProduct().getId(), product.getQuantity()));
     }
     return new ResponseOrderDTO(
         order.getId(), order.getStatus(), order.getExpiry(), orderProductDTOS);
