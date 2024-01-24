@@ -25,7 +25,7 @@ public class ScheduledTasks {
   }
 
   @Scheduled(cron = "0 0 0 * * *")
-  public void sendRemainder() {
+  public void sendReminder() {
     List<Cart> cartsInDatabase = cartRepository.findAll();
     Date currentTime = new Date(System.currentTimeMillis());
     for (Cart cart : cartsInDatabase) {

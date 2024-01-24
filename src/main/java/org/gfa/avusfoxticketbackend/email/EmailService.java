@@ -75,7 +75,7 @@ public class EmailService implements EmailSender {
   public void sendReminderEmail(User user, Cart cart) {
     Map<String, Object> variables = new HashMap<>();
     variables.put("cart", cart);
-    send(user.getEmail(), "Did u forgot about us?", "reminder-email", variables);
+    send(user.getEmail(), "Did u forget about us?", "reminder-email", variables);
   }
 
   @Override

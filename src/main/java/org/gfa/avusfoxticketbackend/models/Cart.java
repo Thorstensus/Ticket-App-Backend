@@ -35,7 +35,6 @@ public class Cart {
     this.user = user;
     this.lastActivity = new Date(System.currentTimeMillis());
     this.cartProducts = cartProducts;
-    this.lastActivity = new Date(System.currentTimeMillis());
   }
 
   public Cart(Long id, List<CartProduct> productList, User user, Date lastActivity) {
