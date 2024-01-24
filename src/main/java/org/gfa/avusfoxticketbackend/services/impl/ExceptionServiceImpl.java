@@ -11,8 +11,8 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,18 +22,18 @@ import org.springframework.stereotype.Service;
 public class ExceptionServiceImpl implements ExceptionService {
 
   private final HttpServletRequest httpServletRequest;
-  private final UserRepository userRepository;
+  private final CustomUserRepository customUserRepository;
   private final ProductRepository productRepository;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
   public ExceptionServiceImpl(
       HttpServletRequest httpServletRequest,
-      UserRepository userRepository,
+      CustomUserRepository customUserRepository,
       ProductRepository productRepository,
       PasswordEncoder passwordEncoder) {
     this.httpServletRequest = httpServletRequest;
-    this.userRepository = userRepository;
+    this.customUserRepository = customUserRepository;
     this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
   }
@@ -98,7 +98,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (request.getPassword() == null || request.getPassword().isEmpty()) {
       throwPassRequired();
     } else {
-      Optional<User> user = userRepository.findByEmail(request.getEmail());
+      Optional<User> user = customUserRepository.findByEmail(request.getEmail());
       if (user.isEmpty()
           || !passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
         throwEmailOrPasswordIncorrect();
@@ -126,7 +126,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean existsByEmail(String email) {
-    return userRepository.existsByEmail(email);
+    return customUserRepository.existsByEmail(email);
   }
 
   @Override

@@ -8,7 +8,7 @@ import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-  private final UserRepository userRepository;
+  private final CustomUserRepository customUserRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionService exceptionService;
   private final ProductService productService;
@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserServiceImpl(
-      UserRepository userRepository,
+      CustomUserRepository customUserRepository,
       PasswordEncoder passwordEncoder,
       ExceptionServiceImpl exceptionService,
       ProductServiceImpl productService,
       JwtService jwtService,
       EmailSender emailSender) {
-    this.userRepository = userRepository;
+    this.customUserRepository = customUserRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
     this.productService = productService;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     exceptionService.checkForUserErrors(requestUserDTO);
     User user = requestDTOtoUserConvert(requestUserDTO);
     user.setPassword(hashPassword(user.getPassword()));
-    userRepository.save(user);
+    customUserRepository.save(user);
 
     String link =
         "http://localhost:8080/api/email-verification/" + jwtService.generateVerifyToken(user);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     }
     exceptionService.checkForUserErrors(requestUserDTO);
     User user =
-        userRepository
+        customUserRepository
             .findById(id)
             .orElseThrow(
                 () ->
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         requestUserDTO.getPassword() != null
             ? hashPassword(requestUserDTO.getPassword())
             : user.getPassword());
-    userRepository.save(user);
+    customUserRepository.save(user);
     return patchResponseUserDTOConverter(user);
   }
 
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
       Product productToChange = currentProduct.get();
       userToChange.getCart().add(currentProduct.get());
       productToChange.getInCartOf().add(currentUser.get());
-      userRepository.save(userToChange);
+      customUserRepository.save(userToChange);
       productService.saveProduct(productToChange);
       return new CartResponseDTO(userToChange.getId(), productToChange.getId());
     } else {
@@ -125,27 +125,27 @@ public class UserServiceImpl implements UserService {
   public Optional<User> extractUserFromRequest(HttpServletRequest httpServletRequest) {
     String token = httpServletRequest.getHeader("Authorization").substring(7);
     String username = jwtService.extractUsername(token);
-    return userRepository.findByEmail(username);
+    return customUserRepository.findByEmail(username);
   }
 
   @Override
   public void saveUser(User user) {
-    userRepository.save(user);
+    customUserRepository.save(user);
   }
 
   @Override
   public void verifyUserByVerificationToken(String token) {
     if (!jwtService.isTokenExpired(token)) {
       String username = jwtService.extractUsername(token);
-      User founded = userRepository.findByEmail(username).get();
+      User founded = customUserRepository.findByEmail(username).get();
       founded.setVerified(true);
-      userRepository.save(founded);
+      customUserRepository.save(founded);
     }
   }
 
   @Override
   public void checkUserVerification(String token) {
-    if (!userRepository.findByEmail(jwtService.extractUsername(token)).get().getVerified()) {
+    if (!customUserRepository.findByEmail(jwtService.extractUsername(token)).get().getVerified()) {
       exceptionService.notVerified();
     }
   }

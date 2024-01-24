@@ -86,7 +86,7 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -110,7 +110,7 @@ class UserServiceImplTest {
 
   @MockBean private ProductServiceImpl productServiceImpl;
 
-  @MockBean private UserRepository userRepository;
+  @MockBean private CustomUserRepository customUserRepository;
 
   @Autowired private UserServiceImpl userServiceImpl;
 

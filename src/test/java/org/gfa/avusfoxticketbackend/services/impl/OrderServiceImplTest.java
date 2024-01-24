@@ -15,8 +15,8 @@ import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.models.Order;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -38,7 +38,7 @@ class OrderServiceImplTest {
   private OrderServiceImpl orderServiceImpl;
 
   @MockBean
-  private UserRepository userRepository;
+  private CustomUserRepository customUserRepository;
 
   void shouldSaveUserOrdersFromCartWhenValidTokenProvided() {
     when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
@@ -63,12 +63,12 @@ class OrderServiceImplTest {
     user2.setPassword("iloveyou");
     user2.setRole(Role.USER);
     user2.setVerified(true);
-    when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(customUserRepository.save(Mockito.<User>any())).thenReturn(user2);
+    when(customUserRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     orderServiceImpl.saveOrdersFromCart("ABC123");
     verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
-    verify(userRepository).save(Mockito.<User>any());
+    verify(customUserRepository).findByEmail(Mockito.<String>any());
+    verify(customUserRepository).save(Mockito.<User>any());
   }
 
   @Test
@@ -135,13 +135,13 @@ class OrderServiceImplTest {
     user3.setPassword("iloveyou");
     user3.setRole(Role.USER);
     user3.setVerified(true);
-    when(userRepository.save(Mockito.<User>any())).thenReturn(user3);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(customUserRepository.save(Mockito.<User>any())).thenReturn(user3);
+    when(customUserRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     orderServiceImpl.saveOrdersFromCart("ABC123");
     verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
+    verify(customUserRepository).findByEmail(Mockito.<String>any());
     verify(orderRepository).save(Mockito.<Order>any());
-    verify(userRepository).save(Mockito.<User>any());
+    verify(customUserRepository).save(Mockito.<User>any());
   }
 
   @Test
@@ -159,10 +159,10 @@ class OrderServiceImplTest {
     user.setRole(Role.USER);
     user.setVerified(true);
     Optional<User> ofResult = Optional.of(user);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(customUserRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     ResponseOrderSummaryDTO actualOrderSummaryDTO = orderServiceImpl.getOrderSummaryDTO("ABC123");
     verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
+    verify(customUserRepository).findByEmail(Mockito.<String>any());
     assertEquals(cart, actualOrderSummaryDTO.getOrders());
   }
 
@@ -210,10 +210,10 @@ class OrderServiceImplTest {
     user2.setRole(Role.USER);
     user2.setVerified(true);
     Optional<User> ofResult = Optional.of(user2);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(customUserRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     ResponseOrderSummaryDTO actualOrderSummaryDTO = orderServiceImpl.getOrderSummaryDTO("ABC123");
     verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
+    verify(customUserRepository).findByEmail(Mockito.<String>any());
     List<ResponseOrderDTO> orders2 = actualOrderSummaryDTO.getOrders();
     assertEquals(1, orders2.size());
     ResponseOrderDTO getResult = orders2.get(0);

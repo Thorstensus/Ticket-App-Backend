@@ -8,7 +8,7 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.User;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-  private final UserRepository userRepository;
+  private final CustomUserRepository customUserRepository;
   private final JwtService jwtService;
   private final AuthenticationManager authManager;
   private final ExceptionService exceptionService;
@@ -27,12 +27,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Autowired
   public AuthenticationServiceImpl(
-      UserRepository userRepository,
+      CustomUserRepository customUserRepository,
       JwtService jwtService,
       AuthenticationManager authManager,
       ExceptionService exceptionService,
       EmailSender emailSender) {
-    this.userRepository = userRepository;
+    this.customUserRepository = customUserRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Override
   public ResponseDTO authenticate(AuthenticationRequest request) {
     exceptionService.checkForUserErrors(request);
-    User authenticatedUser = userRepository.findByEmail(request.getEmail()).get();
+    User authenticatedUser = customUserRepository.findByEmail(request.getEmail()).get();
     authManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     String jwtToken =

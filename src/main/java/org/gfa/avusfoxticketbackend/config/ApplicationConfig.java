@@ -1,6 +1,6 @@
 package org.gfa.avusfoxticketbackend.config;
 
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.repositories.CustomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,17 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ApplicationConfig {
-  private final UserRepository userRepository;
+  private final CustomUserRepository customUserRepository;
 
   @Autowired
-  public ApplicationConfig(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public ApplicationConfig(CustomUserRepository customUserRepository) {
+    this.customUserRepository = customUserRepository;
   }
 
   @Bean
   public UserDetailsService userDetailsService() {
     return username ->
-        userRepository
+        customUserRepository
             .findByEmail(username)
             .orElseThrow(() -> new UsernameNotFoundException("User not found."));
   }
