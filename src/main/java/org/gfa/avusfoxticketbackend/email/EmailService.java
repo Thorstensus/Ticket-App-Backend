@@ -6,8 +6,8 @@ import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.Order;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
@@ -72,6 +72,13 @@ public class EmailService implements EmailSender {
   }
 
   @Override
+  public void sendReminderEmail(User user, Cart cart) {
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("cart", cart);
+    send(user.getEmail(), "Did u forget about us?", "reminder-email", variables);
+  }
+
+  @Override
   public void sendOrderSummaryEmail(User user, Order order) {
     Map<String, Object> variables = new HashMap<>();
     variables.put("name", user.getName());
@@ -79,6 +86,4 @@ public class EmailService implements EmailSender {
 
     send(user.getEmail(), "Your order summary", "order-summary", variables);
   }
-
-
 }
