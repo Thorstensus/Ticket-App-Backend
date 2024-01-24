@@ -52,6 +52,14 @@ public class SecuredController {
             .body(cartService.modifyProductInCart(requestDTO, jwtService.extractBearerToken(requestHeader)));
   }
 
+  @DeleteMapping("/cart")
+  public ResponseEntity<ResponseStatusMessageDTO> deleteCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    LogHandlerInterceptor.object = token;
+    token = jwtService.extractBearerToken(token);
+    userService.checkUserVerification(token);
+    return ResponseEntity.status(200).body(cartService.deleteCart(token));
+  }
+
   @PostMapping("/orders")
   public ResponseEntity<ResponseOrderDTO> order(
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
