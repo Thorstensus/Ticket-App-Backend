@@ -29,7 +29,7 @@ public class ScheduledTasks {
     List<Cart> cartsInDatabase = cartRepository.findAll();
     Date currentTime = new Date(System.currentTimeMillis());
     for (Cart cart : cartsInDatabase) {
-      if (((currentTime.getTime() - cart.getLastActivity().getTime()) / (60 * 1000)) > 1) {
+      if (((currentTime.getTime() - cart.getLastActivity().getTime()) / (60 * 60 * 1000)) > 48) {
         User user = cart.getUser();
         emailService.sendReminderEmail(user, cart);
         cart.setLastActivity(currentTime);
