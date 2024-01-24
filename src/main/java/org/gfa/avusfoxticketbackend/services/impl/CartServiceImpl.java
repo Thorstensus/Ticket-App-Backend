@@ -140,11 +140,6 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public void deleteCart(Cart cart) {
-    cartRepository.delete(cart);
-  }
-
-  @Override
   public ResponseStatusMessageDTO deleteCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
     if (user.getCart() == null) {

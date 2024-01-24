@@ -24,7 +24,5 @@ public interface CartService {
 
   void deleteById(Long id);
 
-  void deleteCart(Cart cart);
-
   ResponseStatusMessageDTO deleteCart(String token);
 }
