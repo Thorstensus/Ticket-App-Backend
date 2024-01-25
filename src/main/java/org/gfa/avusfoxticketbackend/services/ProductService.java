@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services;
 
+import java.util.List;
 import java.util.Optional;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.Product;
@@ -20,4 +21,6 @@ public interface ProductService {
   Product requestProductDTOToProductConvert(RequestProductDTO requestProductDTO);
 
   ResponseProductDTO productToResponseProductDTOConvert(Product product);
+
+  List<ProductTypeStatisticsDTO> getStatistics();
 }

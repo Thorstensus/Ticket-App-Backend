@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -51,5 +53,10 @@ public class AdminController {
     LogHandlerInterceptor.object = requestProductDTO;
     return ResponseEntity.status(200)
         .body(productService.createNewProductAndReturn(requestProductDTO));
+  }
+
+  @GetMapping("/product-types/stats")
+  public ResponseEntity<List<ProductTypeStatisticsDTO>> purchaseStatistics() {
+    return ResponseEntity.status(200).body(productService.getStatistics());
   }
 }

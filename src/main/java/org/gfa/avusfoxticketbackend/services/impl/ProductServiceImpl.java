@@ -1,13 +1,16 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
+import org.gfa.avusfoxticketbackend.dtos.ProductTypeStatisticsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.*;
+import org.gfa.avusfoxticketbackend.repositories.OrderProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.TypeRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
@@ -21,13 +24,18 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final ExceptionService exceptionService;
   private final TypeRepository typeRepository;
+  private final OrderProductRepository orderProductRepository;
 
   @Autowired
   public ProductServiceImpl(
-      ProductRepository productRepository, ExceptionService exceptionService, TypeRepository typeRepository) {
+      ProductRepository productRepository,
+      ExceptionService exceptionService,
+      TypeRepository typeRepository,
+      OrderProductRepository orderProductRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
     this.typeRepository = typeRepository;
+    this.orderProductRepository = orderProductRepository;
   }
 
   @Override
@@ -101,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-            typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+        typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
   }
 
   @Override
@@ -113,5 +121,32 @@ public class ProductServiceImpl implements ProductService {
         String.valueOf(product.getDuration()),
         product.getDescription(),
         product.getType().getTypeName());
+  }
+
+  @Override
+  public List<ProductTypeStatisticsDTO> getStatistics() {
+    List<Product> products = productRepository.findAll();
+    List<ProductType> types = typeRepository.findAll();
+    List<OrderProduct> orderedProducts = orderProductRepository.findAll();
+    List<ProductTypeStatisticsDTO> statistics = new ArrayList<>();
+    for (ProductType type : types) {
+      List<Product> productsWithThisType =
+          productRepository.findProductsByProductTypeId(type.getId());
+      Integer quantity = 0;
+      Double priceSum = 0.0;
+      for (Product product : productsWithThisType) {
+        Double productPrice = product.getPrice();
+        List<OrderProduct> orderProductsWithThisProductId =
+            orderProductRepository.findOrderProductsByProductId(product.getId());
+        for (OrderProduct orderProduct : orderProductsWithThisProductId) {
+          quantity += orderProduct.getQuantity();
+          priceSum += productPrice * orderProduct.getQuantity();
+        }
+      }
+      ProductTypeStatisticsDTO productTypeStatisticsDTO =
+          new ProductTypeStatisticsDTO(type.getTypeName(), quantity, priceSum);
+      statistics.add(productTypeStatisticsDTO);
+    }
+    return statistics;
   }
 }
