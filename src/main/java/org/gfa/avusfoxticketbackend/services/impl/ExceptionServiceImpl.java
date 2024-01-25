@@ -4,10 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
+
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -284,5 +282,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void notVerified() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
+  }
+
+  @Override
+  public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
+    if (productTypeRequestDTO == null){
+      throwMissingBodyRequired();
+    } else if (validType(productTypeRequestDTO.getName())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");
+    }
   }
 }
