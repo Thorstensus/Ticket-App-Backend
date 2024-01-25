@@ -30,17 +30,17 @@ public class UnsecuredController {
 
   private final NewsService newsService;
 
-  private final RefreshTokenService refreshTokenServiceImpl;
+  private final RefreshTokenService refreshTokenService;
 
   private final JwtService jwtService;
 
   @Autowired
   public UnsecuredController(
-          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenServiceImpl, JwtService jwtService) {
+          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenService, JwtService jwtService) {
     this.userService = userService;
     this.authService = authService;
     this.newsService = newsService;
-    this.refreshTokenServiceImpl = refreshTokenServiceImpl;
+    this.refreshTokenService = refreshTokenService;
     this.jwtService = jwtService;
   }
 
@@ -82,12 +82,7 @@ public class UnsecuredController {
 
   @PostMapping("/refresh-token")
   public AuthenticationResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
-    return refreshTokenServiceImpl.findByToken(refreshTokenRequest.getToken())
-            .map(refreshTokenServiceImpl::verifyExpiration)
-            .map(RefreshToken::getUser)
-            .map(User -> {
-              String accessToken = jwtService.generateToken(User);
-              return new AuthenticationResponse("ok",refreshTokenRequest.getToken(),accessToken);
-            }).orElseThrow(() -> new RuntimeException("Refresh Token does not exist!"));
+    LogHandlerInterceptor.object = refreshTokenRequest;
+    return refreshTokenService.generateNewToken(refreshTokenRequest);
   }
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +35,9 @@ public class User implements UserDetails {
   @OneToOne(mappedBy = "user")
 
   private Cart cart;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private RefreshToken refreshToken;
 
   public User() {
     this.role = Role.USER;
@@ -83,6 +88,14 @@ public class User implements UserDetails {
 
   public Boolean isVerified() {
     return isVerified;
+  }
+
+  public RefreshToken getRefreshToken() {
+    return refreshToken;
+  }
+
+  public void setRefreshToken(RefreshToken refreshToken) {
+    this.refreshToken = refreshToken;
   }
 
   @Override
@@ -151,57 +164,35 @@ public class User implements UserDetails {
   @Override
   public String toString() {
     return "User{"
-        + "id="
-        + id
-        + ", name='"
-        + name
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + ", password='"
-        + password
-        + '\''
-        + ", role="
-        + role
-        + ", isVerified="
-        + isVerified
-        + ", orders="
-        + orders
-        + ", cart="
-        + cart
-        + '}';
+            + "id=" + id
+            + ", name='" + name + '\''
+            + ", email='" + email + '\''
+            + ", password='" + password + '\''
+            + ", role=" + role
+            + ", isVerified=" + isVerified
+            + ", orders=" + orders
+            + ", cart=" + cart
+            + ", refreshToken=" + refreshToken
+            + '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    User user = (User) o;
-    return Objects.equals(getId(), user.getId())
-        && Objects.equals(getName(), user.getName())
-        && Objects.equals(getEmail(), user.getEmail())
-        && Objects.equals(getPassword(), user.getPassword())
-        && getRole() == user.getRole()
-        && Objects.equals(isVerified, user.isVerified)
-        && Objects.equals(getOrders(), user.getOrders())
-        && Objects.equals(getCart(), user.getCart());
+    if (this == o) return true;
+    if (!(o instanceof User user)) return false;
+    return Objects.equals(getId(),user.getId())
+            && Objects.equals(getName(), user.getName())
+            && Objects.equals(getEmail(), user.getEmail())
+            && Objects.equals(getPassword(), user.getPassword())
+            && getRole() == user.getRole()
+            && Objects.equals(isVerified, user.isVerified)
+            && Objects.equals(getOrders(), user.getOrders())
+            && Objects.equals(getCart(), user.getCart())
+            && Objects.equals(getRefreshToken(), user.getRefreshToken());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        getId(),
-        getName(),
-        getEmail(),
-        getPassword(),
-        getRole(),
-        isVerified,
-        getOrders(),
-        getCart());
+    return Objects.hash(getId(), getName(), getEmail(), getPassword(), getRole(), isVerified, getOrders(), getCart(), getRefreshToken());
   }
 }

@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
@@ -28,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final ExceptionService exceptionService;
   private final EmailSender emailSender;
 
-  private final RefreshTokenService refreshTokenServiceImpl;
+  private final RefreshTokenService refreshTokenService;
 
   @Autowired
   public AuthenticationServiceImpl(
@@ -37,13 +38,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       AuthenticationManager authManager,
       ExceptionService exceptionService,
       EmailSender emailSender,
-      RefreshTokenService refreshTokenServiceImpl) {
+      RefreshTokenService refreshTokenService) {
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
     this.emailSender = emailSender;
-    this.refreshTokenServiceImpl = refreshTokenServiceImpl;
+    this.refreshTokenService = refreshTokenService;
   }
 
   @Override
@@ -59,7 +60,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 "isAdmin", authenticatedUser.getRole() == Role.ADMIN,
                 "isVerified", authenticatedUser.isVerified()),
             authenticatedUser);
-    RefreshToken refreshToken = refreshTokenServiceImpl.createRefreshToken(request.getEmail());
+    RefreshToken refreshToken;
+    if (authenticatedUser.getRefreshToken() == null) {
+      refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
+    } else {
+      refreshToken = authenticatedUser.getRefreshToken();
+      if (refreshToken.getExpiryDate().before(new Date())) {
+        refreshToken.setExpiryDate(new Date(System.currentTimeMillis() + refreshTokenService.getExpirationTime()));
+        refreshTokenService.saveRefreshToken(refreshToken);
+      }
+    }
     return new AuthenticationResponse("ok", refreshToken.getToken(), jwtToken);
   }
 }
