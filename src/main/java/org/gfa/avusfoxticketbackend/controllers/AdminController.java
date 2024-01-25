@@ -56,7 +56,7 @@ public class AdminController {
   }
 
   @GetMapping("/product-types/stats")
-  public ResponseEntity<List<ProductTypeStatisticsDTO>> purchaseStatistics() {
-    return ResponseEntity.status(200).body(productService.getStatistics());
+  public ResponseEntity<List<Object[]>> purchaseStatistics() {
+    return ResponseEntity.status(200).body(productService.customQuery());
   }
 }

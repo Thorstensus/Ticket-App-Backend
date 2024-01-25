@@ -149,4 +149,10 @@ public class ProductServiceImpl implements ProductService {
     }
     return statistics;
   }
+
+  @Override
+  public List<Object[]> customQuery() {
+    List<Object[]> sum = orderProductRepository.findProductSalesSummary();
+    return sum;
+  }
 }
