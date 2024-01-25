@@ -33,7 +33,6 @@ public class User implements UserDetails {
   private List<Order> orders;
 
   @OneToOne(mappedBy = "user")
-
   private Cart cart;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -172,14 +171,18 @@ public class User implements UserDetails {
             + ", isVerified=" + isVerified
             + ", orders=" + orders
             + ", cart=" + cart
-            + ", refreshToken=" + refreshToken
+            + ", refreshToken=" + (refreshToken != null ? refreshToken.getToken() : null)
             + '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User user)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof User user)) {
+      return false;
+    }
     return Objects.equals(getId(),user.getId())
             && Objects.equals(getName(), user.getName())
             && Objects.equals(getEmail(), user.getEmail())

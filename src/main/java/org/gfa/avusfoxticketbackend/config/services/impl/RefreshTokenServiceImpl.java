@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.config.services.impl;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import jakarta.transaction.Transactional;
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
@@ -13,7 +12,6 @@ import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,8 +39,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     Optional<User> userOptional = userRepository.findByEmail(email);
     if (userOptional.isPresent()) {
       User user = userOptional.get();
-      RefreshToken refreshToken = new RefreshToken
-              (UUID.randomUUID().toString(),
+      RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(),
               new Date(System.currentTimeMillis() + Integer.parseInt(REFRESH_EXPIRATION_TIME)),
               user);
       refreshTokenRepository.save(refreshToken);
@@ -52,7 +49,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
   }
 
-  @Override public Optional<RefreshToken> findByToken(String token){
+  @Override public Optional<RefreshToken> findByToken(String token) {
     return refreshTokenRepository.findByToken(token);
   }
 
@@ -60,11 +57,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     return refreshTokenRepository.findByUser(user);
   }
 
-  @Override public RefreshToken verifyExpiration(RefreshToken token){
-    if(token.getExpiryDate().before(new Date())){
-      refreshTokenRepository.delete(token);
-      refreshTokenRepository.flush();
-      throw new ApiRequestException("/api/refresh-token",token.getToken() + " Refresh token is expired. Please make a new login..!");
+  @Override public RefreshToken verifyExpiration(RefreshToken token) {
+    if (token.getExpiryDate().before(new Date())) {
+      token.getUser().setRefreshToken(null);
+      deleteRefreshToken(token);
+      throw new ApiRequestException("/api/refresh-token",token.getToken() + " Refresh token is expired. Please log in again!");
     }
     return token;
   }
@@ -81,8 +78,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     return findByToken(refreshTokenRequest.getToken())
             .map(this::verifyExpiration)
             .map(RefreshToken::getUser)
-            .map(User -> {
-              String accessToken = jwtService.generateToken(User);
+            .map(user -> {
+              String accessToken = jwtService.generateToken(user);
               return new AuthenticationResponse("ok",refreshTokenRequest.getToken(),accessToken);
             }).orElseThrow(() -> new ApiRequestException("/api/refresh-token","Refresh Token does not exist!"));
   }

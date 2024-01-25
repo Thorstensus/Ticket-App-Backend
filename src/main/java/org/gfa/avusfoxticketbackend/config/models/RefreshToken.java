@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.gfa.avusfoxticketbackend.models.User;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "refresh_tokens")
@@ -17,8 +18,8 @@ public class RefreshToken {
 
   private Date expiryDate;
 
-  @OneToOne
-  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "user_id")
   private User user;
 
   public RefreshToken() {
@@ -71,11 +72,27 @@ public class RefreshToken {
 
   @Override
   public String toString() {
-    return "RefreshToken{" +
-            "id=" + id +
-            ", token='" + token + '\'' +
-            ", expiryDate=" + expiryDate +
-            ", user=" + user +
-            '}';
+    return "RefreshToken{"
+            + "id=" + id
+            + ", token='" + token + '\''
+            + ", expiryDate=" + expiryDate
+            + ", user=" + (user != null ? user.getName() : null)
+            + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof RefreshToken that)) {
+      return false;
+    }
+    return Objects.equals(getId(), that.getId()) && Objects.equals(getToken(), that.getToken()) && Objects.equals(getExpiryDate(), that.getExpiryDate()) && Objects.equals(getUser(), that.getUser());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getToken(), getExpiryDate(), getUser());
   }
 }

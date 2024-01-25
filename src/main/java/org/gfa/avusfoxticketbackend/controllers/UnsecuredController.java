@@ -1,8 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-
-import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.*;
@@ -81,7 +79,7 @@ public class UnsecuredController {
   }
 
   @PostMapping("/refresh-token")
-  public AuthenticationResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+  public AuthenticationResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
     LogHandlerInterceptor.object = refreshTokenRequest;
     return refreshTokenService.generateNewToken(refreshTokenRequest);
   }
