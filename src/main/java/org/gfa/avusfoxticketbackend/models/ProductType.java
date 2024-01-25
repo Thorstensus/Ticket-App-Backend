@@ -5,24 +5,24 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "type")
-public class Type {
+@Table(name = "product_type")
+public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String typeName;
 
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "productType")
     private List<Product> productList;
 
-    public Type() {
+    public ProductType() {
     }
 
-    public Type(String typeName) {
+    public ProductType(String typeName) {
         this.typeName = typeName;
     }
 
-    public Type(String typeName, List<Product> productList) {
+    public ProductType(String typeName, List<Product> productList) {
         this.typeName = typeName;
         this.productList = productList;
     }

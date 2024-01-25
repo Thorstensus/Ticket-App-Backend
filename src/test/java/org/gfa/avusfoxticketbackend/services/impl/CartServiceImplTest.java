@@ -62,7 +62,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
@@ -84,7 +84,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
@@ -109,7 +109,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doNothing().when(exceptionService).handleModifyCartErrors(modifyRequest, user);

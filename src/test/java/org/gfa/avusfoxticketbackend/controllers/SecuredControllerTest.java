@@ -15,7 +15,7 @@ import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.Type;
+import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.services.*;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@ class SecuredControllerTest {
   public void cartPatchRequestReturnsCorrectResponse() throws Exception {
 
     ModifyCartRequestDTO request = new ModifyCartRequestDTO(1L, 5);
-    Product product = new Product(1L, "Basic", 1.0, 1, "basic", new Type("Adventure"));
+    Product product = new Product(1L, "Basic", 1.0, 1, "basic", new ProductType("Adventure"));
     CartProduct cartProduct = new CartProduct(5, product, new Cart());
     List<CartProductDTO> cartProductDTOList = new ArrayList<>();
     cartProductDTOList.add(cartProduct.toCartProductDTO());

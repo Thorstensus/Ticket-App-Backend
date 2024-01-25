@@ -17,8 +17,8 @@ public class Product {
   private String description;
 
   @ManyToOne
-  @JoinColumn(name = "type_id")
-  private Type type;
+  @JoinColumn(name = "product_type_id")
+  private ProductType productType;
 
   @OneToMany(mappedBy = "product")
   private List<CartProduct> cartProducts;
@@ -28,22 +28,22 @@ public class Product {
 
   public Product() {}
 
-  public Product(String name, Double price, Integer duration, String description, Type type) {
+  public Product(String name, Double price, Integer duration, String description, ProductType productType) {
     this.name = name;
     this.price = price;
     this.duration = duration;
     this.description = description;
-    this.type = type;
+    this.productType = productType;
   }
 
   public Product(
-      Long id, String name, Double price, Integer duration, String description, Type type) {
+      Long id, String name, Double price, Integer duration, String description, ProductType productType) {
     this.name = name;
     this.id = id;
     this.price = price;
     this.duration = duration;
     this.description = description;
-    this.type = type;
+    this.productType = productType;
   }
 
   public List<CartProduct> getCartProducts() {
@@ -102,12 +102,12 @@ public class Product {
     this.description = description;
   }
 
-  public Type getType() {
-    return type;
+  public ProductType getType() {
+    return productType;
   }
 
-  public void setType(Type type) {
-    this.type = type;
+  public void setType(ProductType productType) {
+    this.productType = productType;
   }
 
   @Override

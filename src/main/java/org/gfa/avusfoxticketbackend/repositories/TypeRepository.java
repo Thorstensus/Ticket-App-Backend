@@ -1,11 +1,9 @@
 package org.gfa.avusfoxticketbackend.repositories;
 
-import org.gfa.avusfoxticketbackend.models.Type;
+import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface TypeRepository extends JpaRepository<Type, Long> {
+public interface TypeRepository extends JpaRepository<ProductType, Long> {
 }

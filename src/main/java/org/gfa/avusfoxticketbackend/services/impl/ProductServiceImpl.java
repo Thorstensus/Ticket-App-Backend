@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(new Type(requestProductDTO.getType()));
+      product.setType(new ProductType(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -98,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-            new Type(requestProductDTO.getType()));
+            new ProductType(requestProductDTO.getType()));
   }
 
   @Override

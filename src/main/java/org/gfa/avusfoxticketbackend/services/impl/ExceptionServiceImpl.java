@@ -13,7 +13,7 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.Type;
+import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.TypeRepository;
@@ -235,8 +235,8 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    List<Type> typeList = typeRepository.findAll();
-    for (Type t : typeList) {
+    List<ProductType> productTypeList = typeRepository.findAll();
+    for (ProductType t : productTypeList) {
       if (t.getTypeName().equals(type)) {
         return true;
       }
