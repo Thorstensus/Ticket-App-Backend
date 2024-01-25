@@ -8,9 +8,9 @@ import static org.mockito.Mockito.*;
 import org.assertj.core.api.Assertions;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
-import org.gfa.avusfoxticketbackend.enums.BasicType;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.Type;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class ProductServiceImplTest {
   void createNewProductAndReturn_returnNewResponseProductDTO() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(1L, "name", 12.0, 4, "description", BasicType.Adventure);
+    Product product = new Product(1L, "name", 12.0, 4, "description", new Type("Adventure"));
     doNothing().when(exceptionService).checkForRequestProductDTOError(requestProductDTO);
     when(productRepository.save(any(Product.class))).thenReturn(product);
 
@@ -74,7 +74,7 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_SameObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "name", 12.0, 4, "description", BasicType.Adventure);
+    Product product = new Product(null, "name", 12.0, 4, "description", new Type("Adventure"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -85,7 +85,7 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_DifferentObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "amen", 12.0, 4, "description", BasicType.Adventure);
+    Product product = new Product(null, "amen", 12.0, 4, "description", new Type("Adventure"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -94,7 +94,7 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_SameObjects() {
-    Product product = new Product(1L, "name", 12.0, 4, "description", BasicType.Adventure);
+    Product product = new Product(1L, "name", 12.0, 4, "description", new Type("Adventure"));
     ResponseProductDTO responseProductDTO =
         new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
 
@@ -106,7 +106,7 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_DifferentObjects() {
-    Product product = new Product(1L, "amen", 12.0, 4, "description", BasicType.Adventure);
+    Product product = new Product(1L, "amen", 12.0, 4, "description", new Type("Adventure"));
     ResponseProductDTO responseProductDTO =
         new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
 

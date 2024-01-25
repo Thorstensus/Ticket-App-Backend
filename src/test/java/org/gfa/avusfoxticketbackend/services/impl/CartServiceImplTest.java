@@ -8,12 +8,8 @@ import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseStatusMessageDTO;
-import org.gfa.avusfoxticketbackend.enums.BasicType;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.Cart;
-import org.gfa.avusfoxticketbackend.models.CartProduct;
-import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.CartProductService;
@@ -66,7 +62,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", BasicType.Adventure);
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
@@ -88,7 +84,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", BasicType.Adventure);
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
@@ -113,7 +109,7 @@ class CartServiceImplTest {
     String token = "muchJwtSuchWow";
 
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
-    Product product = new Product("basic", 5.0, 30, "a basic ticket", BasicType.Adventure);
+    Product product = new Product("basic", 5.0, 30, "a basic ticket", new Type("Adventure"));
 
     doNothing().when(exceptionService).handleCartErrors(request);
     doNothing().when(exceptionService).handleModifyCartErrors(modifyRequest, user);
