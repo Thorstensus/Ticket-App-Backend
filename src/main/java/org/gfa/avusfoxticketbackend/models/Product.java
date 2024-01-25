@@ -108,11 +108,11 @@ public class Product {
     this.description = description;
   }
 
-  public ProductType getType() {
+  public ProductType getProductType() {
     return productType;
   }
 
-  public void setType(ProductType productType) {
+  public void setProductType(ProductType productType) {
     this.productType = productType;
   }
 
@@ -129,7 +129,7 @@ public class Product {
         && Objects.equals(getPrice(), product.getPrice())
         && Objects.equals(getDuration(), product.getDuration())
         && Objects.equals(getDescription(), product.getDescription())
-        && getType() == product.getType()
+        && getProductType() == product.getProductType()
         && Objects.equals(getCartProducts(), product.getCartProducts())
         && Objects.equals(getOrderProducts(), product.getOrderProducts());
   }
@@ -142,7 +142,7 @@ public class Product {
         getPrice(),
         getDuration(),
         getDescription(),
-        getType(),
+        getProductType(),
         getCartProducts(),
         getOrderProducts());
   }

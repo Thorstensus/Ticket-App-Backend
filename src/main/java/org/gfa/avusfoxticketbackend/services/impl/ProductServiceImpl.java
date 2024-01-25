@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().toString());
+        product.getProductType().toString());
   }
 
   @Override
@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+      product.setProductType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -114,6 +114,6 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().getTypeName());
+        product.getProductType().getTypeName());
   }
 }
