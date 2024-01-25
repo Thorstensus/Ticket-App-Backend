@@ -235,13 +235,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    List<ProductType> productTypeList = typeRepository.findAll();
-    for (ProductType t : productTypeList) {
-      if (t.getTypeName().equals(type)) {
-        return true;
-      }
-    }
-    return false;
+    return typeRepository.existsByTypeName(type);
   }
 
   @Override
@@ -261,7 +255,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -284,7 +278,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
