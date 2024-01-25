@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
@@ -12,8 +14,10 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.enums.BasicType;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.Type;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.TypeRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +31,20 @@ public class ExceptionServiceImpl implements ExceptionService {
   private final UserRepository userRepository;
   private final ProductRepository productRepository;
   private final PasswordEncoder passwordEncoder;
+  private final TypeRepository typeRepository;
 
   @Autowired
   public ExceptionServiceImpl(
-      HttpServletRequest httpServletRequest,
-      UserRepository userRepository,
-      ProductRepository productRepository,
-      PasswordEncoder passwordEncoder) {
+          HttpServletRequest httpServletRequest,
+          UserRepository userRepository,
+          ProductRepository productRepository,
+          PasswordEncoder passwordEncoder,
+          TypeRepository typeRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
+    this.typeRepository = typeRepository;
   }
 
   @Override
@@ -229,8 +236,9 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    for (BasicType t : BasicType.values()) {
-      if (t.name().equals(type)) {
+    List<Type> typeList = typeRepository.findAll();
+    for (Type t : typeList) {
+      if (t.getTypeName().equals(type)) {
         return true;
       }
     }
