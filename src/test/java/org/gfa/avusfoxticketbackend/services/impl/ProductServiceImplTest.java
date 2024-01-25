@@ -33,7 +33,14 @@ class ProductServiceImplTest {
   void createNewProductAndReturn_returnNewResponseProductDTO() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "pass");
-    Product product = new Product(1L, "name", 12.0, 4, "description", productTypeRepository.getProductTypeByTypeName("pass"));
+    Product product =
+        new Product(
+            1L,
+            "name",
+            12.0,
+            4,
+            "description",
+            productTypeRepository.getProductTypeByTypeName("pass"));
     doNothing().when(exceptionService).checkForRequestProductDTOError(requestProductDTO);
     when(productRepository.save(any(Product.class))).thenReturn(product);
 
@@ -76,7 +83,14 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_SameObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "pass");
-    Product product = new Product(null, "name", 12.0, 4, "description", productTypeRepository.getProductTypeByTypeName("pass"));
+    Product product =
+        new Product(
+            null,
+            "name",
+            12.0,
+            4,
+            "description",
+            productTypeRepository.getProductTypeByTypeName("pass"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -87,7 +101,14 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_DifferentObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "1 week adventure");
-    Product product = new Product(null, "amen", 12.0, 4, "description", productTypeRepository.getProductTypeByTypeName("pass"));
+    Product product =
+        new Product(
+            null,
+            "amen",
+            12.0,
+            4,
+            "description",
+            productTypeRepository.getProductTypeByTypeName("pass"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 

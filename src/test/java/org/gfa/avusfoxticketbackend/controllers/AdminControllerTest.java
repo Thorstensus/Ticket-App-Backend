@@ -50,11 +50,9 @@ public class AdminControllerTest {
 
   @BeforeEach
   public void init() {
-    requestProductDTO =
-        new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "pass");
+    requestProductDTO = new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "pass");
     responseProductDTO =
-        new ResponseProductDTO(
-            1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "pass");
+        new ResponseProductDTO(1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "pass");
   }
 
   @Test
