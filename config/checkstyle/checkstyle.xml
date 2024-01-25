@@ -173,12 +173,12 @@
         <module name="ClassTypeParameterName">
             <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     value="Class type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Class basicType name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodTypeParameterName">
             <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     value="Method type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Method basicType name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodLength">
             <property name="max" value="150"/>
@@ -186,7 +186,7 @@
         <module name="InterfaceTypeParameterName">
             <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     value="Interface type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Interface basicType name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="NoFinalizer"/>
         <module name="GenericWhitespace">

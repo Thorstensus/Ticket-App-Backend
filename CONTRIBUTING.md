@@ -20,7 +20,7 @@ Read this article how to write meaningful commit messages:
 
 We follow the rules below:
 
-- **Commit message format**: `<type>(): <subject>`
+- **Commit message format**: `<basicType>(): <subject>`
 
 - **Type**: Must be one of the following:
     - **feat**: A new feature implementation

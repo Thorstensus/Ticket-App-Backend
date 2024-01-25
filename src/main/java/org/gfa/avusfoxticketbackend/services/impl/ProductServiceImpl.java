@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
-import org.gfa.avusfoxticketbackend.enums.Type;
+import org.gfa.avusfoxticketbackend.enums.BasicType;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(Type.valueOf(requestProductDTO.getType()));
+      product.setType(new Type(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-        Type.valueOf(requestProductDTO.getType()));
+            new Type(requestProductDTO.getType()));
   }
 
   @Override
@@ -110,6 +110,6 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().name());
+        product.getType().getTypeName());
   }
 }

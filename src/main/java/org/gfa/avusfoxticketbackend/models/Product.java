@@ -3,7 +3,6 @@ package org.gfa.avusfoxticketbackend.models;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
-import org.gfa.avusfoxticketbackend.enums.Type;
 
 @Entity
 @Table(name = "products")
@@ -17,7 +16,8 @@ public class Product {
   private Integer duration;
   private String description;
 
-  @Enumerated(EnumType.STRING)
+  @ManyToOne
+  @JoinColumn(name = "type_id")
   private Type type;
 
   @OneToMany(mappedBy = "product")

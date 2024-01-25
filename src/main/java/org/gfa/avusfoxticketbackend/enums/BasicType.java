@@ -1,6 +1,6 @@
 package org.gfa.avusfoxticketbackend.enums;
 
-public enum Type {
+public enum BasicType {
   Cultural,
   Adventure,
   Culinary,

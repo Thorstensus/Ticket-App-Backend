@@ -9,7 +9,7 @@ import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
-import org.gfa.avusfoxticketbackend.enums.Type;
+import org.gfa.avusfoxticketbackend.enums.BasicType;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
@@ -229,7 +229,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    for (Type t : Type.values()) {
+    for (BasicType t : BasicType.values()) {
       if (t.name().equals(type)) {
         return true;
       }
