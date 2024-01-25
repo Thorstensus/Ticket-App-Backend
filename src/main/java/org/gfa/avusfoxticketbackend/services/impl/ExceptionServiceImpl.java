@@ -235,13 +235,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    List<ProductType> productTypeList = typeRepository.findAll();
-    for (ProductType t : productTypeList) {
-      if (t.getTypeName().equals(type)) {
-        return true;
-      }
-    }
-    return false;
+    return typeRepository.existsByTypeName(type);
   }
 
   @Override

@@ -9,6 +9,7 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.TypeRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,14 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final ExceptionService exceptionService;
+  private final TypeRepository typeRepository;
 
   @Autowired
   public ProductServiceImpl(
-      ProductRepository productRepository, ExceptionService exceptionService) {
+          ProductRepository productRepository, ExceptionService exceptionService, TypeRepository typeRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
+    this.typeRepository = typeRepository;
   }
 
   @Override
@@ -66,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(new ProductType(requestProductDTO.getType()));
+      product.setType(typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -98,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-            new ProductType(requestProductDTO.getType()));
+            typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
   }
 
   @Override
