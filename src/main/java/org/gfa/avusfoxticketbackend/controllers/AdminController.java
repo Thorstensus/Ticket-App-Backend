@@ -52,4 +52,10 @@ public class AdminController {
     return ResponseEntity.status(200)
         .body(productService.createNewProductAndReturn(requestProductDTO));
   }
+
+  @PostMapping("/product-types")
+  public ResponseEntity createNewProductType(
+          @RequestBody(required = false) ProductTypeRequestDTO productTypeRequestDTO) {
+    LogHandlerInterceptor.object = productTypeRequestDTO;
+  }
 }
