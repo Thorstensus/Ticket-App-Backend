@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     java
     checkstyle
@@ -46,13 +48,10 @@ dependencies {
     implementation("org.flywaydb:flyway-core:10.6.0")
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql
     implementation("org.flywaydb:flyway-mysql:10.6.0")
-
-
-
-
-
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
