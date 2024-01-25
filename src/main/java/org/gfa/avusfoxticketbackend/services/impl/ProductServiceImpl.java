@@ -9,7 +9,7 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
-import org.gfa.avusfoxticketbackend.repositories.TypeRepository;
+import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,14 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final ExceptionService exceptionService;
-  private final TypeRepository typeRepository;
+  private final ProductTypeRepository productTypeRepository;
 
   @Autowired
   public ProductServiceImpl(
-          ProductRepository productRepository, ExceptionService exceptionService, TypeRepository typeRepository) {
+          ProductRepository productRepository, ExceptionService exceptionService, ProductTypeRepository productTypeRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
-    this.typeRepository = typeRepository;
+    this.productTypeRepository = productTypeRepository;
   }
 
   @Override
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+      product.setType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-            typeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+            productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
   }
 
   @Override
