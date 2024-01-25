@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.config;
+package org.gfa.avusfoxticketbackend.config.services;
 
 import io.jsonwebtoken.Claims;
 import java.security.Key;

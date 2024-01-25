@@ -41,7 +41,8 @@ public class SecurityConfig {
                         "/api/news/**",
                         "/api/users",
                         "/api/users/login",
-                        "/api/email-verification/**")
+                        "/api/email-verification/**",
+                        "/api/refresh-token")
                     .permitAll()
                     .requestMatchers("/api/admin//**")
                     .hasRole("ADMIN")

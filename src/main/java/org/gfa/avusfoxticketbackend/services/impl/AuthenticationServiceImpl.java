@@ -1,7 +1,10 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.Map;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+
+import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
@@ -25,18 +28,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final ExceptionService exceptionService;
   private final EmailSender emailSender;
 
+  private final RefreshTokenService refreshTokenServiceImpl;
+
   @Autowired
   public AuthenticationServiceImpl(
       UserRepository userRepository,
       JwtService jwtService,
       AuthenticationManager authManager,
       ExceptionService exceptionService,
-      EmailSender emailSender) {
+      EmailSender emailSender,
+      RefreshTokenService refreshTokenServiceImpl) {
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
     this.emailSender = emailSender;
+    this.refreshTokenServiceImpl = refreshTokenServiceImpl;
   }
 
   @Override
@@ -52,6 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 "isAdmin", authenticatedUser.getRole() == Role.ADMIN,
                 "isVerified", authenticatedUser.isVerified()),
             authenticatedUser);
-    return new AuthenticationResponse("ok", jwtToken);
+    RefreshToken refreshToken = refreshTokenServiceImpl.createRefreshToken(request.getEmail());
+    return new AuthenticationResponse("ok", refreshToken.getToken(), jwtToken);
   }
 }

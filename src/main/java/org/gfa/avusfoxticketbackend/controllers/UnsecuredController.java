@@ -1,9 +1,15 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
+
+import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
@@ -24,12 +30,18 @@ public class UnsecuredController {
 
   private final NewsService newsService;
 
+  private final RefreshTokenService refreshTokenServiceImpl;
+
+  private final JwtService jwtService;
+
   @Autowired
   public UnsecuredController(
-      UserService userService, AuthenticationService authService, NewsService newsService) {
+          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenServiceImpl, JwtService jwtService) {
     this.userService = userService;
     this.authService = authService;
     this.newsService = newsService;
+    this.refreshTokenServiceImpl = refreshTokenServiceImpl;
+    this.jwtService = jwtService;
   }
 
   @PostMapping("/users/login")
@@ -66,5 +78,16 @@ public class UnsecuredController {
     LogHandlerInterceptor.object = token;
     userService.verifyUserByVerificationToken(token);
     return ResponseEntity.status(200).body("User verified");
+  }
+
+  @PostMapping("/refresh-token")
+  public AuthenticationResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+    return refreshTokenServiceImpl.findByToken(refreshTokenRequest.getToken())
+            .map(refreshTokenServiceImpl::verifyExpiration)
+            .map(RefreshToken::getUser)
+            .map(User -> {
+              String accessToken = jwtService.generateToken(User);
+              return new AuthenticationResponse("ok",refreshTokenRequest.getToken(),accessToken);
+            }).orElseThrow(() -> new RuntimeException("Refresh Token does not exist!"));
   }
 }
