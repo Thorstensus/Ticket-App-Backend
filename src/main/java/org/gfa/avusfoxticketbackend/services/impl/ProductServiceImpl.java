@@ -125,34 +125,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public List<ProductTypeStatisticsDTO> getStatistics() {
-    List<Product> products = productRepository.findAll();
-    List<ProductType> types = typeRepository.findAll();
-    List<OrderProduct> orderedProducts = orderProductRepository.findAll();
-    List<ProductTypeStatisticsDTO> statistics = new ArrayList<>();
-    for (ProductType type : types) {
-      List<Product> productsWithThisType =
-          productRepository.findProductsByProductTypeId(type.getId());
-      Integer quantity = 0;
-      Double priceSum = 0.0;
-      for (Product product : productsWithThisType) {
-        Double productPrice = product.getPrice();
-        List<OrderProduct> orderProductsWithThisProductId =
-            orderProductRepository.findOrderProductsByProductId(product.getId());
-        for (OrderProduct orderProduct : orderProductsWithThisProductId) {
-          quantity += orderProduct.getQuantity();
-          priceSum += productPrice * orderProduct.getQuantity();
-        }
-      }
-      ProductTypeStatisticsDTO productTypeStatisticsDTO =
-          new ProductTypeStatisticsDTO(type.getTypeName(), quantity, priceSum);
-      statistics.add(productTypeStatisticsDTO);
-    }
-    return statistics;
-  }
-
-  @Override
-  public List<Object[]> customQuery() {
-    List<Object[]> sum = orderProductRepository.findProductSalesSummary();
-    return sum;
+    List<ProductTypeStatisticsDTO> sum = orderProductRepository.findProductSalesSummary();
+    return orderProductRepository.findProductSalesSummary();
   }
 }

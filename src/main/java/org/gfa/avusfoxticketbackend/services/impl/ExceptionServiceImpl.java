@@ -1,8 +1,6 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
@@ -13,7 +11,6 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.TypeRepository;

@@ -74,7 +74,8 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_SameObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "name", 12.0, 4, "description", new ProductType("Adventure"));
+    Product product =
+        new Product(null, "name", 12.0, 4, "description", new ProductType("Adventure"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -85,7 +86,8 @@ class ProductServiceImplTest {
   void requestProductDTOToProductConvert_DifferentObjects() {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "amen", 12.0, 4, "description", new ProductType("Adventure"));
+    Product product =
+        new Product(null, "amen", 12.0, 4, "description", new ProductType("Adventure"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 

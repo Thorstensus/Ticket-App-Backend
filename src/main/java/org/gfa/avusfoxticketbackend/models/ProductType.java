@@ -7,47 +7,47 @@ import java.util.List;
 @Entity
 @Table(name = "product_type")
 public class ProductType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String typeName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToMany(mappedBy = "productType")
-    private List<Product> productList;
+  private String typeName;
 
-    public ProductType() {
-    }
+  @OneToMany(mappedBy = "productType")
+  private List<Product> productList;
 
-    public ProductType(String typeName) {
-        this.typeName = typeName;
-    }
+  public ProductType() {}
 
-    public ProductType(String typeName, List<Product> productList) {
-        this.typeName = typeName;
-        this.productList = productList;
-    }
+  public ProductType(String typeName) {
+    this.typeName = typeName;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public ProductType(String typeName, List<Product> productList) {
+    this.typeName = typeName;
+    this.productList = productList;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getTypeName() {
-        return typeName;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
+  public String getTypeName() {
+    return typeName;
+  }
 
-    public List<Product> getProductList() {
-        return productList;
-    }
+  public void setTypeName(String typeName) {
+    this.typeName = typeName;
+  }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
+  public List<Product> getProductList() {
+    return productList;
+  }
+
+  public void setProductList(List<Product> productList) {
+    this.productList = productList;
+  }
 }

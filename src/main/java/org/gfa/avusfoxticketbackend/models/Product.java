@@ -28,7 +28,8 @@ public class Product {
 
   public Product() {}
 
-  public Product(String name, Double price, Integer duration, String description, ProductType productType) {
+  public Product(
+      String name, Double price, Integer duration, String description, ProductType productType) {
     this.name = name;
     this.price = price;
     this.duration = duration;
@@ -37,7 +38,12 @@ public class Product {
   }
 
   public Product(
-      Long id, String name, Double price, Integer duration, String description, ProductType productType) {
+      Long id,
+      String name,
+      Double price,
+      Integer duration,
+      String description,
+      ProductType productType) {
     this.name = name;
     this.id = id;
     this.price = price;
@@ -130,6 +136,14 @@ public class Product {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getCartProducts(), getOrderProducts());
+    return Objects.hash(
+        getId(),
+        getName(),
+        getPrice(),
+        getDuration(),
+        getDescription(),
+        getType(),
+        getCartProducts(),
+        getOrderProducts());
   }
 }

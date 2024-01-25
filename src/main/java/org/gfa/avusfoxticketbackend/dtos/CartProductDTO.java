@@ -7,8 +7,7 @@ public class CartProductDTO {
 
   private int quantity;
 
-  public CartProductDTO() {
-  }
+  public CartProductDTO() {}
 
   public CartProductDTO(String product, int quantity) {
     this.product = product;
@@ -48,9 +47,13 @@ public class CartProductDTO {
   @Override
   public String toString() {
     return "CartProductDTO{"
-            + "id=" + id
-            + ", product='" + product + '\''
-            + ", quantity=" + quantity
-            + '}';
+        + "id="
+        + id
+        + ", product='"
+        + product
+        + '\''
+        + ", quantity="
+        + quantity
+        + '}';
   }
 }

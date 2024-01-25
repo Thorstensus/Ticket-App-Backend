@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -8,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -56,7 +55,7 @@ public class AdminController {
   }
 
   @GetMapping("/product-types/stats")
-  public ResponseEntity<List<Object[]>> purchaseStatistics() {
-    return ResponseEntity.status(200).body(productService.customQuery());
+  public ResponseEntity<List<ProductTypeStatisticsDTO>> purchaseStatistics() {
+    return ResponseEntity.status(200).body(productService.getStatistics());
   }
 }
