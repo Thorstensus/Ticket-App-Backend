@@ -2,6 +2,7 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -288,6 +289,8 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
     if (productTypeRequestDTO == null){
       throwMissingBodyRequired();
+    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")){
+      throwFieldIsRequired("Type name");
     } else if (validType(productTypeRequestDTO.getName())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");
     }
