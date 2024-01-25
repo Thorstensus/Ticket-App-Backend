@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().toString());
+        product.getType().getTypeName());
   }
 
   @Override
