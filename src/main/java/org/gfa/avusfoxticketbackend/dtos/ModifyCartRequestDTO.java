@@ -8,8 +8,7 @@ public class ModifyCartRequestDTO extends RequestDTO {
 
   private int quantity;
 
-  public ModifyCartRequestDTO() {
-  }
+  public ModifyCartRequestDTO() {}
 
   public ModifyCartRequestDTO(Long productId, int quantity) {
     this.productId = productId;
@@ -34,9 +33,6 @@ public class ModifyCartRequestDTO extends RequestDTO {
 
   @Override
   public String toString() {
-    return "ModifyCartRequestDTO{"
-            + "productId=" + productId
-            + ", quantity=" + quantity
-            + '}';
+    return "ModifyCartRequestDTO{" + "productId=" + productId + ", quantity=" + quantity + '}';
   }
 }

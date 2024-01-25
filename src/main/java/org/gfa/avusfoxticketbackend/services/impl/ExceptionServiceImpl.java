@@ -1,11 +1,9 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
@@ -287,9 +285,9 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
-    if (productTypeRequestDTO == null){
+    if (productTypeRequestDTO == null) {
       throwMissingBodyRequired();
-    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")){
+    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")) {
       throwFieldIsRequired("Type name");
     } else if (validType(productTypeRequestDTO.getName())) {
       throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");

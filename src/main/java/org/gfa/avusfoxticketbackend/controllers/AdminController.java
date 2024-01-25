@@ -20,9 +20,10 @@ public class AdminController {
   private final ProductTypeService productTypeService;
 
   @Autowired
-  public AdminController(ProductService productService,
-                         UserService userService,
-                         ProductTypeService productTypeService) {
+  public AdminController(
+      ProductService productService,
+      UserService userService,
+      ProductTypeService productTypeService) {
     this.productService = productService;
     this.userService = userService;
     this.productTypeService = productTypeService;
@@ -60,9 +61,9 @@ public class AdminController {
 
   @PostMapping("/product-types")
   public ResponseEntity<ProductTypeResponseDTO> createNewProductType(
-          @RequestBody(required = false) ProductTypeRequestDTO productTypeRequestDTO) {
+      @RequestBody(required = false) ProductTypeRequestDTO productTypeRequestDTO) {
     LogHandlerInterceptor.object = productTypeRequestDTO;
     return ResponseEntity.status(200)
-            .body(productTypeService.createProductType(productTypeRequestDTO));
+        .body(productTypeService.createProductType(productTypeRequestDTO));
   }
 }

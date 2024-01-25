@@ -24,7 +24,9 @@ public class ProductServiceImpl implements ProductService {
 
   @Autowired
   public ProductServiceImpl(
-          ProductRepository productRepository, ExceptionService exceptionService, ProductTypeRepository productTypeRepository) {
+      ProductRepository productRepository,
+      ExceptionService exceptionService,
+      ProductTypeRepository productTypeRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
     this.productTypeRepository = productTypeRepository;
@@ -101,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-            productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+        productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
   }
 
   @Override
