@@ -9,9 +9,9 @@ import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,7 +31,12 @@ class RefreshTokenServiceImplTest {
   @Mock UserRepository userRepository;
 
   @Mock JwtService jwtService;
-  @InjectMocks private RefreshTokenService refreshTokenService;
+
+  private RefreshTokenService refreshTokenService;
+  @BeforeEach
+  void setUp() {
+    refreshTokenService = new RefreshTokenServiceImpl(refreshTokenRepository, userRepository, jwtService);
+  }
 
   @Test
   void verifyTokenThrows() {
@@ -78,5 +83,4 @@ class RefreshTokenServiceImplTest {
     assertEquals("/api/refresh-token", exception.getEndpoint());
     assertEquals("Refresh Token does not exist!", exception.getMessage());
   }
-
 }
