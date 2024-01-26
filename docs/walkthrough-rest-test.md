@@ -44,13 +44,13 @@ cannot be performed manually (e.g. simulation of hundreds / thousands of request
 
 ### Unit Testing
 
-Unit testing is a basicType of testing in which individual parts of the code (called "units") are tested whether they work
+Unit testing is a type of testing in which individual parts of the code (called "units") are tested whether they work
 according to the exact specification / requirements / design. The primary purpose of unit testing is to test each
 function (unit) separately = isolated from its dependencies.
 
 ### Integration Testing
 
-On the other hand, Integration testing is a basicType of testing in which a group of units is tested, especially whether the
+On the other hand, Integration testing is a type of testing in which a group of units is tested, especially whether the
 whole module / system works exactly according to the specified functional requirements.
 
 ### Other types
@@ -843,7 +843,7 @@ class FoodControllerTest {
 A few things to explain here:
 
 - the post request requires body content (data) in json format, we provide it using the `.content()` method
-- the media basicType must be set to JSON in the headers using the `.contentType()` method
+- the media type must be set to JSON in the headers using the `.contentType()` method
 - we require the response to have the 200 status
 - we can use the `jsonPath` method to check the response data (parsed as JSON object)
 

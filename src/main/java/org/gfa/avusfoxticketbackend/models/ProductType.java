@@ -3,6 +3,7 @@ package org.gfa.avusfoxticketbackend.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product_type")
@@ -49,5 +50,21 @@ public class ProductType {
 
   public void setProductList(List<Product> productList) {
     this.productList = productList;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ProductType that)) {
+      return false;
+    }
+    return Objects.equals(getId(), that.getId()) && Objects.equals(getTypeName(), that.getTypeName()) && Objects.equals(getProductList(), that.getProductList());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getTypeName(), getProductList());
   }
 }

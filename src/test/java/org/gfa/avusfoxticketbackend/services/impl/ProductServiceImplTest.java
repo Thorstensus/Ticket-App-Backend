@@ -31,18 +31,15 @@ class ProductServiceImplTest {
 
   @Test
   void createNewProductAndReturn_returnNewResponseProductDTO() {
+    ProductType expectedProductType = new ProductType("pass");
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "pass");
-    Product product =
-        new Product(
-            1L,
-            "name",
-            12.0,
-            4,
-            "description",
-            productTypeRepository.getProductTypeByTypeName("pass"));
+    Product product = new Product(1L, "name", 12.0, 4, "description", expectedProductType);
     doNothing().when(exceptionService).checkForRequestProductDTOError(requestProductDTO);
     when(productRepository.save(any(Product.class))).thenReturn(product);
+
+    when(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()))
+        .thenReturn(expectedProductType);
 
     ResponseProductDTO savedProduct = productService.createNewProductAndReturn(requestProductDTO);
 

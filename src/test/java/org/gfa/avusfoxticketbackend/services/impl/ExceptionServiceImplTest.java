@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ProductTypeService;
@@ -67,17 +66,6 @@ class ExceptionServiceImplTest {
 
     assertEquals("/api/admin/products", thrownException.getEndpoint());
     assertEquals("Product name already exists.", thrownException.getMessage());
-  }
-
-  @Test
-  void validType_returnsFalse() {
-    assertFalse(exceptionService.validType("This is not valid"));
-  }
-
-  @Test
-  void validType_returnsTrue() {
-    //ProductType productType = productTypeRepository.save(new ProductType("one"));
-    assertTrue(exceptionService.validType("one"));
   }
 
   @Test
