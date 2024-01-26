@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ProductTypeService;
@@ -75,7 +76,8 @@ class ExceptionServiceImplTest {
 
   @Test
   void validType_returnsTrue() {
-    assertTrue(exceptionService.validType("pass"));
+    //ProductType productType = productTypeRepository.save(new ProductType("one"));
+    assertTrue(exceptionService.validType("one"));
   }
 
   @Test
