@@ -12,6 +12,7 @@ import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -32,12 +33,9 @@ class RefreshTokenServiceImplTest {
 
   @Mock JwtService jwtService;
 
-  private RefreshTokenService refreshTokenService;
+  @InjectMocks
+  private RefreshTokenServiceImpl refreshTokenService;
 
-  @BeforeEach
-  void setUp() {
-    refreshTokenService = new RefreshTokenServiceImpl(refreshTokenRepository, userRepository, jwtService);
-  }
 
   @Test
   void verifyTokenThrows() {
