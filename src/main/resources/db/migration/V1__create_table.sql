@@ -1,4 +1,4 @@
-create table news
+CREATE TABLE news
 (
     id           bigint auto_increment
         primary key,
@@ -7,7 +7,7 @@ create table news
     title        varchar(255) null
 );
 
-create table products
+CREATE TABLE products
 (
     id          bigint auto_increment
         primary key,
@@ -18,7 +18,7 @@ create table products
     type        enum ('Cultural', 'Adventure', 'Culinary', 'Historical') null
 );
 
-create table users
+CREATE TABLE users
 (
     id          bigint auto_increment
         primary key,
