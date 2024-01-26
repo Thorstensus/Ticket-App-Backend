@@ -9,5 +9,4 @@ public interface CartProductService {
   Optional<CartProduct> findCartProductById(Long id);
 
   void deleteById(Long id);
-
 }

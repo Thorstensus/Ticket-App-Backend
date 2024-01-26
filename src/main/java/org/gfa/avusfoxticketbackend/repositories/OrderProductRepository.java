@@ -13,10 +13,10 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct, Long
 
   @Query(
       "SELECT new org.gfa.avusfoxticketbackend.dtos.ProductTypeStatisticsDTO(pt.typeName, "
-              + "CAST(SUM(op.quantity) AS Integer), CAST(SUM(op.quantity * p.price) AS Double)) "
-              + "FROM OrderProduct op "
-              + "JOIN Product p ON op.product.id = p.id "
-              + "JOIN ProductType pt ON p.productType.id = pt.id "
-              + "GROUP BY pt.typeName")
+          + "CAST(SUM(op.quantity) AS Integer), CAST(SUM(op.quantity * p.price) AS Double)) "
+          + "FROM OrderProduct op "
+          + "JOIN Product p ON op.product.id = p.id "
+          + "JOIN ProductType pt ON p.productType.id = pt.id "
+          + "GROUP BY pt.typeName")
   List<ProductTypeStatisticsDTO> findProductSalesSummary();
 }

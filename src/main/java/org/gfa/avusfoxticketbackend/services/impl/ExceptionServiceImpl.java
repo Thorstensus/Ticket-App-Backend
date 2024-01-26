@@ -31,11 +31,11 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Autowired
   public ExceptionServiceImpl(
-          HttpServletRequest httpServletRequest,
-          UserRepository userRepository,
-          ProductRepository productRepository,
-          PasswordEncoder passwordEncoder,
-          ProductTypeRepository productTypeRepository) {
+      HttpServletRequest httpServletRequest,
+      UserRepository userRepository,
+      ProductRepository productRepository,
+      PasswordEncoder passwordEncoder,
+      ProductTypeRepository productTypeRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.productRepository = productRepository;
@@ -122,11 +122,13 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user) {
-    Optional<Product> currentProductOptional = productRepository.findById(requestDTO.getProductId());
+    Optional<Product> currentProductOptional =
+        productRepository.findById(requestDTO.getProductId());
     if (currentProductOptional.isEmpty()) {
       throwProductNotFound();
     }
-    if (user.getCart() == null || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
+    if (user.getCart() == null
+        || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
       throwProductIsNotInCart();
     }
   }
@@ -227,7 +229,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwProductIsNotInCart() {
     throw new ApiRequestException(
-            httpServletRequest.getRequestURI(), "Product is not in the cart.");
+        httpServletRequest.getRequestURI(), "Product is not in the cart.");
   }
 
   @Override
@@ -252,7 +254,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(
+          httpServletRequest.getRequestURI(),
+          "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -275,7 +279,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(
+          httpServletRequest.getRequestURI(),
+          "Product type doesn't exist. Please make product type first.");
     }
   }
 

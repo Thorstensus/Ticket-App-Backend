@@ -26,7 +26,10 @@ public class SecuredController {
 
   @Autowired
   public SecuredController(
-          UserService userService, OrderService orderService, CartService cartService, JwtService jwtService) {
+      UserService userService,
+      OrderService orderService,
+      CartService cartService,
+      JwtService jwtService) {
     this.userService = userService;
     this.orderService = orderService;
     this.cartService = cartService;
@@ -39,7 +42,9 @@ public class SecuredController {
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = List.of(requestDTO, requestHeader);
     return ResponseEntity.status(200)
-        .body(cartService.saveProductToCart(requestDTO, jwtService.extractBearerToken(requestHeader)));
+        .body(
+            cartService.saveProductToCart(
+                requestDTO, jwtService.extractBearerToken(requestHeader)));
   }
 
   @PatchMapping("/cart")
@@ -48,11 +53,14 @@ public class SecuredController {
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = List.of(requestDTO, requestHeader);
     return ResponseEntity.status(200)
-            .body(cartService.modifyProductInCart(requestDTO, jwtService.extractBearerToken(requestHeader)));
+        .body(
+            cartService.modifyProductInCart(
+                requestDTO, jwtService.extractBearerToken(requestHeader)));
   }
 
   @DeleteMapping("/cart")
-  public ResponseEntity<ResponseStatusMessageDTO> deleteCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<ResponseStatusMessageDTO> deleteCart(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     LogHandlerInterceptor.object = token;
     token = jwtService.extractBearerToken(token);
     userService.checkUserVerification(token);
@@ -64,13 +72,15 @@ public class SecuredController {
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = requestHeader;
     userService.checkUserVerification(jwtService.extractBearerToken(requestHeader));
-    return ResponseEntity.status(200).body(orderService.saveOrdersFromCart(jwtService.extractBearerToken(requestHeader)));
+    return ResponseEntity.status(200)
+        .body(orderService.saveOrdersFromCart(jwtService.extractBearerToken(requestHeader)));
   }
 
   @GetMapping("/orders")
   public ResponseEntity<ResponseOrderSummaryDTO> getAllOrders(
       @RequestHeader(HttpHeaders.AUTHORIZATION) String requestHeader) {
     LogHandlerInterceptor.object = requestHeader;
-    return ResponseEntity.status(200).body(orderService.getOrderSummaryDTO(jwtService.extractBearerToken(requestHeader)));
+    return ResponseEntity.status(200)
+        .body(orderService.getOrderSummaryDTO(jwtService.extractBearerToken(requestHeader)));
   }
 }

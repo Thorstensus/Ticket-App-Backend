@@ -232,6 +232,8 @@ class ExceptionServiceImplTest {
             () -> {
               exceptionService.checkForRequestProductDTOError(requestProductDTO);
             });
-    assertEquals("Product type doesn't exist. Please make product type first.", requestException.getMessage());
+    assertEquals(
+        "Product type doesn't exist. Please make product type first.",
+        requestException.getMessage());
   }
 }

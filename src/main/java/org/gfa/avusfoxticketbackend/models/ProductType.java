@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -54,10 +53,16 @@ public class ProductType {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     ProductType that = (ProductType) o;
-    return Objects.equals(getId(), that.getId()) && Objects.equals(getTypeName(), that.getTypeName()) && Objects.equals(getProductList(), that.getProductList());
+    return Objects.equals(getId(), that.getId())
+        && Objects.equals(getTypeName(), that.getTypeName())
+        && Objects.equals(getProductList(), that.getProductList());
   }
 
   @Override
