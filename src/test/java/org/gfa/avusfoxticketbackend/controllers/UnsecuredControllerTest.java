@@ -69,8 +69,7 @@ class UnsecuredControllerTest {
                             .characterEncoding(StandardCharsets.UTF_8)
                             .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isOk())
-            .andExpect(content().json(objectMapper.writeValueAsString(expected)))
-            .andDo(print());
+            .andExpect(content().json(objectMapper.writeValueAsString(expected)));
     verify(refreshTokenService, times(1)).generateNewToken(request);
   }
 }

@@ -33,6 +33,7 @@ class RefreshTokenServiceImplTest {
   @Mock JwtService jwtService;
 
   private RefreshTokenService refreshTokenService;
+
   @BeforeEach
   void setUp() {
     refreshTokenService = new RefreshTokenServiceImpl(refreshTokenRepository, userRepository, jwtService);
