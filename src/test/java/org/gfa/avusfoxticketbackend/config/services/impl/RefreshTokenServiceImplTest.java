@@ -3,6 +3,7 @@ package org.gfa.avusfoxticketbackend.config.services.impl;
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -30,7 +31,7 @@ class RefreshTokenServiceImplTest {
   @Mock UserRepository userRepository;
 
   @Mock JwtService jwtService;
-  @InjectMocks private RefreshTokenServiceImpl refreshTokenService;
+  @InjectMocks private RefreshTokenService refreshTokenService;
 
   @Test
   void verifyTokenThrows() {
