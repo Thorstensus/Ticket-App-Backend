@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.config.services.impl;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
