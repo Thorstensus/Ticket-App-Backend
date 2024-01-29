@@ -1,10 +1,7 @@
 package org.gfa.avusfoxticketbackend.integrationTests;
 
 import org.gfa.avusfoxticketbackend.enums.Role;
-import org.gfa.avusfoxticketbackend.models.News;
-import org.gfa.avusfoxticketbackend.models.Product;
-import org.gfa.avusfoxticketbackend.models.ProductType;
-import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
@@ -20,99 +17,114 @@ import java.util.List;
 @Service
 public class TestDataLoader {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private NewsRepository newsRepository;
+  @Autowired private NewsRepository newsRepository;
 
-    @Autowired
-    private ProductTypeRepository productTypeRepository;
+  @Autowired private ProductTypeRepository productTypeRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+  @Autowired private ProductRepository productRepository;
 
-    public void loadTestData() {
-        // User
-        User userNotVerified = new User("userNotVerified", "userNotVerified@example.com", "password123");
-        userRepository.save(userNotVerified);
+  public void loadTestData() {
+    // User
+    User userNotVerified =
+        new User("userNotVerified", "userNotVerified@example.com", "password123");
+    userRepository.save(userNotVerified);
 
-        User userVerified = new User("userVerified", "userVerified@example.com", "password123");
-        userVerified.setVerified(true);
-        userRepository.save(userVerified);
+    User userVerified = new User("userVerified", "userVerified@example.com", "password123");
+    userVerified.setVerified(true);
+    userRepository.save(userVerified);
 
-        User adminNotVerified = new User("adminNotVerified", "adminNotVerified@example.com", "password123");
-        adminNotVerified.setRole(Role.ADMIN);
-        userRepository.save(adminNotVerified);
+    User adminNotVerified =
+        new User("adminNotVerified", "adminNotVerified@example.com", "password123");
+    adminNotVerified.setRole(Role.ADMIN);
+    userRepository.save(adminNotVerified);
 
-        User adminVerified = new User("adminVerified", "adminVerified@example.com", "password123");
-        adminVerified.setRole(Role.ADMIN);
-        adminVerified.setVerified(true);
-        userRepository.save(adminVerified);
+    User adminVerified = new User("adminVerified", "adminVerified@example.com", "password123");
+    adminVerified.setRole(Role.ADMIN);
+    adminVerified.setVerified(true);
+    userRepository.save(adminVerified);
 
-        // News
-        List<News> newsList = new ArrayList<>();
+    // News
+    List<News> newsList = new ArrayList<>();
 
-        newsList.add(new News("Breaking News: Major Discovery in Science", "Scientists have made a groundbreaking discovery that could revolutionize the field of physics."));
-        newsList.add(new News("Sports Update: Championship Upset", "Underdogs secure a surprising victory in the championship, shaking up the sports world."));
-        newsList.add(new News("Entertainment Buzz: A-list Celebrity Wedding", "Hollywood's power couple ties the knot in a star-studded ceremony."));
-        newsList.add(new News("Technology Advancement: Next-Gen Gadgets Unveiled", "Cutting-edge technology takes center stage with the release of futuristic gadgets."));
-        newsList.add(new News("Health and Wellness: New Superfood Trends", "Experts recommend incorporating the latest superfoods into your diet for a healthier lifestyle."));
-        newsList.add(new News("Travel Escapes: Hidden Gems Around the World", "Discover the most breathtaking and lesser-known travel destinations across the globe."));
-        newsList.add(new News("Financial Report: Stock Market Soars to New Heights", "Investors celebrate as the stock market reaches unprecedented levels of success."));
-        newsList.add(new News("Cultural Highlights: Art Exhibition Opening Soon", "Art enthusiasts eagerly anticipate the grand opening of a new and innovative art exhibition."));
-        newsList.add(new News("Environmental Breakthrough: Renewable Energy Milestone", "Renewable energy sources reach a historic milestone, marking a significant step towards a greener future."));
-        newsList.add(new News("Educational Insights: Innovative Learning Approaches", "Educators embrace innovative teaching methods to enhance the learning experience for students."));
+    newsList.add(new News("news1", "news1 news1 news1 news1"));
+    newsList.add(new News("news2", "news2 news2 news2 news2"));
+    newsList.add(new News("news3", "news3 news3 news3 news3"));
+    newsList.add(new News("news4", "News 4 News 4 News 4 News 4"));
+    newsList.add(new News("news5", "News 5 News 5 News 5 News 5"));
+    newsList.add(new News("news6", "News 6 News 6 News 6 News 6"));
+    newsList.add(new News("news7", "News 7 News 7 News 7 News 7"));
+    newsList.add(new News("news8", "News 8 News 8 News 8 News 8"));
+    newsList.add(new News("news9", "News 9 News 9 News 9 News 9"));
+    newsList.add(new News("news10", "News 10 News 10 News 10 News 10"));
 
-        newsRepository.saveAll(newsList);
+    newsRepository.saveAll(newsList);
 
-        // ProductType
-        ProductType productTypeAdventure = new ProductType("Adventure");
-        ProductType productTypeCulinary = new ProductType("Culinary");
-        ProductType productTypeCultural = new ProductType("Cultural");
-        ProductType productTypeHistorical = new ProductType("Historical");
-        ProductType productTypeMusical = new ProductType("Musical");
-        ProductType productTypeSport = new ProductType("Sport");
+    // ProductType
+    ProductType productType1 = new ProductType("productType1");
+    ProductType productType2 = new ProductType("productType2");
+    ProductType productType3 = new ProductType("productType3");
 
-        productTypeRepository.save(productTypeAdventure);
-        productTypeRepository.save(productTypeCulinary);
-        productTypeRepository.save(productTypeCultural);
-        productTypeRepository.save(productTypeHistorical);
-        productTypeRepository.save(productTypeMusical);
-        productTypeRepository.save(productTypeSport);
+    productTypeRepository.save(productType1);
+    productTypeRepository.save(productType2);
+    productTypeRepository.save(productType3);
 
-        // Product
-        List<Product> productList = new ArrayList<>();
+    // Product
+    Product product1 = new Product("Product1", 5.0, 10, "Product 1 Product 1 Product 1 Product 1", productType1);
+    Product product2 = new Product("Product2", 10.0, 20, "Product 2 Product 2 Product 2 Product 2", productType1);
+    Product product3 = new Product("Product3", 15.0, 30, "Product 3 Product 3 Product 3 Product 3", productType1);
+    Product product4 = new Product("Product4", 20.0, 40, "Product 4 Product 4 Product 4 Product 4", productType1);
+    Product product5 = new Product("Product5", 25.0, 50, "Product 5 Product 5 Product 5 Product 5", productType1);
+    Product product6 = new Product("Product6", 30.0, 60, "Product 6 Product 6 Product 6 Product 6", productType1);
+    Product product7 = new Product("Product7", 35.0, 70, "Product 7 Product 7 Product 7 Product 7", productType1);
+    Product product8 = new Product("Product8", 40.0, 80, "Product 8 Product 8 Product 8 Product 8", productType1);
+    Product product9 = new Product("Product9", 45.0, 90, "Product 9 Product 9 Product 9 Product 9", productType1);
+    Product product10 = new Product("Product10", 50.0, 100, "Product 10 Product 10 Product 10 Product 10", productType2);
+    Product product11 = new Product("Product11", 55.0, 110, "Product 11 Product 11 Product 11 Product 11", productType2);
+    Product product12 = new Product("Product12", 60.0, 120, "Product 12 Product 12 Product 12 Product 12", productType2);
+    Product product13 = new Product("Product13", 65.0, 130, "Product 13 Product 13 Product 13 Product 13", productType2);
+    Product product14 = new Product("Product14", 70.0, 140, "Product 14 Product 14 Product 14 Product 14", productType2);
+    Product product15 = new Product("Product15", 75.0, 150, "Product 15 Product 15 Product 15 Product 15", productType2);
+    Product product16 = new Product("Product16", 80.0, 160, "Product 16 Product 16 Product 16 Product 16", productType3);
+    Product product17 = new Product("Product17", 85.0, 170, "Product 17 Product 17 Product 17 Product 17", productType3);
+    Product product18 = new Product("Product18", 90.0, 180, "Product 18 Product 18 Product 18 Product 18", productType3);
+    Product product19 = new Product("Product19", 95.0, 190, "Product 19 Product 19 Product 19 Product 19", productType3);
+    Product product20 = new Product("Product20", 100.0, 200, "Product 20 Product 20 Product 20 Product 20", null);
 
-        productList.add(new Product("Hiking Adventure", 75.0, 2, "Explore scenic trails in the mountains.", productTypeAdventure));
-        productList.add(new Product("Wildlife Safari Adventure", 150.0, 3, "Embark on a thrilling safari to spot exotic wildlife.", productTypeAdventure));
-        productList.add(new Product("Bird Watching Expedition", 55.0, 3, "Observe a variety of bird species in their natural habitat.", productTypeAdventure));
-        productList.add(new Product("Sailing Adventure", 120.0, 3, "Sail across the open sea with an experienced captain.", productTypeAdventure));
-        productList.add(new Product("Gourmet Cooking Class", 120.0, 4, "Learn to cook exquisite dishes with a professional chef.", productTypeCulinary));
-        productList.add(new Product("Beer Tasting Tour", 65.0, 3, "Sample a selection of craft beers at local breweries.", productTypeCulinary));
-        productList.add(new Product("Wine Tasting Tour", 80.0, 4, "Visit vineyards and savor a variety of exquisite wines.", productTypeCulinary));
-        productList.add(new Product("Farm-to-Table Cooking Class", 85.0, 4, "Harvest fresh ingredients and cook a delicious meal.", productTypeCulinary));
-        productList.add(new Product("Folk Dance Workshop", 50.0, 2, "Learn traditional folk dances from around the world.", productTypeCultural));
-        productList.add(new Product("Art and History Tour", 50.0, 3, "Visit museums and historical sites with knowledgeable guides.", productTypeCultural));
-        productList.add(new Product("City Walking Tour", 30.0, 2, "Explore the city's landmarks and hidden gems on foot.", productTypeCultural));
-        productList.add(new Product("Cultural Dance Workshop", 60.0, 2, "Learn traditional dances from different cultures.", productTypeCultural));
-        productList.add(new Product("Renaissance Fair Experience", 70.0, 5, "Step back in time at a lively Renaissance fair.", productTypeHistorical));
-        productList.add(new Product("Medieval Castle Experience", 90.0, 6, "Immerse yourself in the medieval era with a castle stay.", productTypeHistorical));
-        productList.add(new Product("Ancient Ruins Exploration", 100.0, 4, "Discover ancient ruins with an experienced archaeologist.", productTypeHistorical));
-        productList.add(new Product("Archaeological Dig Adventure", 130.0, 6, "Participate in a hands-on archaeological excavation.", productTypeHistorical));
-        productList.add(new Product("Live Jazz Music Night", 35.0, 2, "Enjoy a night of live jazz music in a cozy venue.", productTypeMusical));
-        productList.add(new Product("Concert Under the Stars", 40.0, 2, "Enjoy a musical performance in an outdoor setting.", productTypeMusical));
-        productList.add(new Product("Outdoor Yoga Retreat", 110.0, 5, "Rejuvenate your body and mind with outdoor yoga sessions.", productTypeSport));
-        productList.add(new Product("Mountain Biking Adventure", 95.0, 4, "Experience thrilling mountain biking trails.", productTypeSport));
-        productList.add(new Product("Virtual Reality Experience", 55.0, 2, "Immerse yourself in virtual reality worlds.", null));
+    productRepository.save(product1);
+    productRepository.save(product2);
+    productRepository.save(product3);
+    productRepository.save(product4);
+    productRepository.save(product5);
+    productRepository.save(product6);
+    productRepository.save(product7);
+    productRepository.save(product8);
+    productRepository.save(product9);
+    productRepository.save(product10);
+    productRepository.save(product11);
+    productRepository.save(product12);
+    productRepository.save(product13);
+    productRepository.save(product14);
+    productRepository.save(product15);
+    productRepository.save(product16);
+    productRepository.save(product17);
+    productRepository.save(product18);
+    productRepository.save(product19);
+    productRepository.save(product20);
 
-        productRepository.saveAll(productList);
-    }
+    // Cart
+    CartProduct cartProduct1 = new CartProduct();
+    CartProduct cartProduct2 = new CartProduct();
+    CartProduct cartProduct3 = new CartProduct();
+    CartProduct cartProduct4 = new CartProduct();
+    CartProduct cartProduct5 = new CartProduct();
+  }
 
-    public void tearDown() {
-        userRepository.deleteAll();
-        newsRepository.deleteAll();
-        productRepository.deleteAll();
-        productTypeRepository.deleteAll();
-    }
+  public void tearDown() {
+    userRepository.deleteAll();
+    newsRepository.deleteAll();
+    productRepository.deleteAll();
+    productTypeRepository.deleteAll();
+  }
 }
