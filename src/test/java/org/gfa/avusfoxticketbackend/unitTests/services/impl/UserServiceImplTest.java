@@ -77,11 +77,14 @@
 //
 // }
 
-package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.unitTests.services.impl;
 
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
+import org.gfa.avusfoxticketbackend.services.impl.ExceptionServiceImpl;
+import org.gfa.avusfoxticketbackend.services.impl.ProductServiceImpl;
+import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.unitTests.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -9,6 +9,7 @@ import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ProductTypeService;
+import org.gfa.avusfoxticketbackend.services.impl.ExceptionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ExceptionServiceImplTest {
 
-  @InjectMocks ExceptionServiceImpl exceptionService;
+  @InjectMocks
+  ExceptionServiceImpl exceptionService;
   @Mock private HttpServletRequest mockHttpServletRequest;
   @Mock private ProductRepository productRepository;
   @Mock private ProductTypeRepository productTypeRepository;

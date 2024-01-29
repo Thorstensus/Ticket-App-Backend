@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.controllers;
+package org.gfa.avusfoxticketbackend.unitTests.controllers;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.controllers.SecuredController;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.CartProduct;

@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.controllers;
+package org.gfa.avusfoxticketbackend.unitTests.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;

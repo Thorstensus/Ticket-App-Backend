@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.integrationTests;
+package org.gfa.avusfoxticketbackend.integrationTests.dataLoaders;
 
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.*;
@@ -26,8 +26,15 @@ public class GenericTestDataLoader {
   @Autowired
   private CartRepository cartRepository;
 
+  @Autowired
+  private OrderRepository orderRepository;
+
+  @Autowired
+  private OrderProductRepository orderProductRepository;
+
   public void loadTestData() {
     // User
+    //
     User userNotVerified =
         new User("userNotVerified", "userNotVerified@example.com", "password123");
     userRepository.save(userNotVerified);
@@ -47,6 +54,7 @@ public class GenericTestDataLoader {
     userRepository.save(adminVerified);
 
     // News
+    //
     List<News> newsList = new ArrayList<>();
 
     newsList.add(new News("news1", "news1 news1 news1 news1"));
@@ -63,6 +71,7 @@ public class GenericTestDataLoader {
     newsRepository.saveAll(newsList);
 
     // ProductType
+    //
     ProductType productType1 = new ProductType("productType1");
     ProductType productType2 = new ProductType("productType2");
     ProductType productType3 = new ProductType("productType3");
@@ -72,6 +81,7 @@ public class GenericTestDataLoader {
     productTypeRepository.save(productType3);
 
     // Product
+    //
     Product product1 = new Product("Product1", 5.0, 10, "Product 1 Product 1 Product 1 Product 1", productType1);
     Product product2 = new Product("Product2", 10.0, 20, "Product 2 Product 2 Product 2 Product 2", productType1);
     Product product3 = new Product("Product3", 15.0, 30, "Product 3 Product 3 Product 3 Product 3", productType1);
@@ -82,11 +92,13 @@ public class GenericTestDataLoader {
     Product product8 = new Product("Product8", 40.0, 80, "Product 8 Product 8 Product 8 Product 8", null);
     Product product9 = new Product("Product9", 45.0, 90, "Product 9 Product 9 Product 9 Product 9", null);
     Product product10 = new Product("Product10", 50.0, 100, "Product 10 Product 10 Product 10 Product 10", null);
+    // Used for Cart
     Product product11 = new Product("Product11", 55.0, 110, "Product 11 Product 11 Product 11 Product 11", productType1);
     Product product12 = new Product("Product12", 60.0, 120, "Product 12 Product 12 Product 12 Product 12", productType1);
     Product product13 = new Product("Product13", 65.0, 130, "Product 13 Product 13 Product 13 Product 13", productType1);
     Product product14 = new Product("Product14", 70.0, 140, "Product 14 Product 14 Product 14 Product 14", productType2);
     Product product15 = new Product("Product15", 75.0, 150, "Product 15 Product 15 Product 15 Product 15", productType2);
+    // Used for Order
     Product product16 = new Product("Product16", 80.0, 160, "Product 16 Product 16 Product 16 Product 16", productType2);
     Product product17 = new Product("Product17", 85.0, 170, "Product 17 Product 17 Product 17 Product 17", productType3);
     Product product18 = new Product("Product18", 90.0, 180, "Product 18 Product 18 Product 18 Product 18", productType3);
@@ -115,13 +127,14 @@ public class GenericTestDataLoader {
     productRepository.save(product20);
 
     // Cart
+    //
     User userWithCart = new User("userWithCart", "userWithCart@example.com", "password123");
     userWithCart.setVerified(true);
 
     User userWithNoCart = new User("userWithNoCart", "userWithNoCart@example.com", "password123");
     userWithCart.setVerified(true);
     userRepository.save(userWithNoCart);
-    
+
 
     List<CartProduct> cartProductList = new ArrayList<>();
 
@@ -153,14 +166,65 @@ public class GenericTestDataLoader {
     cartProductRepository.saveAll(cartProductList);
     cartRepository.save(cart);
 
+    // Order
+    //
+    User userWithOrder = new User("userWithOrder", "userWithOrder@example.com", "password123");
+    userWithCart.setVerified(true);
+
+    User userWithNoOrder = new User("userWithNoOrder", "userWithNoOrder@example.com", "password123");
+    userWithCart.setVerified(true);
+    userRepository.save(userWithNoOrder);
+
+    Order order = new Order(userWithOrder);
+
+    OrderProduct orderProduct1 = new OrderProduct();
+    orderProduct1.setProduct(product16);
+    orderProduct1.setQuantity(2);
+    orderProduct1.setOrder(order);
+    OrderProduct orderProduct2 = new OrderProduct();
+    orderProduct2.setProduct(product17);
+    orderProduct2.setQuantity(1);
+    orderProduct2.setOrder(order);
+    OrderProduct orderProduct3 = new OrderProduct();
+    orderProduct3.setProduct(product18);
+    orderProduct3.setQuantity(3);
+    orderProduct3.setOrder(order);
+    OrderProduct orderProduct4 = new OrderProduct();
+    orderProduct4.setProduct(product19);
+    orderProduct4.setQuantity(1);
+    orderProduct4.setOrder(order);
+    OrderProduct orderProduct5 = new OrderProduct();
+    orderProduct5.setProduct(product20);
+    orderProduct5.setQuantity(5);
+    orderProduct5.setOrder(order);
+
+    List<OrderProduct> orderProductList = new ArrayList<>();
+    orderProductList.add(orderProduct1);
+    orderProductList.add(orderProduct2);
+    orderProductList.add(orderProduct3);
+    orderProductList.add(orderProduct4);
+    orderProductList.add(orderProduct5);
+
+    order.setUser(userWithOrder);
+    order.setOrderProducts(orderProductList);
+    order.setExpiry("Expiry date");
+    order.setStatus("Status");
+
+    userRepository.save(userWithOrder);
+    orderProductRepository.saveAll(orderProductList);
+    orderRepository.save(order);
   }
 
   public void tearDown() {
     userRepository.deleteAll();
     newsRepository.deleteAll();
-    productRepository.deleteAll();
     productTypeRepository.deleteAll();
+    productRepository.deleteAll();
     cartRepository.deleteAll();
-    cartProductRepository.deleteAll();
+    orderProductRepository.deleteAll();
+
+    // May not have to be here
+//    cartProductRepository.deleteAll();
+//    orderRepository.deleteAll();
   }
 }
