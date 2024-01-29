@@ -56,13 +56,10 @@ public class ProductType {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof ProductType that)) {
       return false;
     }
-    ProductType that = (ProductType) o;
-    return Objects.equals(getId(), that.getId())
-        && Objects.equals(getTypeName(), that.getTypeName())
-        && Objects.equals(getProductList(), that.getProductList());
+    return Objects.equals(getId(), that.getId()) && Objects.equals(getTypeName(), that.getTypeName()) && Objects.equals(getProductList(), that.getProductList());
   }
 
   @Override

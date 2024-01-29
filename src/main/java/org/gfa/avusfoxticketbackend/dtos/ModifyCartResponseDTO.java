@@ -1,5 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
+
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 

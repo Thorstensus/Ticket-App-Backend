@@ -29,6 +29,7 @@ class ProductServiceImplTest {
   @Mock private ProductTypeRepository productTypeRepository;
 
   @InjectMocks private ProductServiceImpl productService;
+  @Mock private ProductTypeRepository productTypeRepository;
 
   @Test
   void createNewProductAndReturn_returnNewResponseProductDTO() {
@@ -115,9 +116,9 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_SameObjects() {
-    Product product = new Product(1L, "name", 12.0, 4, "description", new ProductType("Adventure"));
+    Product product = new Product(1L, "name", 12.0, 4, "description", new ProductType("pass"));
     ResponseProductDTO responseProductDTO =
-        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
+        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "pass");
 
     ResponseProductDTO createdResponseProductDTO =
         productService.productToResponseProductDTOConvert(product);
@@ -129,7 +130,7 @@ class ProductServiceImplTest {
   void productToResponseProductDTOConvert_DifferentObjects() {
     Product product = new Product(1L, "amen", 12.0, 4, "description", new ProductType("Adventure"));
     ResponseProductDTO responseProductDTO =
-        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
+        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "pass");
 
     ResponseProductDTO createdResponseProductDTO =
         productService.productToResponseProductDTOConvert(product);

@@ -1,12 +1,10 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -31,11 +29,11 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Autowired
   public ExceptionServiceImpl(
-      HttpServletRequest httpServletRequest,
-      UserRepository userRepository,
-      ProductRepository productRepository,
-      PasswordEncoder passwordEncoder,
-      ProductTypeRepository productTypeRepository) {
+          HttpServletRequest httpServletRequest,
+          UserRepository userRepository,
+          ProductRepository productRepository,
+          PasswordEncoder passwordEncoder,
+          ProductTypeRepository productTypeRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.productRepository = productRepository;
@@ -254,9 +252,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(
-          httpServletRequest.getRequestURI(),
-          "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -279,9 +275,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(
-          httpServletRequest.getRequestURI(),
-          "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -289,5 +283,16 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void notVerified() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
+  }
+
+  @Override
+  public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
+    if (productTypeRequestDTO == null) {
+      throwMissingBodyRequired();
+    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")) {
+      throwFieldIsRequired("Type name");
+    } else if (validType(productTypeRequestDTO.getName())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");
+    }
   }
 }
