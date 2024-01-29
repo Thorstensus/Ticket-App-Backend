@@ -11,6 +11,7 @@ import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
@@ -22,9 +23,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
   private final UserRepository userRepository;
 
-  private static final Dotenv dotenv = Dotenv.configure().load();
-
-  private static final String REFRESH_EXPIRATION_TIME = dotenv.get("REFRESH_EXPIRATION_TIME");
+  @Value("${REFRESH_EXPIRATION_TIME}")
+  private String REFRESH_EXPIRATION_TIME;
 
   private final JwtService jwtService;
 
