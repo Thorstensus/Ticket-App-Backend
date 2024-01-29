@@ -14,6 +14,7 @@ import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
+import org.gfa.avusfoxticketbackend.services.ProductTypeService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AdminControllerTest {
 
   @MockBean private ProductService productService;
+  @MockBean private ProductTypeService productTypeService;
   @MockBean private JwtService jwtService;
   @MockBean private UserService userService;
   @MockBean private NewsService newsService;
@@ -48,11 +50,9 @@ public class AdminControllerTest {
 
   @BeforeEach
   public void init() {
-    requestProductDTO =
-        new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "Adventure");
+    requestProductDTO = new RequestProductDTO("Single Ticket", 1.99, 2, "Valid for 2 hrs", "pass");
     responseProductDTO =
-        new ResponseProductDTO(
-            1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "Adventure");
+        new ResponseProductDTO(1L, "Single Ticket", 1.99, "2 hours", "Valid for 2 hrs", "pass");
   }
 
   @Test
@@ -114,7 +114,7 @@ public class AdminControllerTest {
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
     requestProductDTO.setDescription("description");
-    requestProductDTO.setType("Adventure");
+    requestProductDTO.setType("pass");
 
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
@@ -138,7 +138,7 @@ public class AdminControllerTest {
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
     requestProductDTO.setDescription("description");
-    requestProductDTO.setType("Adventure");
+    requestProductDTO.setType("pass");
 
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
@@ -160,7 +160,7 @@ public class AdminControllerTest {
     RequestProductDTO requestProductDTO = new RequestProductDTO();
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
-    requestProductDTO.setType("Adventure");
+    requestProductDTO.setType("pass");
 
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 
@@ -183,7 +183,7 @@ public class AdminControllerTest {
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDuration(4);
     requestProductDTO.setDescription("");
-    requestProductDTO.setType("Adventure");
+    requestProductDTO.setType("pass");
 
     when(productService.createNewProductAndReturn(requestProductDTO)).thenThrow(response);
 

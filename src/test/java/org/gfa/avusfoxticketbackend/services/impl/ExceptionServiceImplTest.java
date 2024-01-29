@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
+import org.gfa.avusfoxticketbackend.services.ProductTypeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +21,8 @@ class ExceptionServiceImplTest {
   @InjectMocks ExceptionServiceImpl exceptionService;
   @Mock private HttpServletRequest mockHttpServletRequest;
   @Mock private ProductRepository productRepository;
+  @Mock private ProductTypeRepository productTypeRepository;
+  @Mock private ProductTypeService productTypeService;
 
   @Test
   void throwFieldIsRequired_Name() {
@@ -62,16 +66,6 @@ class ExceptionServiceImplTest {
 
     assertEquals("/api/admin/products", thrownException.getEndpoint());
     assertEquals("Product name already exists.", thrownException.getMessage());
-  }
-
-  @Test
-  void validType_returnsFalse() {
-    assertFalse(exceptionService.validType("This is not valid"));
-  }
-
-  @Test
-  void validType_returnsTrue() {
-    assertTrue(exceptionService.validType("Adventure"));
   }
 
   @Test
@@ -161,7 +155,7 @@ class ExceptionServiceImplTest {
     requestProductDTO.setName("name");
     requestProductDTO.setPrice(12.0);
     requestProductDTO.setDescription("description");
-    requestProductDTO.setType("Adventure");
+    requestProductDTO.setType("pass");
 
     ApiRequestException requestException =
         assertThrows(
@@ -240,6 +234,6 @@ class ExceptionServiceImplTest {
             () -> {
               exceptionService.checkForRequestProductDTOError(requestProductDTO);
             });
-    assertEquals("Product type is wrong.", requestException.getMessage());
+    assertEquals("Product type doesn't exist. Please make product type first.", requestException.getMessage());
   }
 }

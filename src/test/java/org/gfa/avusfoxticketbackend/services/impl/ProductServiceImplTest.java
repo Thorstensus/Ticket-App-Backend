@@ -8,10 +8,11 @@ import static org.mockito.Mockito.*;
 import org.assertj.core.api.Assertions;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
-import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,14 +27,19 @@ class ProductServiceImplTest {
   @Mock private ExceptionServiceImpl exceptionService;
 
   @InjectMocks private ProductServiceImpl productService;
+  @Mock private ProductTypeRepository productTypeRepository;
 
   @Test
   void createNewProductAndReturn_returnNewResponseProductDTO() {
+    ProductType expectedProductType = new ProductType("pass");
     RequestProductDTO requestProductDTO =
-        new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(1L, "name", 12.0, 4, "description", Type.Adventure);
+        new RequestProductDTO("name", 12.0, 4, "description", "pass");
+    Product product = new Product(1L, "name", 12.0, 4, "description", expectedProductType);
     doNothing().when(exceptionService).checkForRequestProductDTOError(requestProductDTO);
     when(productRepository.save(any(Product.class))).thenReturn(product);
+
+    when(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()))
+        .thenReturn(expectedProductType);
 
     ResponseProductDTO savedProduct = productService.createNewProductAndReturn(requestProductDTO);
 
@@ -43,7 +49,7 @@ class ProductServiceImplTest {
         .hasFieldOrPropertyWithValue("price", 12.0)
         .hasFieldOrPropertyWithValue("duration", "4 hours")
         .hasFieldOrPropertyWithValue("description", "description")
-        .hasFieldOrPropertyWithValue("type", "Adventure");
+        .hasFieldOrPropertyWithValue("type", "pass");
   }
 
   @Test
@@ -73,8 +79,15 @@ class ProductServiceImplTest {
   @Test
   void requestProductDTOToProductConvert_SameObjects() {
     RequestProductDTO requestProductDTO =
-        new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "name", 12.0, 4, "description", Type.Adventure);
+        new RequestProductDTO("name", 12.0, 4, "description", "pass");
+    Product product =
+        new Product(
+            null,
+            "name",
+            12.0,
+            4,
+            "description",
+            productTypeRepository.getProductTypeByTypeName("pass"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -84,8 +97,15 @@ class ProductServiceImplTest {
   @Test
   void requestProductDTOToProductConvert_DifferentObjects() {
     RequestProductDTO requestProductDTO =
-        new RequestProductDTO("name", 12.0, 4, "description", "Adventure");
-    Product product = new Product(null, "amen", 12.0, 4, "description", Type.Adventure);
+        new RequestProductDTO("name", 12.0, 4, "description", "1 week adventure");
+    Product product =
+        new Product(
+            null,
+            "amen",
+            12.0,
+            4,
+            "description",
+            productTypeRepository.getProductTypeByTypeName("pass"));
 
     Product createdProduct = productService.requestProductDTOToProductConvert(requestProductDTO);
 
@@ -94,9 +114,9 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_SameObjects() {
-    Product product = new Product(1L, "name", 12.0, 4, "description", Type.Adventure);
+    Product product = new Product(1L, "name", 12.0, 4, "description", new ProductType("pass"));
     ResponseProductDTO responseProductDTO =
-        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
+        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "pass");
 
     ResponseProductDTO createdResponseProductDTO =
         productService.productToResponseProductDTOConvert(product);
@@ -106,9 +126,9 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_DifferentObjects() {
-    Product product = new Product(1L, "amen", 12.0, 4, "description", Type.Adventure);
+    Product product = new Product(1L, "amen", 12.0, 4, "description", new ProductType("pass"));
     ResponseProductDTO responseProductDTO =
-        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "Adventure");
+        new ResponseProductDTO(1L, "name", 12.0, "4", "description", "pass");
 
     ResponseProductDTO createdResponseProductDTO =
         productService.productToResponseProductDTOConvert(product);

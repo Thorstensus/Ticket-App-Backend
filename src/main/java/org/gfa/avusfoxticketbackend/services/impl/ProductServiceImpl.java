@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
-import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
-import org.gfa.avusfoxticketbackend.models.Product;
+import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,16 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final ExceptionService exceptionService;
+  private final ProductTypeRepository productTypeRepository;
 
   @Autowired
   public ProductServiceImpl(
-      ProductRepository productRepository, ExceptionService exceptionService) {
+      ProductRepository productRepository,
+      ExceptionService exceptionService,
+      ProductTypeRepository productTypeRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
+    this.productTypeRepository = productTypeRepository;
   }
 
   @Override
@@ -36,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().toString());
+        product.getProductType().toString());
   }
 
   @Override
@@ -67,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setType(Type.valueOf(requestProductDTO.getType()));
+      product.setProductType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -99,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
         requestProductDTO.getPrice(),
         requestProductDTO.getDuration(),
         requestProductDTO.getDescription(),
-        Type.valueOf(requestProductDTO.getType()));
+        productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
   }
 
   @Override
@@ -110,6 +114,6 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getType().name());
+        product.getProductType().getTypeName());
   }
 }
