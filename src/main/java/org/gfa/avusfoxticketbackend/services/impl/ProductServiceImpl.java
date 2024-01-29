@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ProductTypeStatisticsDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseProductTypeStatisticsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
@@ -124,8 +124,8 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public List<ProductTypeStatisticsDTO> getStatistics() {
-    List<ProductTypeStatisticsDTO> sum = orderProductRepository.findProductSalesSummary();
+  public List<ResponseProductTypeStatisticsDTO> getStatistics() {
+    List<ResponseProductTypeStatisticsDTO> sum = orderProductRepository.findProductSalesSummary();
     return orderProductRepository.findProductSalesSummary();
   }
 }

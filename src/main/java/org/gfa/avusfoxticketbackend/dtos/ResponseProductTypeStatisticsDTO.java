@@ -1,17 +1,19 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-public class ProductTypeStatisticsDTO {
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
+
+public class ResponseProductTypeStatisticsDTO extends ResponseDTO {
   private String productTypeName;
   private Integer quantitySold;
   private Double totalPrice;
 
-  public ProductTypeStatisticsDTO(String productTypeName, Integer quantitySold, Double totalPrice) {
+  public ResponseProductTypeStatisticsDTO(String productTypeName, Integer quantitySold, Double totalPrice) {
     this.productTypeName = productTypeName;
     this.quantitySold = quantitySold;
     this.totalPrice = totalPrice;
   }
 
-  public ProductTypeStatisticsDTO() {}
+  public ResponseProductTypeStatisticsDTO() {}
 
   public String getProductTypeName() {
     return productTypeName;

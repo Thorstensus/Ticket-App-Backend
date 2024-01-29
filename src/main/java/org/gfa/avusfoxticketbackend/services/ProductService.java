@@ -22,5 +22,5 @@ public interface ProductService {
 
   ResponseProductDTO productToResponseProductDTOConvert(Product product);
 
-  List<ProductTypeStatisticsDTO> getStatistics();
+  List<ResponseProductTypeStatisticsDTO> getStatistics();
 }
