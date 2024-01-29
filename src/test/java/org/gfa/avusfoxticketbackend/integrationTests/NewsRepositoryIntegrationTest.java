@@ -1,12 +1,10 @@
 package org.gfa.avusfoxticketbackend.integrationTests;
 
 import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Before;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
-import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.impl.NewsServiceImpl;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -14,10 +12,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
@@ -45,8 +41,6 @@ public class NewsRepositoryIntegrationTest {
 
     @MockBean
     private EmailService emailService;
-
-
 
     @BeforeEach
     public void setUp() {
