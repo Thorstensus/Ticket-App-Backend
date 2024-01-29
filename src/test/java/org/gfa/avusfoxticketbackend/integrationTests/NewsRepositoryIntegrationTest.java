@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.integrationTests;
 
+import jakarta.transaction.Transactional;
 import org.aspectj.lang.annotation.Before;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
@@ -17,11 +18,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@Transactional
 public class NewsRepositoryIntegrationTest {
 
     @Autowired
@@ -56,6 +59,7 @@ public class NewsRepositoryIntegrationTest {
     }
 
     @Test
+    @DirtiesContext
     public void findNewsByTitleOrDescription() {
         News news = new News("Original title", "such original content wow");
         String title = "Original";
@@ -82,7 +86,7 @@ public class NewsRepositoryIntegrationTest {
         List<News> actual2 = newsRepository.searchInTitleAndContentIgnoreCase(title2);
         Assertions.assertNotNull(all);
 //        Assertions.assertEquals(actual, all);
-//        Assertions.assertNotNull(actual);
+        Assertions.assertNotNull(actual);
 //        Assertions.assertEquals(expected, actual);
     }
 }
