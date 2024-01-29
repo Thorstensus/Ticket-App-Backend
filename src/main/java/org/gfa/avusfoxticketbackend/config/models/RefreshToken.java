@@ -18,7 +18,7 @@ public class RefreshToken {
 
   private Date expiryDate;
 
-  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
 
