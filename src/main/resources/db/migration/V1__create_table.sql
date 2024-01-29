@@ -72,5 +72,3 @@ CREATE TABLE order_products
     constraint FK_order_products_product_reference
         foreign key (product_id) references products (id)
 );
-
-
