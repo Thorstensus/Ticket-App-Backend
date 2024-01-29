@@ -42,11 +42,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail:3.2.1")
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
     implementation("org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE")
-
-
-
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
+    implementation("org.flywaydb:flyway-core:10.6.0")
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql
+    implementation("org.flywaydb:flyway-mysql:10.6.0")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
