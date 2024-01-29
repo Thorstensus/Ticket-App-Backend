@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.email;
 
+import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-
-import jakarta.transaction.Transactional;
 import org.gfa.avusfoxticketbackend.models.Cart;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.CartRepository;

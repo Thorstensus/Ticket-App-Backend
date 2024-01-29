@@ -31,7 +31,6 @@ public class User implements UserDetails {
   private List<Order> orders;
 
   @OneToOne(mappedBy = "user")
-
   private Cart cart;
 
   public User() {

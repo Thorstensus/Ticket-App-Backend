@@ -3,7 +3,6 @@ package org.gfa.avusfoxticketbackend.models;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
-import org.gfa.avusfoxticketbackend.enums.Type;
 
 @Entity
 @Table(name = "products")
@@ -17,8 +16,9 @@ public class Product {
   private Integer duration;
   private String description;
 
-  @Enumerated(EnumType.STRING)
-  private Type type;
+  @ManyToOne
+  @JoinColumn(name = "product_type_id")
+  private ProductType productType;
 
   @OneToMany(mappedBy = "product")
   private List<CartProduct> cartProducts;
@@ -28,22 +28,28 @@ public class Product {
 
   public Product() {}
 
-  public Product(String name, Double price, Integer duration, String description, Type type) {
+  public Product(
+      String name, Double price, Integer duration, String description, ProductType productType) {
     this.name = name;
     this.price = price;
     this.duration = duration;
     this.description = description;
-    this.type = type;
+    this.productType = productType;
   }
 
   public Product(
-      Long id, String name, Double price, Integer duration, String description, Type type) {
+      Long id,
+      String name,
+      Double price,
+      Integer duration,
+      String description,
+      ProductType productType) {
     this.name = name;
     this.id = id;
     this.price = price;
     this.duration = duration;
     this.description = description;
-    this.type = type;
+    this.productType = productType;
   }
 
   public List<CartProduct> getCartProducts() {
@@ -102,12 +108,12 @@ public class Product {
     this.description = description;
   }
 
-  public Type getType() {
-    return type;
+  public ProductType getProductType() {
+    return productType;
   }
 
-  public void setType(Type type) {
-    this.type = type;
+  public void setProductType(ProductType productType) {
+    this.productType = productType;
   }
 
   @Override
@@ -123,13 +129,21 @@ public class Product {
         && Objects.equals(getPrice(), product.getPrice())
         && Objects.equals(getDuration(), product.getDuration())
         && Objects.equals(getDescription(), product.getDescription())
-        && getType() == product.getType()
+        && getProductType() == product.getProductType()
         && Objects.equals(getCartProducts(), product.getCartProducts())
         && Objects.equals(getOrderProducts(), product.getOrderProducts());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType(), getCartProducts(), getOrderProducts());
+    return Objects.hash(
+        getId(),
+        getName(),
+        getPrice(),
+        getDuration(),
+        getDescription(),
+        getProductType(),
+        getCartProducts(),
+        getOrderProducts());
   }
 }

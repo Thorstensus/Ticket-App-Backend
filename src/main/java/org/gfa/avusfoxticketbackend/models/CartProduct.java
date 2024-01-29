@@ -1,9 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-import org.gfa.avusfoxticketbackend.dtos.CartProductDTO;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.dtos.CartProductDTO;
 
 @Entity
 @Table(name = "cart_products")
