@@ -34,18 +34,18 @@ public class TestDataLoader {
 
     public void loadTestData() {
         // User
-        User userNotVerified = new User("user1", "user1@example.com", "password123");
+        User userNotVerified = new User("userNotVerified", "userNotVerified@example.com", "password123");
         userRepository.save(userNotVerified);
 
-        User userVerified = new User("user2", "user2@example.com", "password123");
+        User userVerified = new User("userVerified", "userVerified@example.com", "password123");
         userVerified.setVerified(true);
         userRepository.save(userVerified);
 
-        User adminNotVerified = new User("admin1", "admin1@example.com", "password123");
+        User adminNotVerified = new User("adminNotVerified", "adminNotVerified@example.com", "password123");
         adminNotVerified.setRole(Role.ADMIN);
         userRepository.save(adminNotVerified);
 
-        User adminVerified = new User("admin2", "admin2@example.com", "password123");
+        User adminVerified = new User("adminVerified", "adminVerified@example.com", "password123");
         adminVerified.setRole(Role.ADMIN);
         adminVerified.setVerified(true);
         userRepository.save(adminVerified);
@@ -85,25 +85,25 @@ public class TestDataLoader {
         List<Product> productList = new ArrayList<>();
 
         productList.add(new Product("Hiking Adventure", 75.0, 2, "Explore scenic trails in the mountains.", productTypeAdventure));
-        productList.add(new Product("Gourmet Cooking Class", 120.0, 4, "Learn to cook exquisite dishes with a professional chef.", productTypeCulinary));
-        productList.add(new Product("Art and History Tour", 50.0, 3, "Visit museums and historical sites with knowledgeable guides.", productTypeCultural));
-        productList.add(new Product("Medieval Castle Experience", 90.0, 6, "Immerse yourself in the medieval era with a castle stay.", productTypeHistorical));
-        productList.add(new Product("Live Jazz Music Night", 35.0, 2, "Enjoy a night of live jazz music in a cozy venue.", productTypeMusical));
-        productList.add(new Product("Outdoor Yoga Retreat", 110.0, 5, "Rejuvenate your body and mind with outdoor yoga sessions.", productTypeSport));
         productList.add(new Product("Wildlife Safari Adventure", 150.0, 3, "Embark on a thrilling safari to spot exotic wildlife.", productTypeAdventure));
-        productList.add(new Product("Wine Tasting Tour", 80.0, 4, "Visit vineyards and savor a variety of exquisite wines.", productTypeCulinary));
-        productList.add(new Product("Cultural Dance Workshop", 60.0, 2, "Learn traditional dances from different cultures.", productTypeCultural));
-        productList.add(new Product("Ancient Ruins Exploration", 100.0, 4, "Discover ancient ruins with an experienced archaeologist.", productTypeHistorical));
-        productList.add(new Product("Sailing Adventure", 120.0, 3, "Sail across the open sea with an experienced captain.", productTypeAdventure));
-        productList.add(new Product("Farm-to-Table Cooking Class", 85.0, 4, "Harvest fresh ingredients and cook a delicious meal.", productTypeCulinary));
-        productList.add(new Product("City Walking Tour", 30.0, 2, "Explore the city's landmarks and hidden gems on foot.", productTypeCultural));
-        productList.add(new Product("Renaissance Fair Experience", 70.0, 5, "Step back in time at a lively Renaissance fair.", productTypeHistorical));
-        productList.add(new Product("Concert Under the Stars", 40.0, 2, "Enjoy a musical performance in an outdoor setting.", productTypeMusical));
-        productList.add(new Product("Mountain Biking Adventure", 95.0, 4, "Experience thrilling mountain biking trails.", productTypeSport));
         productList.add(new Product("Bird Watching Expedition", 55.0, 3, "Observe a variety of bird species in their natural habitat.", productTypeAdventure));
+        productList.add(new Product("Sailing Adventure", 120.0, 3, "Sail across the open sea with an experienced captain.", productTypeAdventure));
+        productList.add(new Product("Gourmet Cooking Class", 120.0, 4, "Learn to cook exquisite dishes with a professional chef.", productTypeCulinary));
         productList.add(new Product("Beer Tasting Tour", 65.0, 3, "Sample a selection of craft beers at local breweries.", productTypeCulinary));
+        productList.add(new Product("Wine Tasting Tour", 80.0, 4, "Visit vineyards and savor a variety of exquisite wines.", productTypeCulinary));
+        productList.add(new Product("Farm-to-Table Cooking Class", 85.0, 4, "Harvest fresh ingredients and cook a delicious meal.", productTypeCulinary));
         productList.add(new Product("Folk Dance Workshop", 50.0, 2, "Learn traditional folk dances from around the world.", productTypeCultural));
+        productList.add(new Product("Art and History Tour", 50.0, 3, "Visit museums and historical sites with knowledgeable guides.", productTypeCultural));
+        productList.add(new Product("City Walking Tour", 30.0, 2, "Explore the city's landmarks and hidden gems on foot.", productTypeCultural));
+        productList.add(new Product("Cultural Dance Workshop", 60.0, 2, "Learn traditional dances from different cultures.", productTypeCultural));
+        productList.add(new Product("Renaissance Fair Experience", 70.0, 5, "Step back in time at a lively Renaissance fair.", productTypeHistorical));
+        productList.add(new Product("Medieval Castle Experience", 90.0, 6, "Immerse yourself in the medieval era with a castle stay.", productTypeHistorical));
+        productList.add(new Product("Ancient Ruins Exploration", 100.0, 4, "Discover ancient ruins with an experienced archaeologist.", productTypeHistorical));
         productList.add(new Product("Archaeological Dig Adventure", 130.0, 6, "Participate in a hands-on archaeological excavation.", productTypeHistorical));
+        productList.add(new Product("Live Jazz Music Night", 35.0, 2, "Enjoy a night of live jazz music in a cozy venue.", productTypeMusical));
+        productList.add(new Product("Concert Under the Stars", 40.0, 2, "Enjoy a musical performance in an outdoor setting.", productTypeMusical));
+        productList.add(new Product("Outdoor Yoga Retreat", 110.0, 5, "Rejuvenate your body and mind with outdoor yoga sessions.", productTypeSport));
+        productList.add(new Product("Mountain Biking Adventure", 95.0, 4, "Experience thrilling mountain biking trails.", productTypeSport));
         productList.add(new Product("Virtual Reality Experience", 55.0, 2, "Immerse yourself in virtual reality worlds.", null));
 
         productRepository.saveAll(productList);
@@ -112,5 +112,7 @@ public class TestDataLoader {
     public void tearDown() {
         userRepository.deleteAll();
         newsRepository.deleteAll();
+        productRepository.deleteAll();
+        productTypeRepository.deleteAll();
     }
 }
