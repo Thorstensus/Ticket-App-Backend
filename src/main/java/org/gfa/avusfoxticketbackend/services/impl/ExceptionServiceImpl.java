@@ -1,19 +1,17 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.ModifyCartRequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
-import org.gfa.avusfoxticketbackend.dtos.RequestUserDTO;
+import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
-import org.gfa.avusfoxticketbackend.enums.Type;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +25,20 @@ public class ExceptionServiceImpl implements ExceptionService {
   private final UserRepository userRepository;
   private final ProductRepository productRepository;
   private final PasswordEncoder passwordEncoder;
+  private final ProductTypeRepository productTypeRepository;
 
   @Autowired
   public ExceptionServiceImpl(
-      HttpServletRequest httpServletRequest,
-      UserRepository userRepository,
-      ProductRepository productRepository,
-      PasswordEncoder passwordEncoder) {
+          HttpServletRequest httpServletRequest,
+          UserRepository userRepository,
+          ProductRepository productRepository,
+          PasswordEncoder passwordEncoder,
+          ProductTypeRepository productTypeRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
+    this.productTypeRepository = productTypeRepository;
   }
 
   @Override
@@ -229,12 +230,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public boolean validType(String type) {
-    for (Type t : Type.values()) {
-      if (t.name().equals(type)) {
-        return true;
-      }
-    }
-    return false;
+    return productTypeRepository.existsByTypeName(type);
   }
 
   @Override
@@ -254,7 +250,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -277,7 +273,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type is wrong.");
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -285,5 +281,16 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void notVerified() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
+  }
+
+  @Override
+  public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
+    if (productTypeRequestDTO == null) {
+      throwMissingBodyRequired();
+    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")) {
+      throwFieldIsRequired("Type name");
+    } else if (validType(productTypeRequestDTO.getName())) {
+      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");
+    }
   }
 }

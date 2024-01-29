@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserServiceImpl(
-          UserRepository userRepository,
-          PasswordEncoder passwordEncoder,
-          ExceptionService exceptionService,
-          JwtService jwtService,
-          EmailSender emailSender) {
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionService exceptionService,
+      JwtService jwtService,
+      EmailSender emailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.exceptionService = exceptionService;
