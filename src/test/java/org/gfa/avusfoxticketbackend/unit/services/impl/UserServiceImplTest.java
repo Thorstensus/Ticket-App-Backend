@@ -77,7 +77,7 @@
 //
 // }
 
-package org.gfa.avusfoxticketbackend.unitTests.services.impl;
+package org.gfa.avusfoxticketbackend.unit.services.impl;
 
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.email.EmailSender;

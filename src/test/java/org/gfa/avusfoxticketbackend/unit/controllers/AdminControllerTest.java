@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.unitTests.controllers;
+package org.gfa.avusfoxticketbackend.unit.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;

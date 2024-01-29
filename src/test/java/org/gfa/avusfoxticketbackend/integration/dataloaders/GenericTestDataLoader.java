@@ -1,13 +1,12 @@
-package org.gfa.avusfoxticketbackend.integrationTests.dataLoaders;
+package org.gfa.avusfoxticketbackend.integration.dataloaders;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class GenericTestDataLoader {
@@ -224,7 +223,7 @@ public class GenericTestDataLoader {
     orderProductRepository.deleteAll();
 
     // May not have to be here
-//    cartProductRepository.deleteAll();
-//    orderRepository.deleteAll();
+    // cartProductRepository.deleteAll();
+    // orderRepository.deleteAll();
   }
 }

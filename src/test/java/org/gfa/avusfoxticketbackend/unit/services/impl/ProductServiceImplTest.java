@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.unitTests.services.impl;
+package org.gfa.avusfoxticketbackend.unit.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
