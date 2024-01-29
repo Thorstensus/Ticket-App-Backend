@@ -2,20 +2,15 @@ package org.gfa.avusfoxticketbackend.integrationTests;
 
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.*;
-import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
-import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
-import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
-import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.gfa.avusfoxticketbackend.services.NewsService;
+import org.gfa.avusfoxticketbackend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TestDataLoader {
+public class GenericTestDataLoader {
 
   @Autowired private UserRepository userRepository;
 
@@ -24,6 +19,12 @@ public class TestDataLoader {
   @Autowired private ProductTypeRepository productTypeRepository;
 
   @Autowired private ProductRepository productRepository;
+
+  @Autowired
+  private CartProductRepository cartProductRepository;
+
+  @Autowired
+  private CartRepository cartRepository;
 
   public void loadTestData() {
     // User
@@ -74,19 +75,19 @@ public class TestDataLoader {
     Product product1 = new Product("Product1", 5.0, 10, "Product 1 Product 1 Product 1 Product 1", productType1);
     Product product2 = new Product("Product2", 10.0, 20, "Product 2 Product 2 Product 2 Product 2", productType1);
     Product product3 = new Product("Product3", 15.0, 30, "Product 3 Product 3 Product 3 Product 3", productType1);
-    Product product4 = new Product("Product4", 20.0, 40, "Product 4 Product 4 Product 4 Product 4", productType1);
-    Product product5 = new Product("Product5", 25.0, 50, "Product 5 Product 5 Product 5 Product 5", productType1);
-    Product product6 = new Product("Product6", 30.0, 60, "Product 6 Product 6 Product 6 Product 6", productType1);
-    Product product7 = new Product("Product7", 35.0, 70, "Product 7 Product 7 Product 7 Product 7", productType1);
-    Product product8 = new Product("Product8", 40.0, 80, "Product 8 Product 8 Product 8 Product 8", productType1);
-    Product product9 = new Product("Product9", 45.0, 90, "Product 9 Product 9 Product 9 Product 9", productType1);
-    Product product10 = new Product("Product10", 50.0, 100, "Product 10 Product 10 Product 10 Product 10", productType2);
-    Product product11 = new Product("Product11", 55.0, 110, "Product 11 Product 11 Product 11 Product 11", productType2);
-    Product product12 = new Product("Product12", 60.0, 120, "Product 12 Product 12 Product 12 Product 12", productType2);
-    Product product13 = new Product("Product13", 65.0, 130, "Product 13 Product 13 Product 13 Product 13", productType2);
+    Product product4 = new Product("Product4", 20.0, 40, "Product 4 Product 4 Product 4 Product 4", productType2);
+    Product product5 = new Product("Product5", 25.0, 50, "Product 5 Product 5 Product 5 Product 5", productType2);
+    Product product6 = new Product("Product6", 30.0, 60, "Product 6 Product 6 Product 6 Product 6", productType3);
+    Product product7 = new Product("Product7", 35.0, 70, "Product 7 Product 7 Product 7 Product 7", productType3);
+    Product product8 = new Product("Product8", 40.0, 80, "Product 8 Product 8 Product 8 Product 8", null);
+    Product product9 = new Product("Product9", 45.0, 90, "Product 9 Product 9 Product 9 Product 9", null);
+    Product product10 = new Product("Product10", 50.0, 100, "Product 10 Product 10 Product 10 Product 10", null);
+    Product product11 = new Product("Product11", 55.0, 110, "Product 11 Product 11 Product 11 Product 11", productType1);
+    Product product12 = new Product("Product12", 60.0, 120, "Product 12 Product 12 Product 12 Product 12", productType1);
+    Product product13 = new Product("Product13", 65.0, 130, "Product 13 Product 13 Product 13 Product 13", productType1);
     Product product14 = new Product("Product14", 70.0, 140, "Product 14 Product 14 Product 14 Product 14", productType2);
     Product product15 = new Product("Product15", 75.0, 150, "Product 15 Product 15 Product 15 Product 15", productType2);
-    Product product16 = new Product("Product16", 80.0, 160, "Product 16 Product 16 Product 16 Product 16", productType3);
+    Product product16 = new Product("Product16", 80.0, 160, "Product 16 Product 16 Product 16 Product 16", productType2);
     Product product17 = new Product("Product17", 85.0, 170, "Product 17 Product 17 Product 17 Product 17", productType3);
     Product product18 = new Product("Product18", 90.0, 180, "Product 18 Product 18 Product 18 Product 18", productType3);
     Product product19 = new Product("Product19", 95.0, 190, "Product 19 Product 19 Product 19 Product 19", productType3);
@@ -114,11 +115,44 @@ public class TestDataLoader {
     productRepository.save(product20);
 
     // Cart
-    CartProduct cartProduct1 = new CartProduct();
-    CartProduct cartProduct2 = new CartProduct();
-    CartProduct cartProduct3 = new CartProduct();
-    CartProduct cartProduct4 = new CartProduct();
-    CartProduct cartProduct5 = new CartProduct();
+    User userWithCart = new User("userWithCart", "userWithCart@example.com", "password123");
+    userWithCart.setVerified(true);
+
+    User userWithNoCart = new User("userWithNoCart", "userWithNoCart@example.com", "password123");
+    userWithCart.setVerified(true);
+    userRepository.save(userWithNoCart);
+    
+
+    List<CartProduct> cartProductList = new ArrayList<>();
+
+    CartProduct cartProduct1 = new CartProduct(product11);
+    CartProduct cartProduct2 = new CartProduct(product12);
+    CartProduct cartProduct3 = new CartProduct(product13);
+    CartProduct cartProduct4 = new CartProduct(product14);
+    CartProduct cartProduct5 = new CartProduct(product15);
+
+    cartProductList.add(cartProduct1);
+    cartProductList.add(cartProduct2);
+    cartProductList.add(cartProduct3);
+    cartProductList.add(cartProduct4);
+    cartProductList.add(cartProduct5);
+
+    Cart cart = new Cart(userWithCart, cartProductList);
+
+    cartProduct1.setCart(cart);
+    cartProduct2.setCart(cart);
+    cartProduct3.setCart(cart);
+    cartProduct4.setCart(cart);
+    cartProduct5.setCart(cart);
+
+    cartProduct1.setQuantity(2);
+    cartProduct4.setQuantity(4);
+
+    userWithCart.setCart(cart);
+    userRepository.save(userWithCart);
+    cartProductRepository.saveAll(cartProductList);
+    cartRepository.save(cart);
+
   }
 
   public void tearDown() {
@@ -126,5 +160,7 @@ public class TestDataLoader {
     newsRepository.deleteAll();
     productRepository.deleteAll();
     productTypeRepository.deleteAll();
+    cartRepository.deleteAll();
+    cartProductRepository.deleteAll();
   }
 }

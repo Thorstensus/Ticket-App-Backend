@@ -3,8 +3,14 @@ package org.gfa.avusfoxticketbackend.integrationTests;
 import jakarta.transaction.Transactional;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
+import org.gfa.avusfoxticketbackend.models.Cart;
+import org.gfa.avusfoxticketbackend.models.CartProduct;
 import org.gfa.avusfoxticketbackend.models.News;
+import org.gfa.avusfoxticketbackend.models.User;
+import org.gfa.avusfoxticketbackend.repositories.CartProductRepository;
+import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.repositories.NewsRepository;
+import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.impl.NewsServiceImpl;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +37,16 @@ public class NewsRepositoryIntegrationTest {
     private NewsServiceImpl newsServiceImpl;
 
     @Autowired
-    private TestDataLoader testDataLoader;
+    private GenericTestDataLoader genericTestDataLoader;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartProductRepository cartProductRepository;
 
     @MockBean
     private UserServiceImpl userService;
@@ -44,12 +59,12 @@ public class NewsRepositoryIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        testDataLoader.loadTestData();
+        genericTestDataLoader.loadTestData();
     }
 
     @AfterEach
     public void tearDown() {
-        testDataLoader.tearDown();
+        genericTestDataLoader.tearDown();
     }
 
     @Test
@@ -58,6 +73,9 @@ public class NewsRepositoryIntegrationTest {
         News news = new News("Original title", "such original content wow");
         String title = "Original";
 
+        List<User> userList = userRepository.findAll();
+        List<Cart> cartList = cartRepository.findAll();
+        List<CartProduct> cartProductList = cartProductRepository.findAll();
         News expected = newsRepository.save(news);
         String expected2 = expected.getTitle();
         News actual = newsRepository.getReferenceById(expected.getId());
