@@ -29,7 +29,6 @@ class ProductServiceImplTest {
   @Mock private ProductTypeRepository productTypeRepository;
 
   @InjectMocks private ProductServiceImpl productService;
-  @Mock private ProductTypeRepository productTypeRepository;
 
   @Test
   void createNewProductAndReturn_returnNewResponseProductDTO() {
