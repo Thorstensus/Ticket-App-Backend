@@ -43,15 +43,15 @@ public class SampleIntegrationTest {
 
   @MockBean private EmailService emailService;
 
-  @BeforeEach
-  public void setUp() {
-    genericTestDataLoader.loadTestData();
-  }
-
-  @AfterEach
-  public void tearDown() {
-    genericTestDataLoader.tearDown();
-  }
+//  @BeforeEach
+//  public void setUp() {
+//    genericTestDataLoader.loadTestData();
+//  }
+//
+//  @AfterEach
+//  public void tearDown() {
+//    genericTestDataLoader.tearDown();
+//  }
 
   @Test
   @DirtiesContext
