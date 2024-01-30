@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Cart;

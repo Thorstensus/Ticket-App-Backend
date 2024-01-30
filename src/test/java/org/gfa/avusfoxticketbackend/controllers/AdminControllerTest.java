@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
