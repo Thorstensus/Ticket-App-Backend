@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
-
 import org.gfa.avusfoxticketbackend.config.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;

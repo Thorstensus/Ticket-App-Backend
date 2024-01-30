@@ -1,5 +1,6 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
+import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.services.ProductService;
@@ -59,6 +60,11 @@ public class AdminController {
         .body(productService.createNewProductAndReturn(requestProductDTO));
   }
 
+  @GetMapping("/product-types/stats")
+  public ResponseEntity<List<ResponseProductTypeStatisticsDTO>> purchaseStatistics() {
+    return ResponseEntity.status(200).body(productService.getStatistics());
+  }
+  
   @PostMapping("/product-types")
   public ResponseEntity<ProductTypeResponseDTO> createNewProductType(
       @RequestBody(required = false) ProductTypeRequestDTO productTypeRequestDTO) {

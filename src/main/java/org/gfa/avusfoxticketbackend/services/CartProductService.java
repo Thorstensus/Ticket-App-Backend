@@ -1,7 +1,7 @@
 package org.gfa.avusfoxticketbackend.services;
 
-import org.gfa.avusfoxticketbackend.models.CartProduct;
 import java.util.Optional;
+import org.gfa.avusfoxticketbackend.models.CartProduct;
 
 public interface CartProductService {
   void save(CartProduct cartProduct);
