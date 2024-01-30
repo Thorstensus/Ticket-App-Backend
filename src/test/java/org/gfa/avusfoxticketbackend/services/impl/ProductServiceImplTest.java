@@ -26,8 +26,9 @@ class ProductServiceImplTest {
 
   @Mock private ExceptionServiceImpl exceptionService;
 
-  @InjectMocks private ProductServiceImpl productService;
   @Mock private ProductTypeRepository productTypeRepository;
+
+  @InjectMocks private ProductServiceImpl productService;
 
   @Test
   void createNewProductAndReturn_returnNewResponseProductDTO() {
@@ -126,7 +127,7 @@ class ProductServiceImplTest {
 
   @Test
   void productToResponseProductDTOConvert_DifferentObjects() {
-    Product product = new Product(1L, "amen", 12.0, 4, "description", new ProductType("pass"));
+    Product product = new Product(1L, "amen", 12.0, 4, "description", new ProductType("Adventure"));
     ResponseProductDTO responseProductDTO =
         new ResponseProductDTO(1L, "name", 12.0, "4", "description", "pass");
 
