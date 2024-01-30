@@ -37,6 +37,10 @@ public class SampleIntegrationTest {
 
   @Autowired private OrderProductRepository orderProductRepository;
 
+  @Autowired private ProductTypeRepository productTypeRepository;
+
+  @Autowired private ProductRepository productRepository;
+
   @MockBean private UserServiceImpl userService;
 
   @MockBean private AdminController adminController;
@@ -59,9 +63,11 @@ public class SampleIntegrationTest {
     List<News> newsList = newsRepository.findAll();
     List<User> userList = userRepository.findAll();
     List<Cart> cartList = cartRepository.findAll();
+    List<Product> productList = productRepository.findAll();
     List<CartProduct> cartProductList = cartProductRepository.findAll();
     List<Order> orderList = orderRepository.findAll();
     List<OrderProduct> orderProductList = orderProductRepository.findAll();
+    List<ProductType> productTypeList = productTypeRepository.findAll();
   }
 
   @Test
@@ -70,8 +76,10 @@ public class SampleIntegrationTest {
     List<News> newsList = newsRepository.findAll();
     List<User> userList = userRepository.findAll();
     List<Cart> cartList = cartRepository.findAll();
+    List<Product> productList = productRepository.findAll();
     List<CartProduct> cartProductList = cartProductRepository.findAll();
     List<Order> orderList = orderRepository.findAll();
     List<OrderProduct> orderProductList = orderProductRepository.findAll();
+    List<ProductType> productTypeList = productTypeRepository.findAll();
   }
 }
