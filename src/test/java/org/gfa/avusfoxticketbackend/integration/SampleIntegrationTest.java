@@ -2,6 +2,8 @@ package org.gfa.avusfoxticketbackend.integration;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+
+import org.flywaydb.core.Flyway;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
 import org.gfa.avusfoxticketbackend.integration.dataloaders.GenericTestDataLoader;
@@ -47,15 +49,20 @@ public class SampleIntegrationTest {
 
   @MockBean private EmailService emailService;
 
-//  @BeforeEach
-//  public void setUp() {
+  @Autowired private Flyway flyway;
+
+  @BeforeEach
+  public void setUp() {
 //    genericTestDataLoader.loadTestData();
-//  }
-//
-//  @AfterEach
-//  public void tearDown() {
+    flyway.clean();
+    flyway.migrate();
+  }
+
+  @AfterEach
+  public void tearDown() {
 //    genericTestDataLoader.tearDown();
-//  }
+    flyway.clean();
+  }
 
   @Test
   @DirtiesContext
@@ -73,6 +80,7 @@ public class SampleIntegrationTest {
   @Test
   @DirtiesContext
   public void debugWhatIsInsideDb2() {
+    newsRepository.save(new News());
     List<News> newsList = newsRepository.findAll();
     List<User> userList = userRepository.findAll();
     List<Cart> cartList = cartRepository.findAll();
