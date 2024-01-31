@@ -6,12 +6,12 @@ import java.util.List;
 import org.flywaydb.core.Flyway;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
-import org.gfa.avusfoxticketbackend.integration.dataloaders.GenericTestDataLoader;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;
 import org.gfa.avusfoxticketbackend.services.impl.NewsServiceImpl;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ public class SampleIntegrationTest {
   @Autowired private NewsRepository newsRepository;
 
   @Autowired private NewsServiceImpl newsServiceImpl;
-
-  @Autowired private GenericTestDataLoader genericTestDataLoader;
 
   @Autowired private UserRepository userRepository;
 
@@ -49,21 +47,6 @@ public class SampleIntegrationTest {
 
   @MockBean private EmailService emailService;
 
-  @Autowired private Flyway flyway;
-
-  @BeforeEach
-  public void setUp() {
-//    genericTestDataLoader.loadTestData();
-    flyway.clean();
-    flyway.migrate();
-  }
-
-  @AfterEach
-  public void tearDown() {
-//    genericTestDataLoader.tearDown();
-    flyway.clean();
-  }
-
   @Test
   @DirtiesContext
   public void debugWhatIsInsideDb() {
@@ -75,6 +58,7 @@ public class SampleIntegrationTest {
     List<Order> orderList = orderRepository.findAll();
     List<OrderProduct> orderProductList = orderProductRepository.findAll();
     List<ProductType> productTypeList = productTypeRepository.findAll();
+    Assertions.assertEquals(10, newsList.size());
   }
 
   @Test
@@ -89,5 +73,21 @@ public class SampleIntegrationTest {
     List<Order> orderList = orderRepository.findAll();
     List<OrderProduct> orderProductList = orderProductRepository.findAll();
     List<ProductType> productTypeList = productTypeRepository.findAll();
+    Assertions.assertEquals(11, newsList.size());
+  }
+
+  @Test
+  @DirtiesContext
+  public void debugWhatIsInsideDb3() {
+    newsRepository.deleteAll();
+    List<News> newsList = newsRepository.findAll();
+    List<User> userList = userRepository.findAll();
+    List<Cart> cartList = cartRepository.findAll();
+    List<Product> productList = productRepository.findAll();
+    List<CartProduct> cartProductList = cartProductRepository.findAll();
+    List<Order> orderList = orderRepository.findAll();
+    List<OrderProduct> orderProductList = orderProductRepository.findAll();
+    List<ProductType> productTypeList = productTypeRepository.findAll();
+    Assertions.assertEquals(0, newsList.size());
   }
 }
