@@ -6,24 +6,22 @@ import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;
-import org.gfa.avusfoxticketbackend.services.impl.NewsServiceImpl;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @SpringBootTest
 @Transactional
-@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(SpringExtension.class)
 public class SampleIntegrationTest {
 
   @Autowired private NewsRepository newsRepository;
-
-  @Autowired private NewsServiceImpl newsServiceImpl;
 
   @Autowired private UserRepository userRepository;
 
@@ -39,9 +37,9 @@ public class SampleIntegrationTest {
 
   @Autowired private ProductRepository productRepository;
 
-  @MockBean private UserServiceImpl userService;
-
   @MockBean private AdminController adminController;
+
+  @MockBean private UserServiceImpl userServiceImpl;
 
   @MockBean private EmailService emailService;
 
