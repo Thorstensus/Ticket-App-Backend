@@ -2,17 +2,13 @@ package org.gfa.avusfoxticketbackend.integration;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
-
-import org.flywaydb.core.Flyway;
 import org.gfa.avusfoxticketbackend.controllers.AdminController;
 import org.gfa.avusfoxticketbackend.email.EmailService;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;
 import org.gfa.avusfoxticketbackend.services.impl.NewsServiceImpl;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
