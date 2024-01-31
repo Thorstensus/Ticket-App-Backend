@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.config.services.impl;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
