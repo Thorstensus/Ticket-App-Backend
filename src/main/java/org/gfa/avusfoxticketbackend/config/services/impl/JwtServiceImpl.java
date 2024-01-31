@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.config;
+package org.gfa.avusfoxticketbackend.config.services.impl;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 

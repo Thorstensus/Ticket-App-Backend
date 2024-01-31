@@ -1,13 +1,16 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseProductTypeStatisticsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.*;
+import org.gfa.avusfoxticketbackend.repositories.OrderProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
 import org.gfa.avusfoxticketbackend.services.ExceptionService;
@@ -21,15 +24,18 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final ExceptionService exceptionService;
   private final ProductTypeRepository productTypeRepository;
+  private final OrderProductRepository orderProductRepository;
 
   @Autowired
   public ProductServiceImpl(
       ProductRepository productRepository,
       ExceptionService exceptionService,
-      ProductTypeRepository productTypeRepository) {
+      ProductTypeRepository productTypeRepository,
+      OrderProductRepository orderProductRepository) {
     this.productRepository = productRepository;
     this.exceptionService = exceptionService;
     this.productTypeRepository = productTypeRepository;
+    this.orderProductRepository = orderProductRepository;
   }
 
   @Override
@@ -115,5 +121,11 @@ public class ProductServiceImpl implements ProductService {
         String.valueOf(product.getDuration()),
         product.getDescription(),
         product.getProductType().getTypeName());
+  }
+
+  @Override
+  public List<ResponseProductTypeStatisticsDTO> getStatistics() {
+    List<ResponseProductTypeStatisticsDTO> sum = orderProductRepository.findProductSalesSummary();
+    return orderProductRepository.findProductSalesSummary();
   }
 }

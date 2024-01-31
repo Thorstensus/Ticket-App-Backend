@@ -120,11 +120,13 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user) {
-    Optional<Product> currentProductOptional = productRepository.findById(requestDTO.getProductId());
+    Optional<Product> currentProductOptional =
+        productRepository.findById(requestDTO.getProductId());
     if (currentProductOptional.isEmpty()) {
       throwProductNotFound();
     }
-    if (user.getCart() == null || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
+    if (user.getCart() == null
+        || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
       throwProductIsNotInCart();
     }
   }
@@ -225,7 +227,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   @Override
   public void throwProductIsNotInCart() {
     throw new ApiRequestException(
-            httpServletRequest.getRequestURI(), "Product is not in the cart.");
+        httpServletRequest.getRequestURI(), "Product is not in the cart.");
   }
 
   @Override

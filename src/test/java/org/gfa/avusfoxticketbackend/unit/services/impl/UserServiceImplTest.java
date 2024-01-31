@@ -4,7 +4,7 @@
 // import static org.mockito.Mockito.*;
 //
 // import jakarta.servlet.http.HttpServletRequest;
-// import org.gfa.avusfoxticketbackend.config.JwtService;
+// import org.gfa.avusfoxticketbackend.config.services.JwtService;
 // import org.gfa.avusfoxticketbackend.dtos.CartRequestDTO;
 // import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 // import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -79,7 +79,7 @@
 
 package org.gfa.avusfoxticketbackend.unit.services.impl;
 
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.impl.ExceptionServiceImpl;

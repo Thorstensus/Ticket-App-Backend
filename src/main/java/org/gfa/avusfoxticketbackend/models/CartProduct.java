@@ -47,7 +47,6 @@ public class CartProduct {
 
   public void setId(Long id) {
     this.id = id;
-
   }
 
   public int getQuantity() {
@@ -77,11 +76,15 @@ public class CartProduct {
   @Override
   public String toString() {
     return "CartProduct{"
-            + "id=" + id
-            + ", quantity=" + quantity
-            + ", product=" + product
-            + ", cart=" + cart
-            + '}';
+        + "id="
+        + id
+        + ", quantity="
+        + quantity
+        + ", product="
+        + product
+        + ", cart="
+        + cart
+        + '}';
   }
 
   @Override
@@ -92,7 +95,10 @@ public class CartProduct {
     if (!(o instanceof CartProduct that)) {
       return false;
     }
-    return getQuantity() == that.getQuantity() && Objects.equals(getId(), that.getId()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getCart(), that.getCart());
+    return getQuantity() == that.getQuantity()
+        && Objects.equals(getId(), that.getId())
+        && Objects.equals(getProduct(), that.getProduct())
+        && Objects.equals(getCart(), that.getCart());
   }
 
   @Override

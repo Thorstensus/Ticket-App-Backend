@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.gfa.avusfoxticketbackend.config.JwtService;
+import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseOrderSummaryDTO;

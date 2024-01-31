@@ -1,7 +1,6 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Objects;
 
