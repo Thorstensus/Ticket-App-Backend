@@ -9,16 +9,13 @@ import org.gfa.avusfoxticketbackend.repositories.*;
 import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @SpringBootTest
 @Transactional
-@ExtendWith(SpringExtension.class)
 public class SampleIntegrationTest {
 
   @Autowired private NewsRepository newsRepository;
