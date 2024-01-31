@@ -1,6 +1,5 @@
 package org.gfa.avusfoxticketbackend.email;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +22,7 @@ public class EmailService implements EmailSender {
 
   @Value("${MAIL_USERNAME}")
   private String MAIL_USERNAME;
+
   private final JavaMailSender mailSender;
   private final ExceptionService exceptionService;
   private final ThymeleafService thymeleafService;
