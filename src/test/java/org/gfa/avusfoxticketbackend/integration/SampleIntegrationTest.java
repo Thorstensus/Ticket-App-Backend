@@ -2,19 +2,17 @@ package org.gfa.avusfoxticketbackend.integration;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
-import org.gfa.avusfoxticketbackend.controllers.AdminController;
-import org.gfa.avusfoxticketbackend.email.EmailService;
+
+import org.gfa.avusfoxticketbackend.AvusFoxticketBackendApplication;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;
-import org.gfa.avusfoxticketbackend.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 
-@SpringBootTest
+@SpringBootTest(classes = {AvusFoxticketBackendApplication.class})
 @Transactional
 public class SampleIntegrationTest {
 
@@ -34,11 +32,6 @@ public class SampleIntegrationTest {
 
   @Autowired private ProductRepository productRepository;
 
-  @MockBean private AdminController adminController;
-
-  @MockBean private UserServiceImpl userServiceImpl;
-
-  @MockBean private EmailService emailService;
 
   @Test
   @DirtiesContext
