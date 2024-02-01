@@ -32,7 +32,6 @@ public class SampleIntegrationTest {
 
   @Autowired private ProductRepository productRepository;
 
-
   @Test
   @DirtiesContext
   public void debugWhatIsInsideDb() {
