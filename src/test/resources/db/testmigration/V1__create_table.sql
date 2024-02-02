@@ -101,4 +101,3 @@ CREATE TABLE refresh_tokens
     user_id bigint null,
     foreign key (user_id) references users (id)
 )
-
