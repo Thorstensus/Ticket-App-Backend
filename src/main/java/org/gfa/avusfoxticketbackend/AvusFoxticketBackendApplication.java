@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-@ComponentScan({ "org.gfa.avusfoxticketbackend.*" })
 public class AvusFoxticketBackendApplication {
 
   public static void main(String[] args) {
