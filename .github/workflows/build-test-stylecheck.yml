@@ -31,6 +31,11 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
           echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> $GITHUB_ENV
+          echo "EXPIRATION_TIME_FOR_VERIFICATION=${{ secrets.EXPIRATION_TIME_FOR_VERIFICATION }}" >> $GITHUB_ENV
+          echo "REFRESH_EXPIRATION_TIME=${{ secrets.REFRESH_EXPIRATION_TIME }}" >> $GITHUB_ENV
+          echo "EXPIRATION_TIME=${{ secrets.EXPIRATION_TIME }}" >> $GITHUB_ENV
+
+
 
       - name: build
         run: gradle build -x test -x checkstyleTest -x checkstyleMain
@@ -60,6 +65,10 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
           echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> $GITHUB_ENV
+          echo "EXPIRATION_TIME_FOR_VERIFICATION=${{ secrets.EXPIRATION_TIME_FOR_VERIFICATION }}" >> $GITHUB_ENV
+          echo "REFRESH_EXPIRATION_TIME=${{ secrets.REFRESH_EXPIRATION_TIME }}" >> $GITHUB_ENV
+          echo "EXPIRATION_TIME=${{ secrets.EXPIRATION_TIME }}" >> $GITHUB_ENV
+
 
       - name: build test
         run: gradle test -i
