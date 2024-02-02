@@ -1,9 +1,10 @@
-package org.gfa.avusfoxticketbackend.controllers;
+package org.gfa.avusfoxticketbackend.unit.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
+import org.gfa.avusfoxticketbackend.controllers.UnsecuredController;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
 import org.gfa.avusfoxticketbackend.models.User;

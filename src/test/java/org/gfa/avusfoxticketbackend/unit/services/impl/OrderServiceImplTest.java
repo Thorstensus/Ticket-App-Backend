@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.unit.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -24,6 +24,7 @@ import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.CartProductService;
 import org.gfa.avusfoxticketbackend.services.CartService;
 import org.gfa.avusfoxticketbackend.services.OrderProductService;
+import org.gfa.avusfoxticketbackend.services.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -90,8 +91,8 @@ class OrderServiceImplTest {
     order.setOrderProducts(orderProducts);
     order.setStatus("Status");
     order.setUser(user2);
-    when(orderRepository.save(Mockito.<Order>any())).thenReturn(order);
-    when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
+    when(orderRepository.save(Mockito.any())).thenReturn(order);
+    when(jwtService.extractUsername(Mockito.any())).thenReturn("janedoe");
 
     Cart cart3 = new Cart();
     cart3.setCartProducts(new ArrayList<>());
@@ -163,17 +164,17 @@ class OrderServiceImplTest {
     user7.setPassword("iloveyou");
     user7.setRole(Role.USER);
     user7.setVerified(true);
-    when(userRepository.save(Mockito.<User>any())).thenReturn(user7);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(userRepository.save(Mockito.any())).thenReturn(user7);
+    when(userRepository.findByEmail(Mockito.any())).thenReturn(ofResult);
     doNothing().when(cartService).deleteById(Mockito.<Long>any());
-    doNothing().when(emailSender).sendOrderSummaryEmail(Mockito.<User>any(), Mockito.<Order>any());
+    doNothing().when(emailSender).sendOrderSummaryEmail(Mockito.any(), Mockito.any());
     ResponseOrderDTO actualSaveOrdersFromCartResult = orderServiceImpl.saveOrdersFromCart("ABC123");
-    verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(emailSender).sendOrderSummaryEmail(Mockito.<User>any(), Mockito.<Order>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
+    verify(jwtService).extractUsername(Mockito.any());
+    verify(emailSender).sendOrderSummaryEmail(Mockito.any(), Mockito.any());
+    verify(userRepository).findByEmail(Mockito.any());
     verify(cartService).deleteById(Mockito.<Long>any());
-    verify(userRepository).save(Mockito.<User>any());
-    verify(orderRepository, atLeast(1)).save(Mockito.<Order>any());
+    verify(userRepository).save(Mockito.any());
+    verify(orderRepository, atLeast(1)).save(Mockito.any());
     assertNull(actualSaveOrdersFromCartResult.getId());
     assertNull(actualSaveOrdersFromCartResult.getExpiry());
     assertNull(actualSaveOrdersFromCartResult.getStatus());
@@ -182,7 +183,7 @@ class OrderServiceImplTest {
 
   @Test
   void shouldRetrieveOrderSummaryDTOForUser() {
-    when(jwtService.extractUsername(Mockito.<String>any())).thenReturn("janedoe");
+    when(jwtService.extractUsername(Mockito.any())).thenReturn("janedoe");
 
     Cart cart = new Cart();
     cart.setCartProducts(new ArrayList<>());
@@ -215,10 +216,10 @@ class OrderServiceImplTest {
     user2.setRole(Role.USER);
     user2.setVerified(true);
     Optional<User> ofResult = Optional.of(user2);
-    when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
+    when(userRepository.findByEmail(Mockito.any())).thenReturn(ofResult);
     ResponseOrderSummaryDTO actualOrderSummaryDTO = orderServiceImpl.getOrderSummaryDTO("ABC123");
-    verify(jwtService).extractUsername(Mockito.<String>any());
-    verify(userRepository).findByEmail(Mockito.<String>any());
+    verify(jwtService).extractUsername(Mockito.any());
+    verify(userRepository).findByEmail(Mockito.any());
     assertEquals(cartProducts, actualOrderSummaryDTO.getOrders());
   }
 

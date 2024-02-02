@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.unit.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,6 +13,8 @@ import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.ProductType;
 import org.gfa.avusfoxticketbackend.repositories.ProductRepository;
 import org.gfa.avusfoxticketbackend.repositories.ProductTypeRepository;
+import org.gfa.avusfoxticketbackend.services.impl.ExceptionServiceImpl;
+import org.gfa.avusfoxticketbackend.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -46,6 +46,9 @@ dependencies {
     implementation("org.flywaydb:flyway-core:10.6.0")
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql
     implementation("org.flywaydb:flyway-mysql:10.6.0")
+    // https://mvnrepository.com/artifact/org.flywaydb.flyway-test-extensions/flyway-spring-test
+    testImplementation("org.flywaydb.flyway-test-extensions:flyway-spring-test:10.0.0")
+
 }
 
 tasks.withType<Test> {

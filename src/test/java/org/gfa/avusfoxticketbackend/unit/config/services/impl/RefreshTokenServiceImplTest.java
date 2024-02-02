@@ -1,9 +1,10 @@
-package org.gfa.avusfoxticketbackend.config.services.impl;
+package org.gfa.avusfoxticketbackend.unit.config.services.impl;
 
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
+import org.gfa.avusfoxticketbackend.config.services.impl.RefreshTokenServiceImpl;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;

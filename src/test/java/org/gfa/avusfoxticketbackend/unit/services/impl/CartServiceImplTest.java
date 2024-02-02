@@ -1,4 +1,4 @@
-package org.gfa.avusfoxticketbackend.services.impl;
+package org.gfa.avusfoxticketbackend.unit.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,6 +14,9 @@ import org.gfa.avusfoxticketbackend.repositories.CartRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.CartProductService;
 import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.services.impl.CartServiceImpl;
+import org.gfa.avusfoxticketbackend.services.impl.ExceptionServiceImpl;
+import org.gfa.avusfoxticketbackend.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
