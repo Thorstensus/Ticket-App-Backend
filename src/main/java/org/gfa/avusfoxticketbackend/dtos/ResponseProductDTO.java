@@ -10,6 +10,9 @@ public class ResponseProductDTO extends ResponseDTO {
   private String duration;
   private String description;
   private String type;
+  private boolean isOnSale;
+  private Long startOfSale;
+  private Long endOfSale;
 
   public ResponseProductDTO() {}
 
@@ -69,6 +72,30 @@ public class ResponseProductDTO extends ResponseDTO {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public boolean isOnSale() {
+    return isOnSale;
+  }
+
+  public void setOnSale(boolean onSale) {
+    isOnSale = onSale;
+  }
+
+  public Long getStartOfSale() {
+    return startOfSale;
+  }
+
+  public void setStartOfSale(Long startOfSale) {
+    this.startOfSale = startOfSale;
+  }
+
+  public Long getEndOfSale() {
+    return endOfSale;
+  }
+
+  public void setEndOfSale(Long endOfSale) {
+    this.endOfSale = endOfSale;
   }
 
   @Override
