@@ -128,4 +128,28 @@ public class ProductServiceImpl implements ProductService {
     List<ResponseProductTypeStatisticsDTO> sum = orderProductRepository.findProductSalesSummary();
     return orderProductRepository.findProductSalesSummary();
   }
+
+  @Override
+  public void setProductOnSale(RequestProductDTO requestProductDTO, Long durationOfSale, Double sale) {
+    Optional<Product> productOpt = productRepository.findById(requestProductDTO.getId());
+    if(productOpt.isEmpty()) {
+      exceptionService.throwProductNotFound();
+    } else {
+      Product product = productOpt.get();
+      if(checkIfProductIsOnSale(product)) {
+        exceptionService.throwProductAlreadyOnSale();
+      }
+      product.setOnSale(true);
+      Long now = System.currentTimeMillis() / 1000L;
+      product.setStartOfSale(now);
+      product.setEndOfSale(now + durationOfSale);
+      product.setPrice(product.getPrice() - (product.getPrice() * sale));
+      productRepository.save(product);
+    }
+  }
+
+  @Override
+  public boolean checkIfProductIsOnSale(Product product) {
+    return product.isOnSale();
+  }
 }
