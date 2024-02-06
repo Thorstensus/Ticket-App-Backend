@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.scheduled;
 
 import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,14 +56,16 @@ public class ScheduledTasks {
   public void checkForProductsOutOfDiscount() {
     List<Product> products = productService.checkForProductsOutOfDiscount();
     if (!products.isEmpty()) {
+      List<Product> updatedProducts = new ArrayList<>();
       for (Product product : products) {
         product.setOnSale(false);
         product.setEndOfSale(null);
         product.setStartOfSale(null);
         product.setPrice(product.getPriceBeforeSale());
         product.setPriceBeforeSale(null);
-        productRepository.save(product);
+        updatedProducts.add(product);
       }
+      productRepository.saveAll(updatedProducts);
     }
   }
 }
