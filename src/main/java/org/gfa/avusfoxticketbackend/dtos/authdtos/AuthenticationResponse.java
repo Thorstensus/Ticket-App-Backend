@@ -46,10 +46,16 @@ public class AuthenticationResponse extends ResponseDTO {
   @Override
   public String toString() {
     return "AuthenticationResponse{"
-            + "status='" + status + '\''
-            + ", token='" + token + '\''
-            + ", accessToken='" + accessToken + '\''
-            + '}';
+        + "status='"
+        + status
+        + '\''
+        + ", token='"
+        + token
+        + '\''
+        + ", accessToken='"
+        + accessToken
+        + '\''
+        + '}';
   }
 
   @Override
@@ -60,7 +66,9 @@ public class AuthenticationResponse extends ResponseDTO {
     if (!(o instanceof AuthenticationResponse that)) {
       return false;
     }
-    return Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getToken(), that.getToken()) && Objects.equals(getAccessToken(), that.getAccessToken());
+    return Objects.equals(getStatus(), that.getStatus())
+        && Objects.equals(getToken(), that.getToken())
+        && Objects.equals(getAccessToken(), that.getAccessToken());
   }
 
   @Override

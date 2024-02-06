@@ -6,11 +6,10 @@ create table product_type
 );
 
 INSERT INTO product_type (type_name)
-VALUES
-    ('Adventure'),
-    ('Culinary'),
-    ('Cultural'),
-    ('Historical');
+VALUES ('Adventure'),
+       ('Culinary'),
+       ('Cultural'),
+       ('Historical');
 
 ALTER TABLE products
     ADD COLUMN product_type_id bigint,
@@ -21,10 +20,19 @@ ALTER TABLE products
 ALTER TABLE products
     RENAME COLUMN type TO product_type_name;
 
-UPDATE products SET product_type_id = 1 WHERE product_type_name = 'Adventure';
-UPDATE products SET product_type_id = 2 WHERE product_type_name = 'Culinary';
-UPDATE products SET product_type_id = 3 WHERE product_type_name = 'Cultural';
-UPDATE products SET product_type_id = 4 WHERE product_type_name = 'Historical';
+UPDATE products
+SET product_type_id = 1
+WHERE product_type_name = 'Adventure';
+UPDATE products
+SET product_type_id = 2
+WHERE product_type_name = 'Culinary';
+UPDATE products
+SET product_type_id = 3
+WHERE product_type_name = 'Cultural';
+UPDATE products
+SET product_type_id = 4
+WHERE product_type_name = 'Historical';
 
 ALTER TABLE products
-DROP COLUMN product_type_name;
+DROP
+COLUMN product_type_name;

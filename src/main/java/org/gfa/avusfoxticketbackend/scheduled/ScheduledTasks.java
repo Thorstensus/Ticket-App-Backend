@@ -25,7 +25,11 @@ public class ScheduledTasks {
   private final ProductService productService;
 
   @Autowired
-  public ScheduledTasks(CartRepository cartRepository, EmailService emailService, ProductService productService, ProductRepository productRepository) {
+  public ScheduledTasks(
+      CartRepository cartRepository,
+      EmailService emailService,
+      ProductService productService,
+      ProductRepository productRepository) {
     this.cartRepository = cartRepository;
     this.emailService = emailService;
     this.productService = productService;

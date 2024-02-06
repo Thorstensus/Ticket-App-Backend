@@ -29,11 +29,11 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Autowired
   public ExceptionServiceImpl(
-          HttpServletRequest httpServletRequest,
-          UserRepository userRepository,
-          ProductRepository productRepository,
-          PasswordEncoder passwordEncoder,
-          ProductTypeRepository productTypeRepository) {
+      HttpServletRequest httpServletRequest,
+      UserRepository userRepository,
+      ProductRepository productRepository,
+      PasswordEncoder passwordEncoder,
+      ProductTypeRepository productTypeRepository) {
     this.httpServletRequest = httpServletRequest;
     this.userRepository = userRepository;
     this.productRepository = productRepository;
@@ -205,7 +205,8 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void throwProductAlreadyOnSale() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product is already on sale.");
+    throw new ApiRequestException(
+        httpServletRequest.getRequestURI(), "Product is already on sale.");
   }
 
   @Override
@@ -257,7 +258,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(
+          httpServletRequest.getRequestURI(),
+          "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -280,7 +283,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
       productNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throw new ApiRequestException(
+          httpServletRequest.getRequestURI(),
+          "Product type doesn't exist. Please make product type first.");
     }
   }
 
@@ -294,10 +299,12 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
     if (productTypeRequestDTO == null) {
       throwMissingBodyRequired();
-    } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")) {
+    } else if (productTypeRequestDTO.getName() == null
+        || Objects.equals(productTypeRequestDTO.getName(), "")) {
       throwFieldIsRequired("Type name");
     } else if (validType(productTypeRequestDTO.getName())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type name already exists");
+      throw new ApiRequestException(
+          httpServletRequest.getRequestURI(), "Product type name already exists");
     }
   }
 }

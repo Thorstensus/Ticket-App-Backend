@@ -7,7 +7,8 @@ public class ResponseProductTypeStatisticsDTO extends ResponseDTO {
   private Integer quantitySold;
   private Double totalPrice;
 
-  public ResponseProductTypeStatisticsDTO(String productTypeName, Integer quantitySold, Double totalPrice) {
+  public ResponseProductTypeStatisticsDTO(
+      String productTypeName, Integer quantitySold, Double totalPrice) {
     this.productTypeName = productTypeName;
     this.quantitySold = quantitySold;
     this.totalPrice = totalPrice;

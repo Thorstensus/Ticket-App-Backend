@@ -32,8 +32,12 @@ public class AuthenticationRequest extends RequestDTO {
   @Override
   public String toString() {
     return "AuthenticationRequest{"
-            + "email='" + email + '\''
-            + ", password='" + password + '\''
-            + '}';
+        + "email='"
+        + email
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
   }
 }

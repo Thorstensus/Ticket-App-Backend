@@ -52,24 +52,22 @@ class UnsecuredControllerTest {
     String token = "refreshing";
     RefreshTokenRequest request = new RefreshTokenRequest(token);
 
-    User user = new User("John","johnny@kek.lmao","1337");
-    RefreshToken refreshToken = new RefreshToken(token, new Date(System.currentTimeMillis() + 1000000), user);
+    User user = new User("John", "johnny@kek.lmao", "1337");
+    RefreshToken refreshToken =
+        new RefreshToken(token, new Date(System.currentTimeMillis() + 1000000), user);
 
-    AuthenticationResponse expected = new AuthenticationResponse("ok",
-            token,
-            "jwtxdd");
+    AuthenticationResponse expected = new AuthenticationResponse("ok", token, "jwtxdd");
 
     when(refreshTokenService.generateNewToken(request)).thenReturn(expected);
 
-
     mockMvc
-            .perform(
-                    post("/api/refresh-token")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding(StandardCharsets.UTF_8)
-                            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andExpect(content().json(objectMapper.writeValueAsString(expected)));
+        .perform(
+            post("/api/refresh-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andExpect(content().json(objectMapper.writeValueAsString(expected)));
     verify(refreshTokenService, times(1)).generateNewToken(request);
   }
 }

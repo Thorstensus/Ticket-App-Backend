@@ -63,5 +63,6 @@ public interface ExceptionService {
   void throwFailedToGetEmailTemplate();
 
   void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO);
+
   void throwProductAlreadyOnSale();
 }

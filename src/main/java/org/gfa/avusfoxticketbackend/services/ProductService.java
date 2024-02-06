@@ -23,6 +23,8 @@ public interface ProductService {
   ResponseProductDTO productToResponseProductDTOConvert(Product product);
 
   List<ResponseProductTypeStatisticsDTO> getStatistics();
+
   ResponseProductDTO setProductOnSale(Long productId, Long durationOfSale, Double sale);
+
   List<Product> checkForProductsOutOfDiscount();
 }

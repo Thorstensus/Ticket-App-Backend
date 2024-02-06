@@ -1,8 +1,7 @@
 package org.gfa.avusfoxticketbackend.dtos.authdtos;
 
-import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-
 import java.util.Objects;
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 public class RefreshTokenRequest extends RequestDTO {
   private String token;

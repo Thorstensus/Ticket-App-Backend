@@ -22,8 +22,7 @@ public class RefreshToken {
   @JoinColumn(name = "user_id")
   private User user;
 
-  public RefreshToken() {
-  }
+  public RefreshToken() {}
 
   public RefreshToken(String token, Date expiryDate, User user) {
     this.token = token;
@@ -73,11 +72,16 @@ public class RefreshToken {
   @Override
   public String toString() {
     return "RefreshToken{"
-            + "id=" + id
-            + ", token='" + token + '\''
-            + ", expiryDate=" + expiryDate
-            + ", user=" + (user != null ? user.getName() : null)
-            + '}';
+        + "id="
+        + id
+        + ", token='"
+        + token
+        + '\''
+        + ", expiryDate="
+        + expiryDate
+        + ", user="
+        + (user != null ? user.getName() : null)
+        + '}';
   }
 
   @Override
@@ -88,7 +92,10 @@ public class RefreshToken {
     if (!(o instanceof RefreshToken that)) {
       return false;
     }
-    return Objects.equals(getId(), that.getId()) && Objects.equals(getToken(), that.getToken()) && Objects.equals(getExpiryDate(), that.getExpiryDate()) && Objects.equals(getUser(), that.getUser());
+    return Objects.equals(getId(), that.getId())
+        && Objects.equals(getToken(), that.getToken())
+        && Objects.equals(getExpiryDate(), that.getExpiryDate())
+        && Objects.equals(getUser(), that.getUser());
   }
 
   @Override

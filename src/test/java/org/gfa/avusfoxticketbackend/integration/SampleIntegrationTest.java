@@ -2,7 +2,6 @@ package org.gfa.avusfoxticketbackend.integration;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
-
 import org.gfa.avusfoxticketbackend.AvusFoxticketBackendApplication;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.*;

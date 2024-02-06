@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.springframework.security.core.GrantedAuthority;

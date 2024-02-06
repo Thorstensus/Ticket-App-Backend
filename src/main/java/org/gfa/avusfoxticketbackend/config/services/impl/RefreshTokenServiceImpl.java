@@ -1,5 +1,8 @@
 package org.gfa.avusfoxticketbackend.config.services.impl;
 
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
@@ -12,9 +15,6 @@ import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class RefreshTokenServiceImpl implements RefreshTokenService {

@@ -139,8 +139,12 @@ public class ResponseProductDTO extends ResponseDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     ResponseProductDTO that = (ResponseProductDTO) o;
     return isOnSale() == that.isOnSale()
         && Objects.equals(getId(), that.getId())

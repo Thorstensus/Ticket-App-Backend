@@ -64,7 +64,7 @@ public class AdminController {
   public ResponseEntity<List<ResponseProductTypeStatisticsDTO>> purchaseStatistics() {
     return ResponseEntity.status(200).body(productService.getStatistics());
   }
-  
+
   @PostMapping("/product-types")
   public ResponseEntity<ProductTypeResponseDTO> createNewProductType(
       @RequestBody(required = false) ProductTypeRequestDTO productTypeRequestDTO) {
@@ -74,8 +74,10 @@ public class AdminController {
   }
 
   @PatchMapping("/products/{productId}/sale")
-  public ResponseEntity<ResponseProductDTO> productSale(@PathVariable Long productId, @RequestParam Long durationOfSale, @RequestParam Double sale) {
+  public ResponseEntity<ResponseProductDTO> productSale(
+      @PathVariable Long productId, @RequestParam Long durationOfSale, @RequestParam Double sale) {
     LogHandlerInterceptor.object = List.of(durationOfSale, sale);
-    return ResponseEntity.status(200).body(productService.setProductOnSale(productId, durationOfSale, sale));
+    return ResponseEntity.status(200)
+        .body(productService.setProductOnSale(productId, durationOfSale, sale));
   }
 }

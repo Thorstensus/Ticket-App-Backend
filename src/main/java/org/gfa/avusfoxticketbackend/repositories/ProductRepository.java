@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
   boolean existsByName(String name);
+
   List<Product> findProductsByProductTypeId(Long id);
+
   @Query("SELECT p FROM Product p WHERE p.endOfSale < :currentTime")
   List<Product> findProductsThatAreOutOfDiscount(long currentTime);
 }

@@ -2,7 +2,6 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.Date;
 import java.util.Map;
-
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;

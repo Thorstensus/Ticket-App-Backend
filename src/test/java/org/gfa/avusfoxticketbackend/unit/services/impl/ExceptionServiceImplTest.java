@@ -19,8 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ExceptionServiceImplTest {
 
-  @InjectMocks
-  ExceptionServiceImpl exceptionService;
+  @InjectMocks ExceptionServiceImpl exceptionService;
   @Mock private HttpServletRequest mockHttpServletRequest;
   @Mock private ProductRepository productRepository;
   @Mock private ProductTypeRepository productTypeRepository;
@@ -236,6 +235,8 @@ class ExceptionServiceImplTest {
             () -> {
               exceptionService.checkForRequestProductDTOError(requestProductDTO);
             });
-    assertEquals("Product type doesn't exist. Please make product type first.", requestException.getMessage());
+    assertEquals(
+        "Product type doesn't exist. Please make product type first.",
+        requestException.getMessage());
   }
 }

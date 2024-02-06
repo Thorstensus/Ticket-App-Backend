@@ -34,7 +34,11 @@ public class UnsecuredController {
 
   @Autowired
   public UnsecuredController(
-          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenService, JwtService jwtService) {
+      UserService userService,
+      AuthenticationService authService,
+      NewsService newsService,
+      RefreshTokenService refreshTokenService,
+      JwtService jwtService) {
     this.userService = userService;
     this.authService = authService;
     this.newsService = newsService;

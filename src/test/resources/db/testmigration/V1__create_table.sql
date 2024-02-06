@@ -8,7 +8,7 @@ create table news
     id           bigint auto_increment
         primary key,
     content      varchar(255) null,
-    publish_date date         null,
+    publish_date date null,
     title        varchar(255) null
 );
 
@@ -24,10 +24,10 @@ create table products
     id              bigint auto_increment
         primary key,
     description     varchar(255) null,
-    duration        int          null,
+    duration        int null,
     name            varchar(255) null,
-    price           double       null,
-    product_type_id bigint       null,
+    price double null,
+    product_type_id bigint null,
     constraint FK_foreign_key_product_type_id
         foreign key (product_type_id) references product_type (id)
 );
@@ -36,10 +36,10 @@ create table users
 (
     id          bigint auto_increment
         primary key,
-    email       varchar(255)           null,
-    is_verified bit                    null,
-    name        varchar(255)           null,
-    password    varchar(255)           null,
+    email       varchar(255) null,
+    is_verified bit null,
+    name        varchar(255) null,
+    password    varchar(255) null,
     role        enum ('USER', 'ADMIN') null
 );
 
@@ -47,7 +47,7 @@ create table carts
 (
     id            bigint auto_increment
         primary key,
-    user_id       bigint      null,
+    user_id       bigint null,
     last_activity datetime(6) null,
     constraint UK_unique_user_id
         unique (user_id),
@@ -59,7 +59,7 @@ create table cart_products
 (
     id         bigint auto_increment
         primary key,
-    quantity   int    not null,
+    quantity   int not null,
     cart_id    bigint null,
     product_id bigint null,
     constraint FK_cart_products_cart_reference
@@ -74,7 +74,7 @@ create table orders
         primary key,
     expiry  varchar(255) null,
     status  varchar(255) null,
-    user_id bigint       null,
+    user_id bigint null,
     constraint FK_orders_user_reference
         foreign key (user_id) references users (id)
 );
@@ -83,7 +83,7 @@ create table order_products
 (
     id         bigint auto_increment
         primary key,
-    quantity   int    not null,
+    quantity   int not null,
     order_id   bigint null,
     product_id bigint null,
     constraint FK_order_products_order_reference
@@ -94,10 +94,10 @@ create table order_products
 
 CREATE TABLE refresh_tokens
 (
-    id           bigint auto_increment
+    id          bigint auto_increment
         primary key,
-    token      varchar(255) null,
+    token       varchar(255) null,
     expiry_date date null,
-    user_id bigint null,
+    user_id     bigint null,
     foreign key (user_id) references users (id)
 )
