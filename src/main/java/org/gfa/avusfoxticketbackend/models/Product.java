@@ -56,6 +56,16 @@ public class Product {
     this.productType = productType;
   }
 
+  public Product(
+      Long id, String name, Double price, Integer duration, String description, boolean isOnSale) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.duration = duration;
+    this.description = description;
+    this.isOnSale = isOnSale;
+  }
+
   public List<CartProduct> getCartProducts() {
     return cartProducts;
   }

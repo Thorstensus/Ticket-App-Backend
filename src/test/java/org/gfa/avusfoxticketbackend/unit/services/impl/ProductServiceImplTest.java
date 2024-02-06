@@ -21,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
@@ -137,5 +139,49 @@ class ProductServiceImplTest {
         productService.productToResponseProductDTOConvert(product);
 
     Assertions.assertThat(createdResponseProductDTO).isNotNull().isNotEqualTo(responseProductDTO);
+  }
+
+  @Test
+  void setProductsOnSale_productDoesntExist_throwException() {
+    ApiRequestException response = new ApiRequestException("/api/admin/products/12/sale?durationOfSale=1&sale=0.2", "Product doesn't exist.");
+    doThrow(response)
+            .when(exceptionService)
+            .throwProductNotFound();
+
+    ApiRequestException thrownException = assertThrows(ApiRequestException.class, () -> {
+      productService.setProductOnSale(12L, 1L, 0.2);
+    });
+    assertEquals(response.getEndpoint(), thrownException.getEndpoint());
+    assertEquals(response.getMessage(), thrownException.getMessage());
+  }
+
+  @Test
+  void setProductOnSale_productAlreadyOnSale_throwException() {
+    ApiRequestException response = new ApiRequestException("/api/admin/products/1/sale?durationOfSale=1&sale=0.5", "Product is already on sale.");
+    Product product = new Product(1L, "product", 24.99, 4, "description", true);
+    product.setProductType(new ProductType("cultural"));
+    when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+    doThrow(response)
+            .when(exceptionService)
+            .throwProductAlreadyOnSale();
+
+    ApiRequestException thrownException = assertThrows(ApiRequestException.class, () -> {
+      productService.setProductOnSale(1L, 1L, 0.5);
+    });
+    assertEquals(response.getEndpoint(), thrownException.getEndpoint());
+    assertEquals(response.getMessage(), thrownException.getMessage());
+  }
+
+  @Test
+  void setProductOnSale_SetProductOnSale_returnsDTO() {
+    Product product = new Product(1L, "product", 100.0, 4, "description", false);
+    product.setProductType(new ProductType("cultural"));
+    Long now = System.currentTimeMillis() / 1000L;
+    ResponseProductDTO response = new ResponseProductDTO(1L, "product", 80.00, "4", "description", "cultural", true,  now , now + 100L);
+    when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+    ResponseProductDTO responseProductDTO = productService.setProductOnSale(1L, 100L, 0.2);
+
+    Assertions.assertThat(responseProductDTO).isNotNull().isEqualTo(response);
   }
 }
