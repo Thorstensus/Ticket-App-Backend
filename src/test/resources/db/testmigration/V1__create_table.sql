@@ -30,7 +30,7 @@ create table products
     end_of_sale     bigint,
     price_before_sale double,
     is_on_sale      bit null,
-    price           double null,
+    price double null,
     product_type_id bigint null,
     constraint FK_foreign_key_product_type_id
         foreign key (product_type_id) references product_type (id)
