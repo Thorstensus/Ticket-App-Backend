@@ -23,6 +23,5 @@ public interface ProductService {
   ResponseProductDTO productToResponseProductDTOConvert(Product product);
 
   List<ResponseProductTypeStatisticsDTO> getStatistics();
-  void setProductOnSale(RequestProductDTO requestProductDTO, Long durationOfSale, Double sale)
-  public boolean checkIfProductIsOnSale(Product product);
+  ResponseProductDTO setProductOnSale(Long productId, Long durationOfSale, Double sale);
 }

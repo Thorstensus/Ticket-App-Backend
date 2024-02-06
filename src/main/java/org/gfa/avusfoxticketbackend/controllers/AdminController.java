@@ -72,4 +72,10 @@ public class AdminController {
     return ResponseEntity.status(200)
         .body(productTypeService.createProductType(productTypeRequestDTO));
   }
+
+  @PatchMapping("/products/{productId}/sale")
+  public ResponseEntity<ResponseProductDTO> productSale(@PathVariable Long productId, @RequestParam Long durationOfSale, @RequestParam Double sale) {
+    LogHandlerInterceptor.object = List.of(durationOfSale, sale);
+    return ResponseEntity.status(200).body(productService.setProductOnSale(productId, durationOfSale, sale));
+  }
 }

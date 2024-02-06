@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.gfa.avusfoxticketbackend.dtos.ApiProductsDTO;
-import org.gfa.avusfoxticketbackend.dtos.ResponseProductTypeStatisticsDTO;
 import org.gfa.avusfoxticketbackend.dtos.RequestProductDTO;
 import org.gfa.avusfoxticketbackend.dtos.ResponseProductDTO;
+import org.gfa.avusfoxticketbackend.dtos.ResponseProductTypeStatisticsDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.OrderProductRepository;
@@ -46,7 +46,10 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getProductType().toString());
+        product.getProductType().toString(),
+        product.isOnSale(),
+        product.getStartOfSale(),
+        product.getEndOfSale());
   }
 
   @Override
@@ -77,7 +80,8 @@ public class ProductServiceImpl implements ProductService {
       product.setPrice(requestProductDTO.getPrice());
       product.setDuration(requestProductDTO.getDuration());
       product.setDescription(requestProductDTO.getDescription());
-      product.setProductType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+      product.setProductType(
+          productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
       productRepository.save(product);
 
       return toResponseProductDto(product);
@@ -120,7 +124,10 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getProductType().getTypeName());
+        product.getProductType().getTypeName(),
+        product.isOnSale(),
+        product.getStartOfSale(),
+        product.getEndOfSale());
   }
 
   @Override
@@ -130,13 +137,13 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public void setProductOnSale(RequestProductDTO requestProductDTO, Long durationOfSale, Double sale) {
-    Optional<Product> productOpt = productRepository.findById(requestProductDTO.getId());
-    if(productOpt.isEmpty()) {
+  public ResponseProductDTO setProductOnSale(Long productId, Long durationOfSale, Double sale) {
+    Optional<Product> productOpt = productRepository.findById(productId);
+    if (productOpt.isEmpty()) {
       exceptionService.throwProductNotFound();
     } else {
       Product product = productOpt.get();
-      if(checkIfProductIsOnSale(product)) {
+      if (product.isOnSale()) {
         exceptionService.throwProductAlreadyOnSale();
       }
       product.setOnSale(true);
@@ -145,11 +152,8 @@ public class ProductServiceImpl implements ProductService {
       product.setEndOfSale(now + durationOfSale);
       product.setPrice(product.getPrice() - (product.getPrice() * sale));
       productRepository.save(product);
+      return productToResponseProductDTOConvert(product);
     }
-  }
-
-  @Override
-  public boolean checkIfProductIsOnSale(Product product) {
-    return product.isOnSale();
+    return productToResponseProductDTOConvert(productOpt.get());
   }
 }

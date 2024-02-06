@@ -17,13 +17,24 @@ public class ResponseProductDTO extends ResponseDTO {
   public ResponseProductDTO() {}
 
   public ResponseProductDTO(
-      Long id, String name, Double price, String duration, String description, String type) {
+      Long id,
+      String name,
+      Double price,
+      String duration,
+      String description,
+      String type,
+      boolean isOnSale,
+      Long startOfSale,
+      Long endOfSale) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.duration = duration + " hours";
     this.description = description;
     this.type = type;
+    this.isOnSale = isOnSale;
+    this.startOfSale = startOfSale;
+    this.endOfSale = endOfSale;
   }
 
   public Long getId() {
@@ -108,35 +119,51 @@ public class ResponseProductDTO extends ResponseDTO {
         + '\''
         + ", price="
         + price
-        + ", duration="
+        + ", duration='"
         + duration
+        + '\''
         + ", description='"
         + description
         + '\''
         + ", type='"
         + type
         + '\''
+        + ", isOnSale="
+        + isOnSale
+        + ", startOfSale="
+        + startOfSale
+        + ", endOfSale="
+        + endOfSale
         + '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof ResponseProductDTO that)) {
-      return false;
-    }
-    return Objects.equals(getId(), that.getId())
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ResponseProductDTO that = (ResponseProductDTO) o;
+    return isOnSale() == that.isOnSale()
+        && Objects.equals(getId(), that.getId())
         && Objects.equals(getName(), that.getName())
         && Objects.equals(getPrice(), that.getPrice())
         && Objects.equals(getDuration(), that.getDuration())
         && Objects.equals(getDescription(), that.getDescription())
-        && Objects.equals(getType(), that.getType());
+        && Objects.equals(getType(), that.getType())
+        && Objects.equals(getStartOfSale(), that.getStartOfSale())
+        && Objects.equals(getEndOfSale(), that.getEndOfSale());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getPrice(), getDuration(), getDescription(), getType());
+    return Objects.hash(
+        getId(),
+        getName(),
+        getPrice(),
+        getDuration(),
+        getDescription(),
+        getType(),
+        isOnSale(),
+        getStartOfSale(),
+        getEndOfSale());
   }
 }
