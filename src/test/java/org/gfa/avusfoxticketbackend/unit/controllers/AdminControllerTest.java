@@ -198,4 +198,35 @@ public class AdminControllerTest {
         .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
         .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())));
   }
+
+  @Test
+  public void productSale_ProductDoesntExist_ThrowException() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/admin/products/12/sale?durationOfSale=1&sale=0.2", "Product doesn't exist.");
+    when(productService.setProductOnSale(12L, 1L, 0.2)).thenThrow(response);
+    mockMvc.perform(patch("/api/admin/products/12/sale?durationOfSale=1&sale=0.2"))
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
+            .andDo(print());
+  }
+
+  @Test
+  public void productSale_ProductAlreadyOnSale_ThrowException() throws Exception {
+    ApiRequestException response = new ApiRequestException("/api/admin/products/1/sale?durationOfSale=1&sale=0.5", "Product is already on sale.");
+    when(productService.setProductOnSale(1L, 1L, 0.5)).thenThrow(response);
+    mockMvc.perform(patch("/api/admin/products/1/sale?durationOfSale=1&sale=0.5"))
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.endpoint", CoreMatchers.is(response.getEndpoint())))
+            .andExpect(jsonPath("$.message", CoreMatchers.is(response.getMessage())))
+            .andDo(print());
+  }
+
+  @Test
+  public void productSale_ProductSetOnSale_200() throws Exception {
+    ResponseProductDTO response = new ResponseProductDTO(1L, "product", 4.0, "4", "description", "type", true, 300L, 400L);
+    when(productService.setProductOnSale(1L, 400L, 0.5)).thenReturn(response);
+    mockMvc.perform(patch("/api/admin/products/1/sale?durationOfSale=400&sale=0.5"))
+            .andExpect(status().is(200))
+            .andExpect(content().json(objectMapper.writeValueAsString(response)));
+  }
 }
