@@ -24,4 +24,5 @@ public interface ProductService {
 
   List<ResponseProductTypeStatisticsDTO> getStatistics();
   ResponseProductDTO setProductOnSale(Long productId, Long durationOfSale, Double sale);
+  List<Product> checkForProductsOutOfDiscount();
 }

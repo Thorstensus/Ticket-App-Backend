@@ -18,6 +18,7 @@ public class Product {
   private boolean isOnSale;
   private Long startOfSale;
   private Long endOfSale;
+  private Double priceBeforeSale;
 
   @ManyToOne
   @JoinColumn(name = "product_type_id")
@@ -141,6 +142,14 @@ public class Product {
 
   public void setEndOfSale(Long endOfSale) {
     this.endOfSale = endOfSale;
+  }
+
+  public Double getPriceBeforeSale() {
+    return priceBeforeSale;
+  }
+
+  public void setPriceBeforeSale(Double priceBeforeSale) {
+    this.priceBeforeSale = priceBeforeSale;
   }
 
   @Override
