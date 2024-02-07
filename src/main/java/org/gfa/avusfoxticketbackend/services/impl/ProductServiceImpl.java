@@ -141,21 +141,19 @@ public class ProductServiceImpl implements ProductService {
     Optional<Product> productOpt = productRepository.findById(productId);
     if (productOpt.isEmpty()) {
       exceptionService.throwProductNotFound();
-    } else {
-      Product product = productOpt.get();
-      if (product.isOnSale()) {
-        exceptionService.throwProductAlreadyOnSale();
-      }
-      product.setOnSale(true);
-      Long now = System.currentTimeMillis() / 1000L;
-      product.setStartOfSale(now);
-      product.setEndOfSale(now + durationOfSale);
-      product.setPriceBeforeSale(product.getPrice());
-      product.setPrice(product.getPrice() - (product.getPrice() * sale));
-      productRepository.save(product);
-      return productToResponseProductDTOConvert(product);
     }
-    return productToResponseProductDTOConvert(productOpt.get());
+    Product product = productOpt.get();
+    if (product.isOnSale()) {
+      exceptionService.throwProductAlreadyOnSale();
+    }
+    product.setOnSale(true);
+    Long now = System.currentTimeMillis() / 1000L;
+    product.setStartOfSale(now);
+    product.setEndOfSale(now + durationOfSale);
+    product.setPriceBeforeSale(product.getPrice());
+    product.setPrice(product.getPrice() - (product.getPrice() * sale));
+    productRepository.save(product);
+    return productToResponseProductDTOConvert(product);
   }
 
   @Override
