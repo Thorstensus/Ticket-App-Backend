@@ -9,10 +9,14 @@ This application was created as the final project during the project phase of th
 - Java Development Kit - JDK 17
 - Spring Boot Data JPA
 - Spring Security
+- JJWT
+- Jackson
 - Spring Web
 - Flyway
 - Javax Mail
+- Thymeleaf
 - Java Dotenv
+- Mockito
 
 ## 2. Endpoint Functionality
 TODO
