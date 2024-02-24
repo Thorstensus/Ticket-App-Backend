@@ -27,7 +27,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authManager;
   private final ExceptionService exceptionService;
-  private final EmailSender emailSender;
 
   private final RefreshTokenService refreshTokenService;
 
@@ -37,13 +36,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       JwtService jwtService,
       AuthenticationManager authManager,
       ExceptionService exceptionService,
-      EmailSender emailSender,
       RefreshTokenService refreshTokenService) {
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.authManager = authManager;
     this.exceptionService = exceptionService;
-    this.emailSender = emailSender;
     this.refreshTokenService = refreshTokenService;
   }
 

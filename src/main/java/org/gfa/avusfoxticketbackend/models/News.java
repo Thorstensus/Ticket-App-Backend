@@ -1,6 +1,8 @@
 package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
+import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
+
 import java.time.LocalDate;
 
 @Entity
@@ -48,5 +50,9 @@ public class News {
 
   public void setPublishDate(LocalDate publishDate) {
     this.publishDate = publishDate;
+  }
+
+  public NewsResponseDTO toNewsDTO() {
+    return new NewsResponseDTO(id,title,content,publishDate);
   }
 }

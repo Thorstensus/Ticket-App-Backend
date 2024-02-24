@@ -12,6 +12,7 @@ import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
 import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
+import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +31,13 @@ public class UnsecuredController {
 
   private final RefreshTokenService refreshTokenService;
 
-  private final JwtService jwtService;
-
   @Autowired
   public UnsecuredController(
-          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenService, JwtService jwtService) {
+          UserService userService, AuthenticationService authService, NewsService newsService, RefreshTokenService refreshTokenService) {
     this.userService = userService;
     this.authService = authService;
     this.newsService = newsService;
     this.refreshTokenService = refreshTokenService;
-    this.jwtService = jwtService;
   }
 
   @PostMapping("/users/login")
@@ -56,19 +54,14 @@ public class UnsecuredController {
   }
 
   @GetMapping("/news")
-  public ResponseEntity<List<NewsResponseDTO>> getNews() {
-    return ResponseEntity.status(200).body(newsService.getAllNewsDTOs());
+  public ResponseEntity<ArticlesResponseDTO> getNews() {
+    return ResponseEntity.status(200).body(newsService.getAllNews());
   }
 
   @GetMapping("/news/")
-  public ResponseEntity searchNews(@RequestParam(required = true) String search) {
+  public ResponseEntity<ArticlesResponseDTO> searchNews(@RequestParam(required = true) String search) {
     LogHandlerInterceptor.object = search;
-    List<News> searchedNews = newsService.findAllNewsByTitleOrDescriptionContaining(search);
-    if (!search.isEmpty() && !searchedNews.isEmpty()) {
-      return ResponseEntity.status(200).body(new ArticlesResponseDTO(searchedNews));
-    } else {
-      throw new ApiRequestException("/api/news", "No news matching the searched text found.");
-    }
+    return ResponseEntity.status(200).body(newsService.getAllNewsByTitleOrDescriptionContaining(search));
   }
 
   @GetMapping("/email-verification/{token}")

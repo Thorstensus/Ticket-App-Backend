@@ -29,8 +29,6 @@ class ExceptionServiceImplTest {
   @Test
   void throwFieldIsRequired_Name() {
     when(mockHttpServletRequest.getRequestURI()).thenReturn("/api/admin/products");
-    ApiRequestException apiRequestException =
-        new ApiRequestException("/api/admin/products", "Name is required");
     ApiRequestException thrownException =
         assertThrows(
             ApiRequestException.class,

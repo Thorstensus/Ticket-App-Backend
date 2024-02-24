@@ -3,10 +3,18 @@ package org.gfa.avusfoxticketbackend.services;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.CreateNewsRequestDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 
+import java.util.List;
+
 public interface ExceptionService {
-  void checkForUserErrors(RequestDTO requestDto);
+
+  void checkForSearchNewsErrors(List<NewsResponseDTO> foundNews);
+
+    void checkForCreateNewsErrors(CreateNewsRequestDTO createNewsRequestDTO);
+
+    void checkForUserErrors(RequestDTO requestDto);
 
   void handlePatchErrors(RequestUserDTO requestUserDTO);
 
@@ -22,7 +30,9 @@ public interface ExceptionService {
 
   boolean existsByEmail(String email);
 
-  void throwMissingBodyRequired();
+    void throwNoMatchingNewsFound();
+
+    void throwMissingBodyRequired();
 
   void throwNameEmailPassRequired();
 
@@ -47,6 +57,8 @@ public interface ExceptionService {
   void productNameTaken();
 
   void throwProductIsNotInCart();
+
+  void throwGenericMissingFields();
 
   boolean validType(String type);
 

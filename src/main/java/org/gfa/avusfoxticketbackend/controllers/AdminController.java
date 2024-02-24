@@ -2,10 +2,13 @@ package org.gfa.avusfoxticketbackend.controllers;
 
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.*;
+import org.gfa.avusfoxticketbackend.dtos.CreateNewsRequestDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
+import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.ProductService;
 import org.gfa.avusfoxticketbackend.services.ProductTypeService;
 import org.gfa.avusfoxticketbackend.services.UserService;
+import org.gfa.avusfoxticketbackend.dtos.CreateNewsResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,14 +23,23 @@ public class AdminController {
   private final UserService userService;
   private final ProductTypeService productTypeService;
 
+  private final NewsService newsService;
+
   @Autowired
   public AdminController(
-      ProductService productService,
-      UserService userService,
-      ProductTypeService productTypeService) {
+          ProductService productService,
+          UserService userService,
+          ProductTypeService productTypeService,
+          NewsService newsService) {
     this.productService = productService;
     this.userService = userService;
     this.productTypeService = productTypeService;
+    this.newsService = newsService;
+  }
+
+  @PostMapping("/news/add")
+  public ResponseEntity<CreateNewsResponseDTO> saveNews(CreateNewsRequestDTO requestDTO) {
+    return ResponseEntity.status(200).body(newsService.saveNews(requestDTO));
   }
 
   @GetMapping("/products")

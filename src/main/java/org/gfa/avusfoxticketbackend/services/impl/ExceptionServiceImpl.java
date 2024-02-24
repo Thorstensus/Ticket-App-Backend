@@ -1,12 +1,15 @@
 package org.gfa.avusfoxticketbackend.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.CreateNewsRequestDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
 import org.gfa.avusfoxticketbackend.models.User;
@@ -39,6 +42,20 @@ public class ExceptionServiceImpl implements ExceptionService {
     this.productRepository = productRepository;
     this.passwordEncoder = passwordEncoder;
     this.productTypeRepository = productTypeRepository;
+  }
+
+  @Override
+  public void checkForSearchNewsErrors(List<NewsResponseDTO> foundNews) {
+    if (foundNews.isEmpty()) {
+      throwNoMatchingNewsFound();
+    }
+  }
+
+  @Override
+  public void checkForCreateNewsErrors(CreateNewsRequestDTO createNewsRequestDTO) {
+    if (createNewsRequestDTO.getContent() == null || createNewsRequestDTO.getTitle() == null || createNewsRequestDTO.getContent().isEmpty() || createNewsRequestDTO.getTitle().isEmpty()) {
+      throwGenericMissingFields();
+    }
   }
 
   @Override
@@ -146,6 +163,11 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
+  public void throwNoMatchingNewsFound() {
+    throw new ApiRequestException("/api/news", "No news matching the searched text found.");
+  }
+
+  @Override
   public void throwMissingBodyRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Body is required.");
   }
@@ -228,6 +250,11 @@ public class ExceptionServiceImpl implements ExceptionService {
   public void throwProductIsNotInCart() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Product is not in the cart.");
+  }
+
+  @Override
+  public void throwGenericMissingFields() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Missing fields");
   }
 
   @Override

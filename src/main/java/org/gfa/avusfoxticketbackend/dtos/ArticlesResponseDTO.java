@@ -6,17 +6,17 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 import org.gfa.avusfoxticketbackend.models.News;
 
 public class ArticlesResponseDTO extends ResponseDTO {
-  private final List<News> articles;
+  private final List<NewsResponseDTO> articles;
 
   public ArticlesResponseDTO() {
     this.articles = new ArrayList<>();
   }
 
-  public ArticlesResponseDTO(List<News> articles) {
+  public ArticlesResponseDTO(List<NewsResponseDTO> articles) {
     this.articles = articles;
   }
 
-  public List<News> getArticles() {
+  public List<NewsResponseDTO> getArticles() {
     return articles;
   }
 
