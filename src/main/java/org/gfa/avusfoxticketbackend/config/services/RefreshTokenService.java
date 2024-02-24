@@ -1,8 +1,8 @@
 package org.gfa.avusfoxticketbackend.config.services;
 
 import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequestDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 
 import java.util.Optional;
@@ -20,7 +20,7 @@ public interface RefreshTokenService {
 
   void deleteRefreshToken(RefreshToken refreshToken);
 
-  AuthenticationResponse generateNewToken(RefreshTokenRequest refreshTokenRequest);
+  AuthenticationResponseDTO generateNewToken(RefreshTokenRequestDTO refreshTokenRequestDTO);
 
   int getExpirationTime();
 }

@@ -5,8 +5,8 @@ import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.controllers.UnsecuredController;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequestDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
 import org.gfa.avusfoxticketbackend.services.NewsService;
@@ -50,12 +50,12 @@ class UnsecuredControllerTest {
   void refreshTokenGivesBackResponse() throws Exception {
 
     String token = "refreshing";
-    RefreshTokenRequest request = new RefreshTokenRequest(token);
+    RefreshTokenRequestDTO request = new RefreshTokenRequestDTO(token);
 
     User user = new User("John","johnny@kek.lmao","1337");
     RefreshToken refreshToken = new RefreshToken(token, new Date(System.currentTimeMillis() + 1000000), user);
 
-    AuthenticationResponse expected = new AuthenticationResponse("ok",
+    AuthenticationResponseDTO expected = new AuthenticationResponseDTO("ok",
             token,
             "jwtxdd");
 

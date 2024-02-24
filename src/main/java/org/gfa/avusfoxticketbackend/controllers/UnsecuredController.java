@@ -1,18 +1,13 @@
 package org.gfa.avusfoxticketbackend.controllers;
 
-import java.util.List;
-import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
-import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequestDTO;
 import org.gfa.avusfoxticketbackend.logging.LogHandlerInterceptor;
-import org.gfa.avusfoxticketbackend.models.News;
 import org.gfa.avusfoxticketbackend.services.AuthenticationService;
-import org.gfa.avusfoxticketbackend.services.ExceptionService;
 import org.gfa.avusfoxticketbackend.services.NewsService;
 import org.gfa.avusfoxticketbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +36,7 @@ public class UnsecuredController {
   }
 
   @PostMapping("/users/login")
-  public ResponseDTO authenticate(@RequestBody AuthenticationRequest request) {
+  public ResponseDTO authenticate(@RequestBody AuthenticationRequestDTO request) {
     LogHandlerInterceptor.object = request;
     return authService.authenticate(request);
   }
@@ -58,8 +53,8 @@ public class UnsecuredController {
     return ResponseEntity.status(200).body(newsService.getAllNews());
   }
 
-  @GetMapping("/news/")
-  public ResponseEntity<ArticlesResponseDTO> searchNews(@RequestParam(required = true) String search) {
+  @GetMapping("/news/{search}")
+  public ResponseEntity<ArticlesResponseDTO> searchNews(@PathVariable(required = true) String search) {
     LogHandlerInterceptor.object = search;
     return ResponseEntity.status(200).body(newsService.getAllNewsByTitleOrDescriptionContaining(search));
   }
@@ -72,8 +67,8 @@ public class UnsecuredController {
   }
 
   @PostMapping("/refresh-token")
-  public AuthenticationResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-    LogHandlerInterceptor.object = refreshTokenRequest;
-    return refreshTokenService.generateNewToken(refreshTokenRequest);
+  public AuthenticationResponseDTO refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
+    LogHandlerInterceptor.object = refreshTokenRequestDTO;
+    return refreshTokenService.generateNewToken(refreshTokenRequestDTO);
   }
 }

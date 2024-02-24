@@ -38,7 +38,7 @@ public class AdminController {
   }
 
   @PostMapping("/news/add")
-  public ResponseEntity<CreateNewsResponseDTO> saveNews(CreateNewsRequestDTO requestDTO) {
+  public ResponseEntity<CreateNewsResponseDTO> saveNews(@RequestBody(required = false) CreateNewsRequestDTO requestDTO) {
     return ResponseEntity.status(200).body(newsService.saveNews(requestDTO));
   }
 

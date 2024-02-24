@@ -3,7 +3,6 @@ package org.gfa.avusfoxticketbackend.dtos;
 import java.util.ArrayList;
 import java.util.List;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
-import org.gfa.avusfoxticketbackend.models.News;
 
 public class ArticlesResponseDTO extends ResponseDTO {
   private final List<NewsResponseDTO> articles;

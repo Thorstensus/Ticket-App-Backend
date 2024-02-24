@@ -1,49 +1,59 @@
 package org.gfa.avusfoxticketbackend.dtos;
 
-public class CreateNewsResponseDTO {
+import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
-    private Long id;
+public class CreateNewsResponseDTO extends ResponseDTO {
 
-    private String title;
+  private Long id;
 
-    private String content;
+  private String title;
 
-    public CreateNewsResponseDTO() {
-    }
+  private String content;
 
-    public CreateNewsResponseDTO(Long id, String title, String content) {
-    }
+  public CreateNewsResponseDTO() {
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public CreateNewsResponseDTO(Long id, String title, String content) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    @Override
-    public String toString() {
-        return "CreateNewsResponseDTO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  @Override
+  public String toString() {
+    return "CreateNewsResponseDTO{"
+         + "id="
+         + id
+         + ", title='"
+         + title
+         + '\''
+         + ", content='"
+         + content
+         + '\''
+         + '}';
+  }
 }

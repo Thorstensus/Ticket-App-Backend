@@ -2,7 +2,7 @@ package org.gfa.avusfoxticketbackend.services;
 
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CreateNewsRequestDTO;
 import org.gfa.avusfoxticketbackend.models.User;
 
@@ -12,15 +12,15 @@ public interface ExceptionService {
 
   void checkForSearchNewsErrors(List<NewsResponseDTO> foundNews);
 
-    void checkForCreateNewsErrors(CreateNewsRequestDTO createNewsRequestDTO);
+  void checkForCreateNewsErrors(CreateNewsRequestDTO createNewsRequestDTO);
 
-    void checkForUserErrors(RequestDTO requestDto);
+  void checkForUserErrors(RequestDTO requestDto);
 
   void handlePatchErrors(RequestUserDTO requestUserDTO);
 
   void handleRegisterErrors(RequestUserDTO requestDto);
 
-  void handleLoginErrors(AuthenticationRequest request);
+  void handleLoginErrors(AuthenticationRequestDTO request);
 
   void handleCartErrors(CartRequestDTO request);
 
@@ -30,9 +30,9 @@ public interface ExceptionService {
 
   boolean existsByEmail(String email);
 
-    void throwNoMatchingNewsFound();
+  void throwNoMatchingNewsFound();
 
-    void throwMissingBodyRequired();
+  void throwMissingBodyRequired();
 
   void throwNameEmailPassRequired();
 

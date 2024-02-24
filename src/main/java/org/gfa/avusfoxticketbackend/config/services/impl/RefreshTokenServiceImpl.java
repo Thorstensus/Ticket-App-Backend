@@ -4,8 +4,8 @@ import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequestDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -73,13 +73,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     refreshTokenRepository.delete(refreshToken);
   }
 
-  @Override public AuthenticationResponse generateNewToken(RefreshTokenRequest refreshTokenRequest) {
-    return findByToken(refreshTokenRequest.getToken())
+  @Override public AuthenticationResponseDTO generateNewToken(RefreshTokenRequestDTO refreshTokenRequestDTO) {
+    return findByToken(refreshTokenRequestDTO.getToken())
             .map(this::verifyExpiration)
             .map(RefreshToken::getUser)
             .map(user -> {
               String accessToken = jwtService.generateToken(user);
-              return new AuthenticationResponse("ok",refreshTokenRequest.getToken(),accessToken);
+              return new AuthenticationResponseDTO("ok", refreshTokenRequestDTO.getToken(),accessToken);
             }).orElseThrow(() -> new ApiRequestException("/api/refresh-token","Refresh Token does not exist!"));
   }
 

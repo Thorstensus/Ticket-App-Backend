@@ -4,16 +4,16 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
 
 import java.util.Objects;
 
-public class AuthenticationResponse extends ResponseDTO {
+public class AuthenticationResponseDTO extends ResponseDTO {
 
   private String status;
   private String token;
 
   private String accessToken;
 
-  public AuthenticationResponse() {}
+  public AuthenticationResponseDTO() {}
 
-  public AuthenticationResponse(String status, String token, String accessToken) {
+  public AuthenticationResponseDTO(String status, String token, String accessToken) {
     this.status = status;
     this.token = token;
     this.accessToken = accessToken;
@@ -45,7 +45,7 @@ public class AuthenticationResponse extends ResponseDTO {
 
   @Override
   public String toString() {
-    return "AuthenticationResponse{"
+    return "AuthenticationResponseDTO{"
             + "status='" + status + '\''
             + ", token='" + token + '\''
             + ", accessToken='" + accessToken + '\''
@@ -57,7 +57,7 @@ public class AuthenticationResponse extends ResponseDTO {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof AuthenticationResponse that)) {
+    if (!(o instanceof AuthenticationResponseDTO that)) {
       return false;
     }
     return Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getToken(), that.getToken()) && Objects.equals(getAccessToken(), that.getAccessToken());

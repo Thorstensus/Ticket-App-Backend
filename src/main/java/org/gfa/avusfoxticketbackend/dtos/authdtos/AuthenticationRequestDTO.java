@@ -2,13 +2,13 @@ package org.gfa.avusfoxticketbackend.dtos.authdtos;
 
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
-public class AuthenticationRequest extends RequestDTO {
+public class AuthenticationRequestDTO extends RequestDTO {
   private String email;
   private String password;
 
-  public AuthenticationRequest() {}
+  public AuthenticationRequestDTO() {}
 
-  public AuthenticationRequest(String email, String password) {
+  public AuthenticationRequestDTO(String email, String password) {
     this.email = email;
     this.password = password;
   }
@@ -31,7 +31,7 @@ public class AuthenticationRequest extends RequestDTO {
 
   @Override
   public String toString() {
-    return "AuthenticationRequest{"
+    return "AuthenticationRequestDTO{"
             + "email='" + email + '\''
             + ", password='" + password + '\''
             + '}';

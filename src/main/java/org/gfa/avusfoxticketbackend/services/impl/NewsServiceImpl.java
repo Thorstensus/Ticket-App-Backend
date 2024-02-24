@@ -2,7 +2,6 @@ package org.gfa.avusfoxticketbackend.services.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.gfa.avusfoxticketbackend.dtos.ArticlesResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.CreateNewsResponseDTO;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
@@ -33,15 +32,15 @@ public class NewsServiceImpl implements NewsService {
 
   @Override
   public ArticlesResponseDTO getAllNewsByTitleOrDescriptionContaining(String word) {
-    List<NewsResponseDTO> foundNews = newsRepository.findAll().stream().map(News::toNewsDTO).collect(Collectors.toList());
+    List<NewsResponseDTO> foundNews = findAllNewsByTitleOrDescriptionContaining(word).stream().map(News::toNewsDTO).collect(Collectors.toList());
     exceptionService.checkForSearchNewsErrors(foundNews);
     return new ArticlesResponseDTO(foundNews);
   }
 
   @Override
-  public CreateNewsResponseDTO saveNews(CreateNewsRequestDTO createNewsRequestDTO) {
-    exceptionService.checkForCreateNewsErrors(createNewsRequestDTO);
-    News createdNews = new News(createNewsRequestDTO.getTitle(),createNewsRequestDTO.getTitle());
+  public CreateNewsResponseDTO saveNews(CreateNewsRequestDTO requestDTO) {
+    exceptionService.checkForCreateNewsErrors(requestDTO);
+    News createdNews = new News(requestDTO.getTitle(),requestDTO.getContent());
     newsRepository.save(createdNews);
     return new CreateNewsResponseDTO(createdNews.getId(),createdNews.getTitle(),createdNews.getContent());
   }

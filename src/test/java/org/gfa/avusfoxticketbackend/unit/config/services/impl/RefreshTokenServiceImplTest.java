@@ -5,8 +5,8 @@ import org.gfa.avusfoxticketbackend.config.repositories.RefreshTokenRepository;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.config.services.impl.RefreshTokenServiceImpl;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.RefreshTokenRequestDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -58,7 +58,7 @@ class RefreshTokenServiceImplTest {
   void generateTokenGivesOkResponse() {
 
     String token = "hahaxd";
-    RefreshTokenRequest request = new RefreshTokenRequest(token);
+    RefreshTokenRequestDTO request = new RefreshTokenRequestDTO(token);
 
     User user = new User("johnny","heresjohnny@test.com","gonk123");
     RefreshToken refreshToken = new RefreshToken("lmao", new Date(System.currentTimeMillis() + 10000), user);
@@ -66,7 +66,7 @@ class RefreshTokenServiceImplTest {
     when(refreshTokenService.findByToken(token)).thenReturn(Optional.of(refreshToken));
     when(jwtService.generateToken(user)).thenReturn("jwtMock");
 
-    AuthenticationResponse expected = new AuthenticationResponse("ok",token,"jwtMock");
+    AuthenticationResponseDTO expected = new AuthenticationResponseDTO("ok",token,"jwtMock");
 
     assertEquals(expected,refreshTokenService.generateNewToken(request));
   }
@@ -74,12 +74,12 @@ class RefreshTokenServiceImplTest {
   @Test
   void testGenerateNewTokenException() {
 
-    RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("yourRefreshToken");
+    RefreshTokenRequestDTO refreshTokenRequestDTO = new RefreshTokenRequestDTO("yourRefreshToken");
 
-    when(refreshTokenRepository.findByToken(refreshTokenRequest.getToken())).thenReturn(Optional.empty());
+    when(refreshTokenRepository.findByToken(refreshTokenRequestDTO.getToken())).thenReturn(Optional.empty());
 
     ApiRequestException exception = assertThrows(ApiRequestException.class, () -> {
-      refreshTokenService.generateNewToken(refreshTokenRequest);
+      refreshTokenService.generateNewToken(refreshTokenRequestDTO);
     });
 
     assertEquals("/api/refresh-token", exception.getEndpoint());

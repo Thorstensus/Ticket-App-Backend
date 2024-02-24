@@ -2,7 +2,6 @@ package org.gfa.avusfoxticketbackend.models;
 
 import jakarta.persistence.*;
 import org.gfa.avusfoxticketbackend.dtos.NewsResponseDTO;
-
 import java.time.LocalDate;
 
 @Entity

@@ -7,9 +7,8 @@ import org.gfa.avusfoxticketbackend.config.models.RefreshToken;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.config.services.RefreshTokenService;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.ResponseDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponse;
-import org.gfa.avusfoxticketbackend.email.EmailSender;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequestDTO;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationResponseDTO;
 import org.gfa.avusfoxticketbackend.enums.Role;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
@@ -45,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public ResponseDTO authenticate(AuthenticationRequest request) {
+  public ResponseDTO authenticate(AuthenticationRequestDTO request) {
     exceptionService.checkForUserErrors(request);
     User authenticatedUser = userRepository.findByEmail(request.getEmail()).get();
     authManager.authenticate(
@@ -67,6 +66,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         refreshTokenService.saveRefreshToken(refreshToken);
       }
     }
-    return new AuthenticationResponse("ok", refreshToken.getToken(), jwtToken);
+    return new AuthenticationResponseDTO("ok", refreshToken.getToken(), jwtToken);
   }
 }

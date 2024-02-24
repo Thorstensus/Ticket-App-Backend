@@ -4,13 +4,13 @@ import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
 
 import java.util.Objects;
 
-public class RefreshTokenRequest extends RequestDTO {
+public class RefreshTokenRequestDTO extends RequestDTO {
   private String token;
 
-  public RefreshTokenRequest() {
+  public RefreshTokenRequestDTO() {
   }
 
-  public RefreshTokenRequest(String token) {
+  public RefreshTokenRequestDTO(String token) {
     this.token = token;
   }
 
@@ -24,7 +24,7 @@ public class RefreshTokenRequest extends RequestDTO {
 
   @Override
   public String toString() {
-    return "RefreshTokenRequest{"
+    return "RefreshTokenRequestDTO{"
             + "token='" + token + '\''
             + '}';
   }
@@ -34,7 +34,7 @@ public class RefreshTokenRequest extends RequestDTO {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof RefreshTokenRequest request)) {
+    if (!(o instanceof RefreshTokenRequestDTO request)) {
       return false;
     }
     return Objects.equals(getToken(), request.getToken());

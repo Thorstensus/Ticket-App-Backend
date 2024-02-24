@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.dtos.abstractdtos.RequestDTO;
-import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequest;
+import org.gfa.avusfoxticketbackend.dtos.authdtos.AuthenticationRequestDTO;
 import org.gfa.avusfoxticketbackend.dtos.CreateNewsRequestDTO;
 import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.Product;
@@ -53,7 +53,10 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void checkForCreateNewsErrors(CreateNewsRequestDTO createNewsRequestDTO) {
-    if (createNewsRequestDTO.getContent() == null || createNewsRequestDTO.getTitle() == null || createNewsRequestDTO.getContent().isEmpty() || createNewsRequestDTO.getTitle().isEmpty()) {
+    if (createNewsRequestDTO.getTitle() == null
+            || createNewsRequestDTO.getContent() == null
+            || createNewsRequestDTO.getTitle().isEmpty()
+            || createNewsRequestDTO.getContent().isEmpty()) {
       throwGenericMissingFields();
     }
   }
@@ -67,7 +70,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         handleRegisterErrors((RequestUserDTO) requestDto);
         break;
       case "/api/users/login":
-        handleLoginErrors((AuthenticationRequest) requestDto);
+        handleLoginErrors((AuthenticationRequestDTO) requestDto);
         break;
       case "/api/admin/users/{id}":
         handlePatchErrors((RequestUserDTO) requestDto);
@@ -109,7 +112,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleLoginErrors(AuthenticationRequest request) {
+  public void handleLoginErrors(AuthenticationRequestDTO request) {
     if ((request.getPassword() == null || request.getPassword().isEmpty())
         && (request.getEmail() == null || request.getEmail().isEmpty())) {
       throwAllFieldsRequired();
