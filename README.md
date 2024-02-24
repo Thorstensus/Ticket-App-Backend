@@ -5,7 +5,7 @@
 This application was created as the final project during the project phase of the former Green Fox Academy IT bootcamp. It serves as a RESTful Backend API for a fictional application meant for selling tickets/tours and providing travel news info. Some of the main features include:
 
 - User Registration and Mail Verification
-- Spring Security - Token based Authentication and Authorization
+- Spring Security - Token based Authentication and Authorization in Request Headers
 - CRUD Database Operations
 - Putting products in Cart and creating User Orders
 - Displaying Travel News
@@ -71,7 +71,7 @@ Allows the users to authenticate (login), which creates a new jwt access token a
 {
     "status": "ok",
     "token": "9745c9ac-5827-4ed5-bc41-36269a44a866",
-    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9yc3RlbnN1cyIsImlhdCI6MTcwODgwNTQxNiwiZXhwIjoxNzQwMzQxNDE2LCJhdWQiOiJ3d3cuZXhhbXBsZS5jb20iLCJzdWIiOiJTYW1wbGUgVG9rZW4iLCJHaXZlbk5hbWUiOiJKb2huIiwiU3VybmFtZSI6IkRvZSIsIkVtYWlsIjoiam9obmRvZUBnbWFpbC5jb20iLCJSb2xlIjoiVXNlciJ9.BtGIVfO__iswPwdrJhShquhKnXd96TWRK5cH0oYJKJE"
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzA4ODE2OTQ5LCJleHAiOjE3MDg4MjA1NDl9.a1vbJ_ifhz_IQafvSTLWncsalW-xYC4M2EL1wB0koKQ"
 }
 ```
 #### GET /api/news OR GET /api/news/{searched}
@@ -82,17 +82,75 @@ Displays all existing news by default or news which contain the string specified
 
 ```json
 {
-    "status": "ok",
-    "token": "9745c9ac-5827-4ed5-bc41-36269a44a866",
-    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9yc3RlbnN1cyIsImlhdCI6MTcwODgwNTQxNiwiZXhwIjoxNzQwMzQxNDE2LCJhdWQiOiJ3d3cuZXhhbXBsZS5jb20iLCJzdWIiOiJTYW1wbGUgVG9rZW4iLCJHaXZlbk5hbWUiOiJKb2huIiwiU3VybmFtZSI6IkRvZSIsIkVtYWlsIjoiam9obmRvZUBnbWFpbC5jb20iLCJSb2xlIjoiVXNlciJ9.BtGIVfO__iswPwdrJhShquhKnXd96TWRK5cH0oYJKJE"
+    "articles": [
+        {
+            "id": 1,
+            "title": "random title 1",
+            "content": "random content one",
+            "publishDate": "2024-02-24"
+        },
+        {
+            "id": 2,
+            "title": "random title 2",
+            "content": "random content two",
+            "publishDate": "2024-02-25"
+        }
+    ]
 }
 ```
+##### Sample Response (GET /api/news/one):
+
+```json
+{
+    "articles": [
+        {
+            "id": 1,
+            "title": "random title 1",
+            "content": "random content one",
+            "publishDate": "2024-02-24"
+        }
+    ]
+}
+```
+#### GET /api/email-verification/{token}
+
+When the link is accessed (from user's mail address inbox), their account becomes verified.
+
+##### Expected Response:
+
+```json
+"User verified"
+```
+#### POST /api/refresh-token
+
+When request with a valid refresh token is sent, a new access token is generated. If the refresh token is expired, it is removed from the database and the user is encouraged to log in again.
+
+##### Sample Request (RefreshTokenRequestDTO)
+
+```json
+{
+    "token": "9745c9ac-5827-4ed5-bc41-36269a44a866"
+}
+```
+##### Sample Response (AuthenticationResponseDTO):
+
+```json
+{
+    "status": "ok",
+    "token": "9745c9ac-5827-4ed5-bc41-36269a44a866",
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzA4ODE2OTQ5LCJleHAiOjE3MDg4MjA1NDl9.a1vbJ_ifhz_IQafvSTLWncsalW-xYC4M2EL1wB0koKQ"
+}
+```
+
+### B) Secured Endpoints
+
+#### POST /api/cart
 
 ## 3. Additional Technical Features
 - The deployed application automatically sends a working verification link to the newly registered user's mail address (handled by EmailService.class), as well as order summary and reminder emails for items left in the cart for a certain amount of time (currently set to 48 hours, handled by ScheduledTasks.class)
 - The application uses standard Authentication Token and Refresh Token flow
 - ExceptionServiceImpl.class handles many possible exceptions such as incorrectly filled or empty input fields, referencing non-existing products, attempting to create an account with a taken e-mail address etc.
-- The Project uses Continuous Integration for style checks
+- The Project uses Continuous Integration for Style Checks
 
 ## 4. Acknowledgements
 I want to thank the following amazing people who were indispensable during the creation of this project:
