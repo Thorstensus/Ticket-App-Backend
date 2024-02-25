@@ -146,6 +146,27 @@ When request with a valid refresh token is sent, a new access token is generated
 
 #### POST /api/cart
 
+When an existing item id is sent, a single quantity of the chosen item is added into the logged in user's cart. Further requests increment the count in cart by one.
+
+##### Sample Request (CartRequestDTO, logged in user id = 1)
+
+```json
+{
+    "id": "3"
+}
+```
+
+##### Sample Response (CartResponseDTO):
+
+```json
+{
+    "id": "1",
+    "productId": "2"
+}
+```
+
+
+
 ## 3. Additional Technical Features
 - The deployed application automatically sends a working verification link to the newly registered user's mail address (handled by EmailService.class), as well as order summary and reminder emails for items left in the cart for a certain amount of time (currently set to 48 hours, handled by ScheduledTasks.class)
 - The application uses standard Authentication Token and Refresh Token flow
