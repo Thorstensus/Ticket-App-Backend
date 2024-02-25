@@ -161,7 +161,7 @@ When an existing item id is sent, a single quantity of the chosen item is added 
 ```json
 {
     "id": "1",
-    "productId": "2"
+    "productId": "3"
 }
 ```
 
