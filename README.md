@@ -465,14 +465,17 @@ Modifies specific user details (name, email, password). The new password is hash
 - The deployed application automatically sends a working verification link to the newly registered user's mail address (handled by EmailService.class), as well as order summary and reminder emails for items left in the cart for a certain amount of time (currently set to 48 hours, handled by ScheduledTasks.class)
 - The application uses standard Authentication Token and Refresh Token flow and the user info is retrieved from the Header Token
 - ExceptionServiceImpl.class handles many possible exceptions such as incorrectly filled or empty input fields, referencing non-existing products, attempting to create an account with a taken e-mail address etc.
-- The Project uses Continuous Integration for Style Checks
+- The Project uses Continuous Integration for Style Checks (Google Java Style)
+- The Project implements Flyway Database Migration
 
 ## 4. Acknowledgements
 I want to thank the following amazing people who were indispensable during the creation of this project:
 
--
--
--
--
--
--
+- https://github.com/chabyie
+- https://github.com/scepan66
+- https://github.com/belaerdos
+- https://github.com/PPetr1
+
+And last but not least, our amazing mentor and team lead:
+
+- https://github.com/bekobarna
