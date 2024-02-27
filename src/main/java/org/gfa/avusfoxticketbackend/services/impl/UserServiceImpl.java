@@ -5,7 +5,6 @@ import java.util.*;
 import org.gfa.avusfoxticketbackend.config.services.JwtService;
 import org.gfa.avusfoxticketbackend.dtos.*;
 import org.gfa.avusfoxticketbackend.email.EmailSender;
-import org.gfa.avusfoxticketbackend.exception.ApiRequestException;
 import org.gfa.avusfoxticketbackend.models.User;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
 import org.gfa.avusfoxticketbackend.services.*;
