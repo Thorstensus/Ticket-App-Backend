@@ -311,9 +311,32 @@ Used to list out all the products saved in the database (which are being offered
 
 ```json
 {
-    "id" : 1,
-    "title" : "Click Here Please!!!",
-    "content" : "sample clickbait"
+    "products": [
+        {
+            "id": 1,
+            "name": "Ticket 1",
+            "price": 1.0,
+            "duration": "10 hours",
+            "description": "A ticked with a large number 1 printed on it",
+            "type": "Ticket"
+        },
+        {
+            "id": 2,
+            "name": "Ticket 2",
+            "price": 2.0,
+            "duration": "20 hours",
+            "description": "A ticked with a large number 1 printed on it",
+            "type": "Ticket"
+        },
+        {
+            "id": 3,
+            "name": "Ticket 3",
+            "price": 3.0,
+            "duration": "30 hours",
+            "description": "A ticked with a large number 1 printed on it",
+            "type": "Ticket"
+        }
+    ]
 }
 ```
 
@@ -324,21 +347,119 @@ Creates new products in the database.
 
 ```json
 {
-    "id" : 1,
-    "title" : "Click Here Please!!!",
-    "content" : "sample clickbait"
+  "name" : "Ticket 1",
+  "price" : 1,
+  "duration" : 10,
+  "description" : "A ticked with a large number 1 printed on it",
+  "type" : "Ticket"
 }
 ```
 
-##### Sample Response (RequestProductDTO):
+##### Sample Response (ResponseProductDTO):
 
 ```json
 {
-    "id" : 1,
-    "title" : "Click Here Please!!!",
-    "content" : "sample clickbait"
+    "id": 1,
+    "name": "Ticket 1",
+    "price": 1.0,
+    "duration": "10 hours",
+    "description": "A ticked with a large number 1 printed on it",
+    "type": "Ticket"
 }
 ```
+
+#### PATCH /api/admin/products/{productId}
+Modifies the details of the product with the id specified in the request parameter.
+
+##### Sample Request to /api/admin/products/1 (RequestProductDTO):
+
+```json
+{
+  "name" : "Modified Ticket 1",
+  "price" : 100,
+  "duration" : 100,
+  "description" : "A modified ticket",
+  "type" : "Ticket (2nd Type)"
+}
+```
+
+##### Sample Response (ResponseProductDTO):
+
+```json
+{
+    "id": 1,
+    "name": "Modified Ticket 1",
+    "price": 100.0,
+    "duration": "100 hours",
+    "description": "A modified ticket",
+    "type": "Ticket (2nd Type)"
+}
+```
+
+
+#### POST /api/admin/product-types
+Creates new product type in the database.
+
+##### Sample Request (ProductTypeRequestDTO):
+
+```json
+{
+  "name" : "Ticket (2nd type)",
+}
+```
+
+##### Sample Response (ProductTypeResponseDTO):
+
+```json
+{
+    "id": 2,
+    "name": "Ticket (2nd type)"
+}
+```
+
+#### GET /api/admin/product-types/stats
+Returns statistics of purchases based on product type.
+
+##### Sample Response (ResponseProductTypeStatisticsDTO):
+
+```json
+[
+    {
+        "productTypeName": "Ticket (2nd Type)",
+        "quantitySold": 7,
+        "totalPrice": 700.0
+    },
+    {
+        "productTypeName": "Ticket",
+        "quantitySold": 4,
+        "totalPrice": 79.96
+    }
+]
+```
+
+#### PATCH /api/admin/users/{userId}
+Modifies specific user details (name, email, password). The new password is hashed.
+
+##### Sample Request to /api/admin/users/1 (RequestUserDTO):
+
+```json
+{
+    "name" : "John Doe the 2nd",
+    "email" : "secondjohndoe@gmail.com",
+    "password" : "samplenewpassword"
+}
+```
+
+##### Sample Response (PatchResponseUserDTO):
+
+```json
+{
+    "id": 1,
+    "name": "John Doe the 2nd",
+    "email": "secondjohndoe@gmail.com"
+}
+```
+
 
 ## 3. Additional Technical Features
 - The deployed application automatically sends a working verification link to the newly registered user's mail address (handled by EmailService.class), as well as order summary and reminder emails for items left in the cart for a certain amount of time (currently set to 48 hours, handled by ScheduledTasks.class)
