@@ -69,23 +69,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public PatchResponseUserDTO patchUser(RequestUserDTO requestUserDTO, Long id) {
-    if (id == null) {
-      throw new ApiRequestException("/api/users/{id}", "{id} is required.");
-    }
     exceptionService.checkForUserErrors(requestUserDTO);
-    User user =
-        userRepository
-            .findById(id)
-            .orElseThrow(
-                () ->
-                    new ApiRequestException(
-                        "/api/users/{id}", "User with provided id doesn't exist"));
-    user.setName(requestUserDTO.getName() != null ? requestUserDTO.getName() : user.getName());
-    user.setEmail(requestUserDTO.getEmail() != null ? requestUserDTO.getEmail() : user.getEmail());
-    user.setPassword(
-        requestUserDTO.getPassword() != null
-            ? hashPassword(requestUserDTO.getPassword())
-            : user.getPassword());
+    exceptionService.checkForModifyUserErrors(id);
+    User user = userRepository.findById(id).get();
+    user.setName(requestUserDTO.getName());
+    user.setEmail(requestUserDTO.getEmail());
+    user.setPassword(hashPassword(requestUserDTO.getPassword()));
     userRepository.save(user);
     return patchResponseUserDTOConverter(user);
   }
@@ -125,7 +114,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public void checkUserVerification(String token) {
     if (!userRepository.findByEmail(jwtService.extractUsername(token)).get().getVerified()) {
-      exceptionService.notVerified();
+      exceptionService.throwNotVerified();
     }
   }
 }

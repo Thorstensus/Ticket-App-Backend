@@ -38,7 +38,7 @@ class ProductServiceImplTest {
     RequestProductDTO requestProductDTO =
         new RequestProductDTO("name", 12.0, 4, "description", "pass");
     Product product = new Product(1L, "name", 12.0, 4, "description", expectedProductType);
-    doNothing().when(exceptionService).checkForRequestProductDTOError(requestProductDTO);
+    doNothing().when(exceptionService).checkForRequestProductDTOErrors(requestProductDTO);
     when(productRepository.save(any(Product.class))).thenReturn(product);
 
     when(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()))
@@ -67,7 +67,7 @@ class ProductServiceImplTest {
 
     doThrow(apiRequestException)
         .when(exceptionService)
-        .checkForRequestProductDTOError(requestProductDTO);
+        .checkForRequestProductDTOErrors(requestProductDTO);
 
     ApiRequestException thrownException =
         assertThrows(

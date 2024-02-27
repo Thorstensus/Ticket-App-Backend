@@ -10,10 +10,7 @@ import org.gfa.avusfoxticketbackend.email.EmailSender;
 import org.gfa.avusfoxticketbackend.models.*;
 import org.gfa.avusfoxticketbackend.repositories.OrderRepository;
 import org.gfa.avusfoxticketbackend.repositories.UserRepository;
-import org.gfa.avusfoxticketbackend.services.CartProductService;
-import org.gfa.avusfoxticketbackend.services.CartService;
-import org.gfa.avusfoxticketbackend.services.OrderProductService;
-import org.gfa.avusfoxticketbackend.services.OrderService;
+import org.gfa.avusfoxticketbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +25,8 @@ public class OrderServiceImpl implements OrderService {
   private final CartProductService cartProductService;
   private final EmailSender emailSender;
 
+  private final ExceptionService exceptionService;
+
   @Autowired
   public OrderServiceImpl(
       OrderRepository orderRepository,
@@ -36,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
       OrderProductService orderProductService,
       CartProductService cartProductService,
       CartService cartService,
-      EmailSender emailSender) {
+      EmailSender emailSender, ExceptionService exceptionService) {
     this.orderRepository = orderRepository;
     this.jwtService = jwtService;
     this.userRepository = userRepository;
@@ -44,11 +43,13 @@ public class OrderServiceImpl implements OrderService {
     this.cartService = cartService;
     this.cartProductService = cartProductService;
     this.emailSender = emailSender;
+    this.exceptionService = exceptionService;
   }
 
   @Override
   public ResponseOrderDTO saveOrdersFromCart(String token) {
     User user = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow();
+    exceptionService.checkForOrderErrors(user);
     Order order = new Order(user);
     orderRepository.save(order);
     List<OrderProduct> orderProducts = new ArrayList<>();

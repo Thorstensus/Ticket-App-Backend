@@ -47,7 +47,7 @@ class CartServiceImplTest {
     ApiRequestException exception = new ApiRequestException("/api/cart", "Product doesn't exist.");
     String token = "";
 
-    doThrow(exception).when(exceptionService).handleCartErrors(request);
+    doThrow(exception).when(exceptionService).checkForCartErrors(request);
 
     ApiRequestException thrownException =
         assertThrows(
@@ -67,7 +67,7 @@ class CartServiceImplTest {
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
     Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
-    doNothing().when(exceptionService).handleCartErrors(request);
+    doNothing().when(exceptionService).checkForCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
     doReturn(Optional.of(product)).when(productService).getProductById(request.getProductId());
     when(cartRepository.save(any(Cart.class))).thenReturn(null);
@@ -89,7 +89,7 @@ class CartServiceImplTest {
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
     Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
-    doNothing().when(exceptionService).handleCartErrors(request);
+    doNothing().when(exceptionService).checkForCartErrors(request);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
     doReturn(Optional.of(product)).when(productService).getProductById(request.getProductId());
     when(cartRepository.save(any(Cart.class))).thenReturn(null);
@@ -114,8 +114,8 @@ class CartServiceImplTest {
     User user = new User("John", "john@doe.com", "hashedPassword_xD");
     Product product = new Product("basic", 5.0, 30, "a basic ticket", new ProductType("Adventure"));
 
-    doNothing().when(exceptionService).handleCartErrors(request);
-    doNothing().when(exceptionService).handleModifyCartErrors(modifyRequest, user);
+    doNothing().when(exceptionService).checkForCartErrors(request);
+    doNothing().when(exceptionService).checkForModifyCartErrors(modifyRequest, user);
     doReturn(Optional.of(user)).when(userService).extractUserFromToken(token);
     doReturn(Optional.of(product))
         .when(productService)

@@ -61,7 +61,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.productNameTaken();
+              exceptionService.throwProductNameTaken();
             });
 
     assertEquals("/api/admin/products", thrownException.getEndpoint());
@@ -74,7 +74,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(null);
+              exceptionService.checkForRequestProductDTOErrors(null);
             });
     assertEquals("Body is required.", requestException.getMessage());
   }
@@ -91,7 +91,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Name is required.", requestException.getMessage());
   }
@@ -109,7 +109,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Name is required.", requestException.getMessage());
   }
@@ -126,7 +126,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Description is required.", requestException.getMessage());
   }
@@ -144,7 +144,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Description is required.", requestException.getMessage());
   }
@@ -161,7 +161,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Duration is required.", requestException.getMessage());
   }
@@ -178,7 +178,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Type is required.", requestException.getMessage());
   }
@@ -195,7 +195,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Price is required.", requestException.getMessage());
   }
@@ -214,7 +214,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Product name already exists.", requestException.getMessage());
   }
@@ -232,7 +232,7 @@ class ExceptionServiceImplTest {
         assertThrows(
             ApiRequestException.class,
             () -> {
-              exceptionService.checkForRequestProductDTOError(requestProductDTO);
+              exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
             });
     assertEquals("Product type doesn't exist. Please make product type first.", requestException.getMessage());
   }

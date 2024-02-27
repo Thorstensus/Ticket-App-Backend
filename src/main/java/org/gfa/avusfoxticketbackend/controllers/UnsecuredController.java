@@ -43,9 +43,9 @@ public class UnsecuredController {
 
   @PostMapping("/users")
   public ResponseEntity<ResponseUserDTO> registration(
-      @RequestBody(required = false) RequestUserDTO requestUserDTO) {
-    LogHandlerInterceptor.object = requestUserDTO;
-    return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestUserDTO));
+      @RequestBody(required = false) RequestUserDTO requestDTO) {
+    LogHandlerInterceptor.object = requestDTO;
+    return ResponseEntity.status(200).body(userService.newUserCreatedAndReturned(requestDTO));
   }
 
   @GetMapping("/news")
@@ -67,8 +67,8 @@ public class UnsecuredController {
   }
 
   @PostMapping("/refresh-token")
-  public AuthenticationResponseDTO refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
-    LogHandlerInterceptor.object = refreshTokenRequestDTO;
-    return refreshTokenService.generateNewToken(refreshTokenRequestDTO);
+  public AuthenticationResponseDTO refreshToken(@RequestBody RefreshTokenRequestDTO requestDTO) {
+    LogHandlerInterceptor.object = requestDTO;
+    return refreshTokenService.generateNewToken(requestDTO);
   }
 }

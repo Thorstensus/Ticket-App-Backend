@@ -67,7 +67,7 @@ public class CartServiceImpl implements CartService {
 
   @Override
   public CartResponseDTO saveProductToCart(CartRequestDTO requestDTO, String token) {
-    exceptionService.handleCartErrors(requestDTO);
+    exceptionService.checkForCartErrors(requestDTO);
     Optional<User> currentUserOptional = userService.extractUserFromToken(token);
     Optional<Product> currentProductOptional =
         productService.getProductById(requestDTO.getProductId());
@@ -87,7 +87,7 @@ public class CartServiceImpl implements CartService {
     Optional<User> currentUserOptional = userService.extractUserFromToken(token);
     if (currentUserOptional.isPresent()) {
       User currentUser = currentUserOptional.get();
-      exceptionService.handleModifyCartErrors(requestDTO, currentUser);
+      exceptionService.checkForModifyCartErrors(requestDTO, currentUser);
       Cart currentUserCart = getCartByUser(currentUser).get();
       Product currentProduct = productService.getProductById(requestDTO.getProductId()).get();
       CartProduct currentCartProduct = currentUserCart.getCartProductFromCart(currentProduct).get();
@@ -146,7 +146,7 @@ public class CartServiceImpl implements CartService {
       return new ResponseStatusMessageDTO("No cart to delete");
     } else {
       cartRepository.delete(user.getCart());
-      return new ResponseStatusMessageDTO("Cart has been deleted");
+      return new ResponseStatusMessageDTO("The cart has been deleted");
     }
   }
 }

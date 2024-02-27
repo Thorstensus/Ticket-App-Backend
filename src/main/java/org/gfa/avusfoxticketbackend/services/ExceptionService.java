@@ -16,15 +16,19 @@ public interface ExceptionService {
 
   void checkForUserErrors(RequestDTO requestDto);
 
-  void handlePatchErrors(RequestUserDTO requestUserDTO);
+  void checkForPatchUserErrors(RequestUserDTO requestUserDTO);
 
-  void handleRegisterErrors(RequestUserDTO requestDto);
+  void checkForRegistrationErrors(RequestUserDTO requestDto);
 
-  void handleLoginErrors(AuthenticationRequestDTO request);
+  void checkForLoginErrors(AuthenticationRequestDTO request);
 
-  void handleCartErrors(CartRequestDTO request);
+  void checkForCartErrors(CartRequestDTO request);
 
-  void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user);
+  void checkForOrderErrors(User user);
+
+  void checkForModifyCartErrors(ModifyCartRequestDTO requestDTO, User user);
+
+  void checkForModifyUserErrors(Long userId);
 
   boolean isValidEmailRequest(String requestEmail);
 
@@ -38,7 +42,7 @@ public interface ExceptionService {
 
   void throwNameRequired();
 
-  void throwPassRequired();
+  void throwPasswordRequired();
 
   void throwPasswordTooShort();
 
@@ -54,25 +58,31 @@ public interface ExceptionService {
 
   void throwAllFieldsRequired();
 
-  void productNameTaken();
+  void throwProductNameTaken();
 
   void throwProductIsNotInCart();
 
   void throwGenericMissingFields();
 
+  void throwCartIsEmpty();
+
+  void throwProductTypeNotExsists();
+
+  void throwProductWithIdNotExsists(Long id);
+
   boolean validType(String type);
 
-  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId);
+  void checkForUpdateProductErrors(Long productId);
 
-  void checkForRequestProductDTOError(RequestProductDTO requestProductDTO);
+  void checkForRequestProductDTOErrors(RequestProductDTO requestProductDTO);
 
   void throwProductIdRequired();
 
   void throwProductNotFound();
 
-  void notVerified();
+  void throwNotVerified();
 
   void throwFailedToGetEmailTemplate();
 
-  void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO);
+  void checkForCreateProductTypeErrors(ProductTypeRequestDTO productTypeRequestDTO);
 }

@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         product.getPrice(),
         String.valueOf(product.getDuration()),
         product.getDescription(),
-        product.getProductType().toString());
+        product.getProductType().getTypeName());
   }
 
   @Override
@@ -61,29 +61,19 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ResponseProductDTO updateProduct(RequestProductDTO requestProductDTO, Long productId) {
 
-    exceptionService.checkForRequestProductDTOError(requestProductDTO, productId);
+    exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
+    exceptionService.checkForUpdateProductErrors(productId);
 
-    Product product =
-        productRepository
-            .findById(productId)
-            .orElseThrow(
-                () ->
-                    new ApiRequestException(
-                        ("/api/products/" + productId), "Product with provided id doesn't exist."));
+    Product product = productRepository.findById(productId).get();
 
-    if (!productRepository.existsByName(requestProductDTO.getName())) {
+    product.setName(requestProductDTO.getName());
+    product.setPrice(requestProductDTO.getPrice());
+    product.setDuration(requestProductDTO.getDuration());
+    product.setDescription(requestProductDTO.getDescription());
+    product.setProductType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
+    productRepository.save(product);
 
-      product.setName(requestProductDTO.getName());
-      product.setPrice(requestProductDTO.getPrice());
-      product.setDuration(requestProductDTO.getDuration());
-      product.setDescription(requestProductDTO.getDescription());
-      product.setProductType(productTypeRepository.getProductTypeByTypeName(requestProductDTO.getType()));
-      productRepository.save(product);
-
-      return toResponseProductDto(product);
-    } else {
-      throw new ApiRequestException(("/api/products/" + productId), "Product name already exists!");
-    }
+    return toResponseProductDto(product);
   }
 
   public Optional<Product> getProductById(Long id) {
@@ -96,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   public ResponseProductDTO createNewProductAndReturn(RequestProductDTO requestProductDTO) {
-    exceptionService.checkForRequestProductDTOError(requestProductDTO);
+    exceptionService.checkForRequestProductDTOErrors(requestProductDTO);
     Product newProduct = requestProductDTOToProductConvert(requestProductDTO);
     productRepository.save(newProduct);
     return productToResponseProductDTOConvert(newProduct);

@@ -67,13 +67,13 @@ public class ExceptionServiceImpl implements ExceptionService {
     currentEndpoint = currentEndpoint.replaceAll("/api/admin/users/\\d+", "/api/admin/users/{id}");
     switch (currentEndpoint) {
       case "/api/users":
-        handleRegisterErrors((RequestUserDTO) requestDto);
+        checkForRegistrationErrors((RequestUserDTO) requestDto);
         break;
       case "/api/users/login":
-        handleLoginErrors((AuthenticationRequestDTO) requestDto);
+        checkForLoginErrors((AuthenticationRequestDTO) requestDto);
         break;
       case "/api/admin/users/{id}":
-        handlePatchErrors((RequestUserDTO) requestDto);
+        checkForPatchUserErrors((RequestUserDTO) requestDto);
         break;
       default:
         break;
@@ -81,27 +81,22 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handlePatchErrors(RequestUserDTO requestUserDTO) {
+  public void checkForPatchUserErrors(RequestUserDTO requestUserDTO) {
     if (requestUserDTO == null) {
       throwMissingBodyRequired();
-    } else if (requestUserDTO.getPassword() != null && requestUserDTO.getPassword().length() < 8) {
-      throwPasswordTooShort();
-    } else if (requestUserDTO.getEmail() != null
-        && !(isValidEmailRequest(requestUserDTO.getEmail()))) {
-      throwInvalidMail();
-    } else if (requestUserDTO.getName() != null && requestUserDTO.getName().isEmpty()) {
-      throwNameRequired();
+    } else {
+      checkForRegistrationErrors(requestUserDTO);
     }
   }
 
   @Override
-  public void handleRegisterErrors(RequestUserDTO requestDto) {
+  public void checkForRegistrationErrors(RequestUserDTO requestDto) {
     if (requestDto == null) {
       throwNameEmailPassRequired();
     } else if (requestDto.getName() == null || requestDto.getName().isEmpty()) {
       throwNameRequired();
     } else if (requestDto.getPassword() == null || requestDto.getPassword().isEmpty()) {
-      throwPassRequired();
+      throwPasswordRequired();
     } else if (requestDto.getEmail() == null || !(isValidEmailRequest(requestDto.getEmail()))) {
       throwInvalidMail();
     } else if (existsByEmail(requestDto.getEmail())) {
@@ -112,14 +107,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleLoginErrors(AuthenticationRequestDTO request) {
+  public void checkForLoginErrors(AuthenticationRequestDTO request) {
     if ((request.getPassword() == null || request.getPassword().isEmpty())
         && (request.getEmail() == null || request.getEmail().isEmpty())) {
       throwAllFieldsRequired();
     } else if (request.getEmail() == null || request.getEmail().isEmpty()) {
       throwEmailRequired();
     } else if (request.getPassword() == null || request.getPassword().isEmpty()) {
-      throwPassRequired();
+      throwPasswordRequired();
     } else {
       Optional<User> user = userRepository.findByEmail(request.getEmail());
       if (user.isEmpty()
@@ -130,7 +125,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleCartErrors(CartRequestDTO request) {
+  public void checkForCartErrors(CartRequestDTO request) {
     if (request == null || request.getProductId() == null) {
       throwProductIdRequired();
     } else if (productRepository.findById(request.getProductId()).isEmpty()) {
@@ -139,7 +134,14 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void handleModifyCartErrors(ModifyCartRequestDTO requestDTO, User user) {
+  public void checkForOrderErrors(User user) {
+    if (user.getCart() == null || user.getCart().getCartProducts().isEmpty()) {
+      throwCartIsEmpty();
+    }
+  }
+
+  @Override
+  public void checkForModifyCartErrors(ModifyCartRequestDTO requestDTO, User user) {
     Optional<Product> currentProductOptional =
         productRepository.findById(requestDTO.getProductId());
     if (currentProductOptional.isEmpty()) {
@@ -148,6 +150,17 @@ public class ExceptionServiceImpl implements ExceptionService {
     if (user.getCart() == null
         || user.getCart().getCartProductFromCart(currentProductOptional.get()).isEmpty()) {
       throwProductIsNotInCart();
+    }
+  }
+
+  @Override
+  public void checkForModifyUserErrors(Long userId) {
+    if (userId == null) {
+      throw new ApiRequestException("/api/users/{id}", "{id} is required.");
+    } else {
+      if (!userRepository.existsById(userId)) {
+        throw new ApiRequestException("/api/users/{id}", "User with provided id doesn't exist");
+      }
     }
   }
 
@@ -187,7 +200,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void throwPassRequired() {
+  public void throwPasswordRequired() {
     throw new ApiRequestException(httpServletRequest.getRequestURI(), "Password is required.");
   }
 
@@ -244,7 +257,7 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void productNameTaken() {
+  public void throwProductNameTaken() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Product name already exists.");
   }
@@ -257,7 +270,22 @@ public class ExceptionServiceImpl implements ExceptionService {
 
   @Override
   public void throwGenericMissingFields() {
-    throw new ApiRequestException(httpServletRequest.getRequestURI(),"Missing fields");
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Missing fields");
+  }
+
+  @Override
+  public void throwCartIsEmpty() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "The cart is empty");
+  }
+
+  @Override
+  public void throwProductTypeNotExsists() {
+    throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+  }
+
+  @Override
+  public void throwProductWithIdNotExsists(Long id) {
+    throw new ApiRequestException(("/api/products/" + id), "Product with provided id doesn't exist.");
   }
 
   @Override
@@ -266,28 +294,16 @@ public class ExceptionServiceImpl implements ExceptionService {
   }
 
   @Override
-  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO, Long productId) {
+  public void checkForUpdateProductErrors(Long productId) {
     if (productId == null) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product ID is missing.");
-    } else if (requestProductDTO == null) {
-      throwMissingBodyRequired();
-    } else if (requestProductDTO.getName() == null) {
-      throwFieldIsRequired("Name");
-    } else if (requestProductDTO.getDescription() == null) {
-      throwFieldIsRequired("Description");
-    } else if (requestProductDTO.getDuration() == null) {
-      throwFieldIsRequired("Duration");
-    } else if (requestProductDTO.getType() == null) {
-      throwFieldIsRequired("Type");
-    } else if (requestProductDTO.getPrice() == null) {
-      throwFieldIsRequired("Price");
-    } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throwProductIdRequired();
+    } else if (!productRepository.existsById(productId)) {
+      throwProductWithIdNotExsists(productId);
     }
   }
 
   @Override
-  public void checkForRequestProductDTOError(RequestProductDTO requestProductDTO) {
+  public void checkForRequestProductDTOErrors(RequestProductDTO requestProductDTO) {
     if (requestProductDTO == null) {
       throwMissingBodyRequired();
     } else if (requestProductDTO.getName() == null
@@ -303,20 +319,20 @@ public class ExceptionServiceImpl implements ExceptionService {
     } else if (requestProductDTO.getPrice() == null) {
       throwFieldIsRequired("Price");
     } else if (productRepository.existsByName(requestProductDTO.getName())) {
-      productNameTaken();
+      throwProductNameTaken();
     } else if (!validType(requestProductDTO.getType())) {
-      throw new ApiRequestException(httpServletRequest.getRequestURI(), "Product type doesn't exist. Please make product type first.");
+      throwProductTypeNotExsists();
     }
   }
 
   @Override
-  public void notVerified() {
+  public void throwNotVerified() {
     throw new ApiRequestException(
         httpServletRequest.getRequestURI(), "Please verify your email before your purchase.");
   }
 
   @Override
-  public void checkProductTypeRequestDTOErrors(ProductTypeRequestDTO productTypeRequestDTO) {
+  public void checkForCreateProductTypeErrors(ProductTypeRequestDTO productTypeRequestDTO) {
     if (productTypeRequestDTO == null) {
       throwMissingBodyRequired();
     } else if (productTypeRequestDTO.getName() == null || Objects.equals(productTypeRequestDTO.getName(), "")) {

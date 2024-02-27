@@ -23,7 +23,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
   @Override
   public ProductTypeResponseDTO createProductType(ProductTypeRequestDTO productTypeRequestDTO) {
-    exceptionService.checkProductTypeRequestDTOErrors(productTypeRequestDTO);
+    exceptionService.checkForCreateProductTypeErrors(productTypeRequestDTO);
     ProductType newProductType = requestProductTypeDTOToProductTypeConvert(productTypeRequestDTO);
     productTypeRepository.save(newProductType);
     return productTypeToProductTypeResponseDTOConvert(newProductType);
