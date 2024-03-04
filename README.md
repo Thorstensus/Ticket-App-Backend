@@ -10,7 +10,7 @@ This application was created as the final project during the project phase of th
 - Putting products in Cart and creating User Orders
 - Displaying Travel News
 
-The application works with certain environmental variables. For the application to work, a .env file must be created with values contained in the provided env.sample file.
+The project was built in IntelliJ and works with certain environmental variables. For the application to work, a .env file must be created with values contained in the provided env.sample file.
 
 ## 1. Used Dependencies
 
